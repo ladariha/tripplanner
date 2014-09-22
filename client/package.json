@@ -1,0 +1,21 @@
+{
+  "name": "TripPlannerClient",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./client/index.html",
+  "directories": {
+    "test": "test"
+  },
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lada Riha",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "jshint-stylish": "^0.2.0",
+    "time-grunt": "^0.3.2"
+  }
+}

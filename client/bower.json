@@ -1,0 +1,28 @@
+{
+  "name": "TripPlanner",
+  "version": "0.0.0",
+  "authors": [
+    "Lada Riha"
+  ],
+  "main": "./client/index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.16",
+    "angular-route": "~1.2.16",
+    "angular-ui-bootstrap": "~0.11.0",
+    "bootstrap": "~3.1.1",
+    "jquery": "~2.1.1",
+    "angular-animate": "~1.2.16",
+    "animate.css": "~3.1.1",
+    "angular-ui-bootstrap-bower": "~0.11.0",
+    "es6-shim": "~0.13.0",
+  }
+}

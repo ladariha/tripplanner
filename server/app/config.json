@@ -1,0 +1,22 @@
+{
+    "name": "ladariha",
+    "server": {
+        "port": 13131,
+        "paths": {
+            "api": "./api/",
+            "contollers": "./core/ctrl/",
+            "modules": "./modules/",
+            "providers": "./core/db/provider/",
+            "models": "./model/",
+            "tripExtensions" : "./ext/trip/",
+            "tripDayExtensions" : "./ext/tripday/"
+        }
+
+    },
+    "database": {
+        "port": 27017,
+        "host": "mongodb://localhost",
+        "databaseName" : "test",
+        "config" : "./core/db/" 
+    }
+}

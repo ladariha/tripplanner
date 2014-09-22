@@ -1,0 +1,28 @@
+"use strict";
+
+angular.module("tripPlanner.core.server", ["tripPlanner.utils"])
+        .factory("tp.core.Server", [function() {
+                function Server(endpoints, pattern) {
+                    this.endpoints = endpoints;
+                    window.console.log("server created");
+                    this.preferredPattern = pattern;
+                }
+
+                Server.prototype._patterns = {};
+                Server.prototype._patterns.php = function(endpoint, parameters) {
+                    var url = "";
+                    for (var parameter in parameters) {
+                        if (parameters.hasOwnProperty(parameter)) {
+                            url += "&" + parameter + "=" + encodeURIComponent(parameters[parameter]);
+                        }
+                    }
+                    return (url.length > 1) ? this.endpoints[endpoint] + "?" + url : this.endpoints[endpoint];
+                };
+
+                Server.prototype.buildURL = function(endpoint, parameters) {
+                    return this._patterns[this.preferredPattern].call(this, endpoint, parameters);
+                };
+
+                return Server;
+
+            }]);
