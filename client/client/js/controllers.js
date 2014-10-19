@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module("tripPlanner.controllers",
-        ["tripPlanner.map.handlers", "tripPlanner.trip", "tripPlanner.user.models", "tripPlanner.core", "tripPlanner.logger"])
+        ["tripPlanner.map", "tripPlanner.trip", "tripPlanner.user", "tripPlanner.core", "tripPlanner.logger"])
         .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.core.Session", "tp.user.models.UserModel", function TripPlannerCtrl($scope, logger, sessionFct, User) {
 
                 sessionFct.setUser(new User("lada", "lada@lada", 1), 1);

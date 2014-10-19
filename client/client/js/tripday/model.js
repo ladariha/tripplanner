@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.tripDay.models", ["tripPlanner.utils", "tripPlanner.place.models"])
+angular.module("tripPlanner.tripDay")
         .factory("tp.tripDay.models.TripDayModel", ["tp.validators", "tp.place.models.PlaceModel", function(rules, Place) {
                 function TripDay(avoids) {
                     this.id = -1;

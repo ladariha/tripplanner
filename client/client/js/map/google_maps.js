@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.map.googlemaps", ["tripPlanner.place.models"])
+angular.module("tripPlanner.map")
         .factory("tp.map.googlemaps", ["$http", "tp.place.models.PlaceModel", function($http, Place) {
 
                 function Place(){};

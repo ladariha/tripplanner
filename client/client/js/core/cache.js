@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.core.cache", [])
+angular.module("tripPlanner.core", ["tripPlanner.utils", "tripPlanner.user"])
         .factory("tp.core.Cache", function() {
 
             function Cache() {

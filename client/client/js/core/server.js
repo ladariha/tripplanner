@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.core.server", ["tripPlanner.utils"])
+angular.module("tripPlanner.core")
         .factory("tp.core.Server", [function() {
                 function Server(endpoints, pattern) {
                     this.endpoints = endpoints;

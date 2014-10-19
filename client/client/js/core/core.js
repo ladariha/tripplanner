@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.core", ["tripPlanner.utils", "tripPlanner.user.models", "tripPlanner.core.server"])
+angular.module("tripPlanner.core")
         .service("tp.Core", ["tp.core.Server", "tp.core.Session", function (Server, session) {
                 this.version = "0.1";
                 this.hostname = window.location.hostname;
