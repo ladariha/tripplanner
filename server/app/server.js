@@ -10,7 +10,6 @@ var server = null;
 var applicationCore = {};
 var tripPlanner = require("./core/tripPlanner");
 
-console.log(__dirname);
 function loadConfig(filename) {
     try {
         return JSON.parse(fs.readFileSync(filename).toString());
