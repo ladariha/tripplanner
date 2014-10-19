@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.trip.models", ["tripPlanner.utils"])
+angular.module("tripPlanner.trip")
         .factory("tp.trip.models.TripModel", ["tp.validators", function(rules) {
                 function Trip(units) {
                     this.id = -1;

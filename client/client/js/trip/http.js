@@ -1,5 +1,5 @@
 "use strict";
-angular.module("tripPlanner.trip.http", ["tripPlanner.core"])
+angular.module("tripPlanner.trip")
         .factory("tp.trip.http.TripHttp", ["tp.Core", "$http", "$rootScope", function(core, $http, $rootScope) {
 
 
