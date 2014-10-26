@@ -34,7 +34,7 @@ angular.module("tripPlanner", [
         $routeProvider.when("/trip/new", {templateUrl: "partials/create/trip.html", controller: "NewTripCtrl"});
         $routeProvider.when("/trip/:id", {templateUrl: "partials/view/trip.html", controller: "ViewTripCtrl"});
         $routeProvider.when("/", {templateUrl: "partials/view/home.html", controller: "HomeCtrl"});
-        $routeProvider.otherwise({templateUrl: "partials/view/home.html", controller: "HomeCtrl"});
+        $routeProvider.otherwise({redirectTo: "/"});
     }]);
 
 

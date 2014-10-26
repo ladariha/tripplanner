@@ -12,12 +12,18 @@ var TripCtrl = {
 
     },
     get: function (id) {
-
+        return new Promise(function (resolve, reject) {
+            if (id === null || typeof id === "undefined") {
+                reject(new TPError(TPError.BadRequest, "Invalid trip ID"));
+            }else{
+                resolve(dbProvider.get(id));
+            }
+        });
     },
     create: function (trip) {
 
         return new Promise(function (resolve, reject) {
-            if (!TripModel.isValid(trip)) { 
+            if (!TripModel.isValid(trip)) {
                 reject(new TPError(TPError.BadRequest, "Received object is not valid"));
             } else {
                 var _t = new TripModel();

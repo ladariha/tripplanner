@@ -3,8 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/bower.json</file>
-            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/package.json</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/map/google_maps.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/core/cache.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/app.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/tripday/model.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/place/model.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/trip/handler.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/core/server.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/user/model.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/core/core.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/controllers.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/utils.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/map/maps.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/.bowerrc</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/tripday/http.js</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/index.html</file>
+            <file>file:/home/ladariha/projects/tripplanner/tripplanner/client/src/js/logger/src.js</file>
         </group>
     </open-files>
 </project-private>

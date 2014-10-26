@@ -9,7 +9,7 @@ var Trip = new Schema(
             fueltType: String,
             consumption: Number,
             consumptionUnits: String,
-            date: Date,
+            date: String,
             owner : String,
             editors : [{type: String}],
             name: {type: String, index: true}
@@ -35,10 +35,17 @@ Trip.methods.convert = function (obj, includeId) {
     return this;
 };
 
+Trip.methods.toClient = function(){
+    var _o = this.toObject();
+    _o.id = _o._id;
+    delete _o._id;
+    return _o;
+};
+
 Trip.statics.isValid = function (obj) {
     return  definedNotNull(obj.date) &&
             definedNotNull(obj.editors) &&
-            definedNotNull(obj.owner) && typeof obj.owner === "string" &&
+            definedNotNull(obj.owner) && (typeof obj.owner === "string" || typeof obj.owner === "number") &&
             definedNotNull(obj.units) && typeof obj.units === "string" &&
             definedNotNull(obj.name) && typeof obj.name === "string" &&
             definedNotNull(obj.consumption) && typeof obj.consumption === "number" &&

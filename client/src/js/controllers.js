@@ -3,8 +3,8 @@
 /* Controllers */
 
 angular.module("tripPlanner.controllers",
-        ["tripPlanner.map", "tripPlanner.trip", "tripPlanner.user", "tripPlanner.core", "tripPlanner.logger"])
-        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.core.Session", "tp.user.models.UserModel", function TripPlannerCtrl($scope, logger, sessionFct, User) {
+        ["tripPlanner.map", "tripPlanner.trip", "tripPlanner.user", "tripPlanner.core", "tripPlanner.logger", "tripPlanner.utils"])
+        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.core.Session", "tp.user.UserModel", function TripPlannerCtrl($scope, logger, sessionFct, User) {
 
                 sessionFct.setUser(new User("lada", "lada@lada", 1), 1);
                 $scope.currentUser = sessionFct.getUser().username;
@@ -34,7 +34,7 @@ angular.module("tripPlanner.controllers",
         .controller("HomeCtrl", ["$scope", function HomeCtrl($scope) {
                 $scope.test = 1;
             }])
-        .controller("NewTripCtrl", ["$scope", "tp.trip.models.TripModel", "tp.trip.handlers.TripHandler", "$location",
+        .controller("NewTripCtrl", ["$scope", "tp.trip.TripModel", "tp.trip.TripHandler", "$location", "tp.trip.TripCache",
             /**
              * 
              * @param {type} $scope
@@ -43,7 +43,7 @@ angular.module("tripPlanner.controllers",
              * @param {type} TripDay
              * @returns {undefined}
              */
-            function NewTripCtrl($scope, TripModel, TripHandler, $location) {
+            function NewTripCtrl($scope, TripModel, TripHandler, $location, TripCache) {
                 $scope.trip = null;
                 $scope.openedDatePicker = false;
 
@@ -57,9 +57,12 @@ angular.module("tripPlanner.controllers",
 
                 $scope.createTrip = function () {
                     new TripHandler().createTrip($scope.trip).then(function (newTrip) {
+                        TripCache.set(newTrip);
                         $location.path("trip/" + newTrip.id);
                     }, function (msg) {
                         $scope.handleGenericError(msg);
+                    }).then(function () {
+                        $scope.$apply();
                     });
                 };
 
@@ -72,45 +75,29 @@ angular.module("tripPlanner.controllers",
                 init();
 
             }])
-        .controller("TripCtrl", ["$scope", "tp.trip.models.TripModel", "tp.trip.handlers.TripHandler", "$location",
-            /**
-             * 
-             * @param {type} $scope
-             * @param {mapProvider} mapProvider
-             * @param {type} TripModel
-             * @param {type} TripDay
-             * @returns {undefined}
-             */
-            function TripCtrl($scope, TripModel, TripHandler, $location) {
+        .controller("ViewTripCtrl", ["$scope", "tp.trip.TripCache", "tp.trip.TripHttp", "$routeParams", "tp.TimeDateConvertor",
+            function TripCtrl($scope, TripCache, TripHttp, $routeParams, TimeDateConvertor) {
                 $scope.trip = null;
-                $scope.openedDatePicker = false;
+                $scope.tripId = $routeParams.id || -1;
 
                 function init() {
-                    $scope.trip = new TripModel("km");
+                    if (TripCache.get()) {
+                        $scope.trip = TripCache.get();
+                        $scope.trip.date = TimeDateConvertor.UTCToDate($scope.trip.date);
+                    } else {
+                        TripHttp.get($scope.tripId).then(function (data) {
+                            $scope.trip = data;
+                            $scope.trip.date = TimeDateConvertor.UTCToDate($scope.trip.date);
+                        }).then(function () {
+                            $scope.$apply();
+                        });
+                    }
                 }
-
-                $scope.tripIsValid = function () {
-                    return $scope.debug || $scope.trip.isValid();
-                };
-
-                $scope.createTrip = function () {
-                    new TripHandler().createTrip($scope.trip).then(function (newTrip) {
-                        $location.path("trip/" + newTrip.id);
-                    }, function (msg) {
-                        $scope.handleGenericError(msg);
-                    });
-                };
-
-                $scope.openDatePicker = function ($event) {
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    $scope.openedDatePicker = true;
-                };
 
                 init();
 
             }])
-        .controller("NewTripDayCtrl", ["$scope", "tp.map.MapProvider", "tp.trip.models.TripModel", "tp.tripDay.models.TripDayModel", "tp.trip.handlers.TripHandler", "tp.core.Session",
+        .controller("NewTripDayCtrl", ["$scope", "tp.map.MapProvider", "tp.trip.TripModel", "tp.tripDay.TripDayModel", "tp.trip.TripHandler", "tp.core.Session",
             /**
              * 
              * @param {type} $scope

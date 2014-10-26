@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.user", ["tripPlanner.utils"])
-        .factory("tp.user.models.UserModel", [function() {
+        .factory("tp.user.UserModel", [function() {
                 function User(username, email, userId) {
                     this.username = username;
                     this.email = email;

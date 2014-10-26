@@ -10,7 +10,7 @@ angular.module("tripPlanner.core")
                 }, "php");
                 this.session = session;
             }])
-        .factory("tp.core.Session", ["tp.user.models.UserModel", "$http", function (User, $http) {
+        .factory("tp.core.Session", ["tp.user.UserModel", "$http", function (User, $http) {
 
                 function Session() {
                     window.console.log("new session");

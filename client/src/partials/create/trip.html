@@ -14,20 +14,24 @@
                 </span>
             </p>
 
-           
+
         </div>
 
         <div class="col-lg-6">
             <h4>Distance units</h4>
-            <div class="radio">
+            <div class="radio radio-primary">
                 <label>
-                    <input type="radio" data-ng-model="trip.units" name="distanceUnits" id="optionsRadios1" value="km">
+                    <input type="radio" class="bs-material" data-ng-model="trip.units" name="distanceUnits" id="optionsRadios1" value="km">
+                    <span class="circle"></span>
+                    <span class="check"></span>
                     km
                 </label>
             </div>
-            <div class="radio">
+            <div class="radio radio-primary">
                 <label>
-                    <input type="radio"  data-ng-model="trip.units" name="distanceUnits" id="optionsRadios2" value="miles">
+                    <input type="radio" class="bs-material"  data-ng-model="trip.units" name="distanceUnits" id="optionsRadios2" value="miles">
+                    <span class="circle"></span>
+                    <span class="check"></span>
                     miles
                 </label>
             </div>
@@ -67,7 +71,8 @@
                                 <select id="fuelType" class="form-control small" data-ng-model="trip.fuelType">
                                     <option value="petrol">Petrol</option>
                                     <option value="diesel">Diesel</option>
-                                    <option value="other">CNG/LPG</option>
+                                    <option value="cng">CNG</option>
+                                    <option value="lpg">LPG</option>
                                     <option value="other">Other</option>
                                 </select>
                             </div>

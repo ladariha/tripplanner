@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.tripDay")
-        .factory("tp.tripDay.models.TripDayModel", ["tp.validators", "tp.place.models.PlaceModel", function(rules, Place) {
+        .factory("tp.tripDay.TripDayModel", ["tp.validators", "tp.place.PlaceModel", function(rules, Place) {
                 function TripDay(avoids) {
                     this.id = -1;
                     this.tripId = -1;

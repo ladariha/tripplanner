@@ -2,6 +2,7 @@
 
 var Promise = require("promise");
 var TPError = require("../model/promiseError");
+var Trip = require("./TripModel");
 
 var TripProvider = {
     create: function (trip) {
@@ -15,11 +16,19 @@ var TripProvider = {
             });
         });
     },
-    save: function (trip, callback) {
+    update: function (trip, callback) {
 
     },
-    get: function (id, callback) {
-
+    get: function (id) {
+        return new Promise(function (resolve, reject) {
+            Trip.findOne({"_id" : id}, function (err, obj) {
+                if (err) {
+                    reject(new TPError(TPError.DatabaseError, "Unable to find data in db", err));
+                } else {
+                    resolve(obj);
+                }
+            });
+        });
     }
 
 };

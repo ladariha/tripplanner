@@ -1,10 +1,12 @@
 "use strict";
 
 angular.module("tripPlanner.trip")
-        .factory("tp.trip.models.TripModel", ["tp.validators", function(rules) {
+        .factory("tp.trip.TripModel", ["tp.validators", "tp.core.Session", function(rules, Session) {
                 function Trip(units) {
                     this.id = -1;
                     this.tripDays = [];
+                    this.editors = [];
+                    this.owner = Session.getUser().userId;
                     this.date = new Date();
                     this.name = null;
                     this.units = units;
