@@ -3,7 +3,6 @@
 angular.module("tripPlanner.map")
         .factory("tp.map.googlemaps", ["$http", "tp.place.models.PlaceModel", function($http, Place) {
 
-                function Place(){};
 
 
                 function MapProvider() {
