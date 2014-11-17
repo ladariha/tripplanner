@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         jshint: {
             "client": {
-                "src": ["client/js/**/*.js"],
+                "src": ["src/js/**/*.js"],
                 options: {
                     "force": true,
                     "strict": true,
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
                     "quotmark": "double",
                     "trailing": true,
 //                 "globalstrict": true,//
-                    "globals": {angular: true, window: true, google: true, Promise: true},
+                    "globals": {angular: true, window: true, google: true, Promise: true, hello : true},
                     "reporter": require('jshint-stylish'),
                     '-W097': true // use strict in function form warning
                 }
