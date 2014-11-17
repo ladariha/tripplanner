@@ -150,3 +150,7 @@ body {
 .adp-list{
     display:none;
 }
+
+#google_sign:hover{
+    background-color: #f44336 !important;
+}

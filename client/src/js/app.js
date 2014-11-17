@@ -6,6 +6,7 @@ angular.module("tripPlanner", [
     "ngRoute",
     "ngAnimate",
     "ui.bootstrap",
+    "tripPlanner.auth",
     "tripPlanner.core",
     "tripPlanner.place",
     "tripPlanner.trip",

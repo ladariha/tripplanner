@@ -24,14 +24,15 @@ angular.module("tripPlanner.core")
                     return this.user;
                 };
 
-                Session.prototype.setUser = function (user, sessionId) {
+                Session.prototype.setUser = function (username, userId, email, displayName) {
                     this.user = new User();
-                    this.user.username = user.username;
-                    this.user.userId = user.userId;
-                    this.user.email = user.email;
-                    this.sessionId = sessionId;
+                    this.user.username = username;
+                    this.user.userId = userId;
+                    this.user.email = email;
+                    this.user.displayName = displayName;
+                    this.sessionId = -1;
                     this.created = new Date();
-                    $http.defaults.headers.common["X-TripPlanner-SessionId"] = sessionId;
+                    $http.defaults.headers.common["X-TripPlanner-SessionId"] = -1;
                     $http.defaults.headers.common["X-TripPlanner-Created"] = this.created;
                     $http.defaults.headers.common["X-TripPlanner-UserId"] = this.user.userId;
                 };

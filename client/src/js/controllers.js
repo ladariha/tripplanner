@@ -3,14 +3,18 @@
 /* Controllers */
 
 angular.module("tripPlanner.controllers",
-        ["tripPlanner.map", "tripPlanner.trip", "tripPlanner.user", "tripPlanner.core", "tripPlanner.logger", "tripPlanner.utils"])
-        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.core.Session", "tp.user.UserModel", function TripPlannerCtrl($scope, logger, sessionFct, User) {
-
-                sessionFct.setUser(new User("lada", "lada@lada", 1), 1);
-                $scope.currentUser = sessionFct.getUser().username;
+        ["tripPlanner.map", "tripPlanner.trip", "tripPlanner.user", "tripPlanner.core", "tripPlanner.logger", "tripPlanner.utils", "tripPlanner.auth"])
+        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.core.Session", "tp.user.UserModel", "tp.auth.LoginService",
+            function TripPlannerCtrl($scope, logger, sessionFct, User, LoginService) {
 
                 $scope.debug = false;
                 $scope.preferredMapProvider = "google";
+                $scope.loggedIn = false;
+                $scope.displayName = null;
+
+                $scope.currentUser = function () {
+                    return sessionFct.getUser();
+                };
 
                 $scope.$on("busyMode", function (event, args) {
                     if (args) {
@@ -29,6 +33,25 @@ angular.module("tripPlanner.controllers",
                         $scope.$digest();
                     }
                 };
+
+                $scope.login = function (serviceName) {
+                    LoginService.login(serviceName);
+                };
+                
+                $scope.logout = function(){
+                    LoginService.logout();
+                };
+
+                $scope.$on("userLoggedIn", function (evt, user) {
+                    $scope.loggedIn = true;
+                    $scope.displayName = user.displayName;
+                    $scope.$apply();
+                });
+                $scope.$on("userLoggedOut", function () {
+                    $scope.loggedIn = false;
+                    $scope.displayName = null;
+                    $scope.$apply();
+                });
 
             }])
         .controller("HomeCtrl", ["$scope", function HomeCtrl($scope) {
@@ -97,7 +120,7 @@ angular.module("tripPlanner.controllers",
                 init();
 
             }])
-        .controller("NewTripDayCtrl", ["$scope", "tp.map.MapProvider", "tp.trip.TripModel", "tp.tripDay.TripDayModel", "tp.trip.TripHandler", "tp.core.Session",
+        .controller("NewTripDayCtrl", ["$scope", "tp.map.MapProvider", "tp.trip.TripModel", "tp.tripDay.TripDayModel", "tp.trip.TripHandler",
             /**
              * 
              * @param {type} $scope
@@ -106,7 +129,7 @@ angular.module("tripPlanner.controllers",
              * @param {type} TripDay
              * @returns {undefined}
              */
-            function NewTripDayCtrl($scope, mapProvider, Trip, TripDay, TripHandler, se) {
+            function NewTripDayCtrl($scope, mapProvider, Trip, TripDay, TripHandler) {
 
                 $scope.currentStep = "step1";
                 /** @type MapProvider */
