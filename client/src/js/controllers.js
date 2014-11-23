@@ -4,8 +4,8 @@
 
 angular.module("tripPlanner.controllers",
         ["tripPlanner.map", "tripPlanner.trip", "tripPlanner.user", "tripPlanner.core", "tripPlanner.logger", "tripPlanner.utils", "tripPlanner.auth"])
-        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.core.Session", "tp.user.UserModel", "tp.auth.LoginService",
-            function TripPlannerCtrl($scope, logger, sessionFct, User, LoginService) {
+        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.core.Session",
+            function TripPlannerCtrl($scope, logger, sessionFct) {
 
                 $scope.debug = false;
                 $scope.preferredMapProvider = "google";
@@ -33,25 +33,6 @@ angular.module("tripPlanner.controllers",
                         $scope.$digest();
                     }
                 };
-
-                $scope.login = function (serviceName) {
-                    LoginService.login(serviceName);
-                };
-                
-                $scope.logout = function(){
-                    LoginService.logout();
-                };
-
-                $scope.$on("userLoggedIn", function (evt, user) {
-                    $scope.loggedIn = true;
-                    $scope.displayName = user.displayName;
-                    $scope.$apply();
-                });
-                $scope.$on("userLoggedOut", function () {
-                    $scope.loggedIn = false;
-                    $scope.displayName = null;
-                    $scope.$apply();
-                });
 
             }])
         .controller("HomeCtrl", ["$scope", function HomeCtrl($scope) {

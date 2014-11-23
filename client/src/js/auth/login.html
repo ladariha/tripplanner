@@ -1,0 +1,11 @@
+<ul class="nav nav-pills pull-right">
+    <li data-ng-hide="isLoggedIn">
+        <button type="button" id="google_sign" class="btn btn-danger" data-ng-click="login('google')">Sign with Google</button>
+    </li>
+    <li data-ng-hide="isLoggedIn">
+        <button type="button" id="facebook_sign" class="btn btn-primary" data-ng-click="login('facebook')">Sign with Facebook</button>
+    </li>
+    <li data-ng-show="isLoggedIn">
+        <button title="Logout" data-ng-click="logout()" type="button" class="btn btn-primary">{{displayName}}</button>
+    </li>
+</ul>

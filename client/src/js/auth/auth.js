@@ -4,7 +4,8 @@ angular.module("tripPlanner.auth", []).factory("tp.auth.LoginService", ["tp.auth
 
         (function initAuth() {
             hello.init({
-                google: "1005520707529-tpb3ajv7plllarh40ber2qi52t8bca4q.apps.googleusercontent.com"
+                google: "1005520707529-tpb3ajv7plllarh40ber2qi52t8bca4q.apps.googleusercontent.com",
+                facebook: "667832393333965"
             }, {redirect_uri: "http://localhost:8383/TripPlanner/redirect.html", scope: "email"});
         })();
 
@@ -62,9 +63,24 @@ angular.module("tripPlanner.auth", []).factory("tp.auth.LoginService", ["tp.auth
                 return me.email;
             }
         };
+        var facebookFormatter = {
+            getDisplayName: function (me) {
+                return me.name;
+            },
+            getEmail: function (me) {
+                return me.email;
+            },
+            getUserId: function (me) {
+                return me.id;
+            },
+            getUsername: function (me) {
+                return me.email;
+            }
+        };
 
         var formatters = {
-            "google": googleFormatter
+            "google": googleFormatter,
+            "facebook" : facebookFormatter
         };
 
         var Profile = {
