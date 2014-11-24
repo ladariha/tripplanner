@@ -9,11 +9,7 @@ var app = express();
 var server = null;
 var applicationCore = {};
 var tripPlanner = require("./core/tripPlanner");
-var session = require('express-session');
-var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
-var passport = require('passport');
-var flash    = require('connect-flash');
+var authorization = require("./auth/ConfigurationCtrl");
 
 
 function loadConfig(filename) {
@@ -42,16 +38,7 @@ function loadConfig(filename) {
     });
 
     // login
-    // require('./config/passport')(passport); // pass passport for configuration
-    app.use(morgan('dev')); // log every request to the console
-    app.use(cookieParser()); // read cookies (needed for auth)    
-    app.use(session({secret: 'ilovescotchscotchyscotchscotch'})); // session secret
-    app.use(passport.initialize());
-    app.use(passport.session()); // persistent login sessions
-    app.use(flash()); // use connect-flash for flash messages stored in session
-
-
-
+    var pass = authorization.configure(app);
 
     app.use(bodyParser.json());       // to support JSON-encoded bodies
     app.use(bodyParser.urlencoded({
@@ -62,7 +49,7 @@ function loadConfig(filename) {
     var routes = utils.listFiles((path.join(path.dirname(__filename), config.server.paths.api)).toString());
     // load all routers
     routes.forEach(function (route) {
-        require(route).registerRoute(app, passport);
+        require(route).registerRoute(app, pass);
     });
 
 

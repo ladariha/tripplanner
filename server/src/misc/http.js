@@ -1,6 +1,5 @@
 "use strict";
 
-var ut = require("util");
 
 
 var http = {
@@ -23,6 +22,20 @@ var http = {
             "Content-Type": "application/json"
         });
         response.write(JSON.stringify(data));
+        response.end();
+    },
+    Unauthorized: function (response, msg) {
+        response.writeHead(401, {
+            "Content-Type": "text/plain"
+        });
+        response.write(msg);
+        response.end();
+    },
+    AuthenticationTimeout: function (response, msg) {
+        response.writeHead(419, {
+            "Content-Type": "text/plain"
+        });
+        response.write(msg);
         response.end();
     }
 };
