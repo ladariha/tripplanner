@@ -2,6 +2,11 @@
     "google": {
         "clientID": "your - secret - clientID - here",
         "clientSecret": "your - client - secret - here",
-        "callbackURL": "http://localhost:8080/auth/google/callback"
+        "callbackURL": "http://localhost:13131/api/oauth/google/callback"
+    },
+    "facebook": {
+        "clientID": "",
+        "clientSecret": "",
+        "callbackURL": "http://localhost:13131/api/oauth/facebook/callback"
     }
 }
