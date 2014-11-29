@@ -6,7 +6,10 @@ angular.module("tripPlanner.core")
                 this.hostname = window.location.hostname;
                 this.server = new Server({
                     "trip": "http://localhost:13131/api/trip",
-                    "tripDay": "http://localhost:13131/api/tripDay"
+                    "tripDay": "http://localhost:13131/api/tripDay",
+                    "session": "http://localhost:13131/api/session",
+                    "googleAuth" : "http://localhost:13131/api/oauth/google",
+                    "facebookAuth" : "http://localhost:13131/api/oauth/facebook"
                 }, "php");
                 this.session = session;
             }])

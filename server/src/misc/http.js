@@ -31,6 +31,12 @@ var http = {
         response.write(msg);
         response.end();
     },
+    NoContent: function (response) {
+        response.writeHead(204, {
+            "Content-Type": "text/plain"
+        });
+        response.end();
+    },
     AuthenticationTimeout: function (response, msg) {
         response.writeHead(419, {
             "Content-Type": "text/plain"

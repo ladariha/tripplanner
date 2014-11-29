@@ -2,7 +2,7 @@
 // http://scotch.io/tutorials/javascript/easy-node-authentication-google
 
 var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
+var FacebookStrategy = require("passport-facebook").Strategy;
 var User = require("./UserModel");
 var fs = require("fs");
 var path = require("path");
@@ -54,7 +54,7 @@ function configureFacebook(passport) {
     },
     function (accessToken, refreshToken, profile, done) {
         process.nextTick(function () {
-            User.findOne({'facebook.id': profile.id}, function (err, user) {
+            User.findOne({"facebook.id": profile.id}, function (err, user) {
                 if (err) {
                     return done(err);
                 }
@@ -66,7 +66,7 @@ function configureFacebook(passport) {
                     
                     newUser.facebook.id = profile.id;
                     newUser.facebook.token = accessToken;
-                    newUser.facebook.displayName = profile.name.givenName + ' ' + profile.name.familyName;
+                    newUser.facebook.displayName = profile.name.givenName + " " + profile.name.familyName;
                     newUser.facebook.email = profile.emails[0].value;
                     newUser.save(function (err) {
                         if (err) {

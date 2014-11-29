@@ -23,6 +23,16 @@ var User = mongoose.Schema({
 User.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
-
+User.methods.toClient = function () {
+    var _o = this.toObject();
+    if (_o.hasOwnProperty("facebook")) {
+        delete _o.facebook.token;
+    }
+    if (_o.hasOwnProperty("google")) {
+        delete _o.google.token;
+    }
+    delete _o._id;
+    return _o;
+};
 // create the model for users and expose it to our app
 module.exports = mongoose.model("User", User);

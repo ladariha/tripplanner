@@ -1,107 +1,82 @@
 "use strict";
 
-angular.module("tripPlanner.auth", []).factory("tp.auth.LoginService", ["tp.auth.Profile", "tp.core.Session", "$rootScope", function (Profile, Session, $rootScope) {
+angular.module("tripPlanner.auth", ["tripPlanner.core"]).factory("tp.auth.LoginService", ["tp.core.Session", "tp.auth.AuthHttp", "$rootScope", "$timeout", "tp.Core", "$interval",
+    function (Session, AuthHttp, $rootScope, $timeout, Core, $interval) {
 
-        (function initAuth() {
-            hello.init({
-                google: "1005520707529-tpb3ajv7plllarh40ber2qi52t8bca4q.apps.googleusercontent.com",
-                facebook: "667832393333965"
-            }, {redirect_uri: "http://localhost:8383/TripPlanner/redirect.html", scope: "email"});
-        })();
+        function popupCenter(url, w, h) {
+            var dualScreenLeft = typeof window.screenLeft !== "undefined" ? window.screenLeft : window.screen.left;
+            var dualScreenTop = typeof window.screenTop !== "undefined" ? window.screenTop : window.screen.top;
 
-//      store session tokens
-        var tokens = {
-            "google": null
-        };
+            var width = window.innerWidth ? window.innerWidth : window.document.documentElement.clientWidth ? window.document.documentElement.clientWidth : window.screen.width;
+            var height = window.innerHeight ? window.innerHeight : window.document.documentElement.clientHeight ? window.document.documentElement.clientHeight : window.screen.height;
+            var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+            var top = ((height / 2) - (h / 2)) + dualScreenTop;
+            var newWindow = window.open(url, "", "scrollbars=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+            if (window.focus) {
+                newWindow.focus();
+            }
+        }
+
+        function waitForResponse() {
+            
+            function doCheck() {
+                AuthHttp.getSession().then(function (data) {
+                    if (data.hasOwnProperty("google")) {
+                        LoginService.authProvider = "google";
+                        Session.setUser(data.google.email, data.google.id, data.google.email, data.google.displayName);
+                    } else { // facebook
+                        LoginService.authProvider = "facebook";
+                        Session.setUser(data.facebook.email, data.facebook.id, data.facebook.email, data.facebook.displayName);
+                    }
+                    $interval.cancel(sessionChecking);
+                    $timeout(function () {
+                        $rootScope.$broadcast("userLoggedIn", Session.getUser());
+                    });
+                }, function () {
+                    Session.removeUser();
+                });
+            }
+            
+            var sessionChecking = $interval(doCheck, 1000);
+        }
+
 
         var LoginService = {
             login: function (serviceName) {
-                hello(serviceName).login().then(function () {
-                    LoginService.authProvider = serviceName;
-                    tokens[serviceName] = hello(serviceName).getAuthResponse().access_token;
-                }, function (err) {
-                    window.console.error(err);
-                });
+                popupCenter(Core.server.buildURL(serviceName + "Auth", {}), 950, 700);
+                waitForResponse(serviceName);
             },
             logout: function () {
-                hello(this.authProvider).logout().then(function () {
-                    $rootScope.$broadcast("userLoggedOut");
+                AuthHttp.logout().then(function () {
                     Session.removeUser();
-                }, function (err) {
-                    window.console.error(err);
+                    $timeout(function () {
+                        $rootScope.$broadcast("userLoggedOut");
+                    });
+                }, function (data) {
+                    window.console.error(data);
                 });
             },
-            authProvider: null
+            authProvider: null,
+            checkForSession: function () {
+                AuthHttp.getSession().then(function (data) {
+                    if (data.hasOwnProperty("google")) {
+                        LoginService.authProvider = "google";
+                        Session.setUser(data.google.email, data.google.id, data.google.email, data.google.displayName);
+                    } else { // facebook
+                        LoginService.authProvider = "facebook";
+                        Session.setUser(data.facebook.email, data.facebook.id, data.facebook.email, data.facebook.displayName);
+                    }
+                    $timeout(function () {
+                        $rootScope.$broadcast("userLoggedIn", Session.getUser());
+                    });
+                }, function () {
+                    Session.removeUser();
+                });
+            }
         };
 
-        hello.on("auth.login", function (r) {
-            LoginService.authProvider = r.network;
-            Profile.setAuthProvider(r.network);
-            hello(LoginService.authProvider).api("me").then(function (profile) {
-                Session.setUser(Profile.getUsername(profile), Profile.getUserId(profile), Profile.getEmail(profile), Profile.getDisplayName(profile));
-                $rootScope.$broadcast("userLoggedIn", Session.getUser());
-            }, function (err) {
-                window.console.error(err);
-            });
-        });
+        LoginService.checkForSession();
 
         return LoginService;
-
-    }]).factory("tp.auth.Profile", [function () {
-
-        var googleFormatter = {
-            getDisplayName: function (me) {
-                return me.displayName;
-            },
-            getEmail: function (me) {
-                return me.email;
-            },
-            getUserId: function (me) {
-                return me.id;
-            },
-            getUsername: function (me) {
-                return me.email;
-            }
-        };
-        var facebookFormatter = {
-            getDisplayName: function (me) {
-                return me.name;
-            },
-            getEmail: function (me) {
-                return me.email;
-            },
-            getUserId: function (me) {
-                return me.id;
-            },
-            getUsername: function (me) {
-                return me.email;
-            }
-        };
-
-        var formatters = {
-            "google": googleFormatter,
-            "facebook" : facebookFormatter
-        };
-
-        var Profile = {
-            authProvider: null,
-            setAuthProvider: function (providerName) {
-                this.authProvider = providerName;
-            },
-            getDisplayName: function (me) {
-                return formatters[this.authProvider].getDisplayName(me);
-            },
-            getEmail: function (me) {
-                return formatters[this.authProvider].getEmail(me);
-            },
-            getUserId: function (me) {
-                return formatters[this.authProvider].getUserId(me);
-            },
-            getUsername: function (me) {
-                return formatters[this.authProvider].getUsername(me);
-            }
-        };
-
-        return Profile;
 
     }]);

@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService",function (LoginService) {
+angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService", function (LoginService) {
 
         return {
             restrict: "E",
