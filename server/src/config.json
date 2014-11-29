@@ -9,7 +9,8 @@
             "providers": "./core/db/provider/",
             "models": "./model/",
             "tripExtensions" : "./ext/trip/",
-            "tripDayExtensions" : "./ext/tripday/"
+            "tripDayExtensions" : "./ext/tripday/",
+            "static" : "../client"
         }
 
     },

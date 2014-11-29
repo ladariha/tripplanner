@@ -52,6 +52,8 @@ function loadConfig(filename) {
         require(route).registerRoute(app, pass);
     });
 
+    console.log("registering static files");
+    app.use(express.static(path.join(__dirname, config.server.paths.static)));  
 
     applicationCore.ext = {
         trip: {},
