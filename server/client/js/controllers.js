@@ -25,7 +25,7 @@ angular.module("tripPlanner.controllers",
                 });
 
                 $scope.handleGenericError = function (msg) {
-                    logger.log("Action failed", msg, "INFO", "alert-error");
+                    logger.log("Action failed", msg, "INFO", "danger");
                 };
 
                 $scope.ngRefresh = function () {
@@ -79,23 +79,18 @@ angular.module("tripPlanner.controllers",
                 init();
 
             }])
-        .controller("ViewTripCtrl", ["$scope", "tp.trip.TripCache", "tp.trip.TripHttp", "$routeParams", "tp.TimeDateConvertor",
-            function TripCtrl($scope, TripCache, TripHttp, $routeParams, TimeDateConvertor) {
+        .controller("ViewTripCtrl", ["$scope", "tp.trip.TripHandler", "$routeParams", "tp.TimeDateConvertor",
+            function TripCtrl($scope, TripHandler, $routeParams, TimeDateConvertor) {
                 $scope.trip = null;
                 $scope.tripId = $routeParams.id || -1;
 
                 function init() {
-                    if (TripCache.get()) {
-                        $scope.trip = TripCache.get();
+                    new TripHandler().get($scope.tripId).then(function (data) {
+                        $scope.trip = data;
                         $scope.trip.date = TimeDateConvertor.UTCToDate($scope.trip.date);
-                    } else {
-                        TripHttp.get($scope.tripId).then(function (data) {
-                            $scope.trip = data;
-                            $scope.trip.date = TimeDateConvertor.UTCToDate($scope.trip.date);
-                        }).then(function () {
-                            $scope.$apply();
-                        });
-                    }
+                    }).then(function () {
+                        $scope.$apply();
+                    });
                 }
 
                 init();

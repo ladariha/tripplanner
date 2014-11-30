@@ -9,7 +9,8 @@ angular.module("tripPlanner.core")
                     "tripDay": "http://localhost:13131/api/tripDay",
                     "session": "http://localhost:13131/api/session",
                     "googleAuth" : "http://localhost:13131/api/oauth/google",
-                    "facebookAuth" : "http://localhost:13131/api/oauth/facebook"
+                    "facebookAuth" : "http://localhost:13131/api/oauth/facebook",
+                    "user" : "http://localhost:13131/api/user"
                 }, "prettyUrl");
                 this.session = session;
             }])
@@ -27,12 +28,15 @@ angular.module("tripPlanner.core")
                     return this.user;
                 };
 
-                Session.prototype.setUser = function (username, userId, email, displayName) {
+                Session.prototype.setUser = function (username, userId, email, displayName, ssoId, ssoName, profileImgUrl) {
                     this.user = new User();
                     this.user.username = username;
                     this.user.userId = userId;
                     this.user.email = email;
                     this.user.displayName = displayName;
+                    this.user.ssoName = ssoName;
+                    this.user.ssoId = ssoId;
+                    this.user.profileImgUrl = profileImgUrl;
                     this.sessionId = -1;
                     this.created = new Date();
                     $http.defaults.headers.common["X-TripPlanner-SessionId"] = -1;

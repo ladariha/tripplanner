@@ -23,10 +23,10 @@ angular.module("tripPlanner.auth", ["tripPlanner.core"]).factory("tp.auth.LoginS
                 AuthHttp.getSession().then(function (data) {
                     if (data.hasOwnProperty("google")) {
                         LoginService.authProvider = "google";
-                        Session.setUser(data.google.email, data.id, data.google.email, data.google.displayName);
+                        Session.setUser(data.google.email, data.id, data.google.email, data.google.displayName, data.google.id, "google", data.google.imageUrl);
                     } else { // facebook
                         LoginService.authProvider = "facebook";
-                        Session.setUser(data.facebook.email, data.id, data.facebook.email, data.facebook.displayName);
+                        Session.setUser(data.facebook.email, data.id, data.facebook.email, data.facebook.displayName, data.facebook.id, "facebook", data.facebook.imageUrl);
                     }
                     $interval.cancel(sessionChecking);
                     $timeout(function () {
@@ -61,10 +61,10 @@ angular.module("tripPlanner.auth", ["tripPlanner.core"]).factory("tp.auth.LoginS
                 AuthHttp.getSession().then(function (data) {
                     if (data.hasOwnProperty("google")) {
                         LoginService.authProvider = "google";
-                        Session.setUser(data.google.email, data.id, data.google.email, data.google.displayName);
+                        Session.setUser(data.google.email, data.id, data.google.email, data.google.displayName, data.google.id, "google", data.google.imageUrl);
                     } else { // facebook
                         LoginService.authProvider = "facebook";
-                        Session.setUser(data.facebook.email, data.id, data.facebook.email, data.facebook.displayName);
+                        Session.setUser(data.facebook.email, data.id, data.facebook.email, data.facebook.displayName, data.facebook.id, "facebook", data.facebook.imageUrl);
                     }
                     $timeout(function () {
                         $rootScope.$broadcast("userLoggedIn", Session.getUser());

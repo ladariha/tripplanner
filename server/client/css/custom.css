@@ -154,3 +154,8 @@ body {
 #google_sign:hover{
     background-color: #f44336 !important;
 }
+.profileImg{
+    height: 80px;
+    width: 80px;
+    border-radius: 100%;
+}

@@ -34,6 +34,7 @@ function configureGoogle(passport) {
                     newUser.google.token = token;
                     newUser.google.displayName = profile.displayName;
                     newUser.google.email = profile.emails[0].value;
+                    newUser.google.imageUrl = profile._json.picture;
                     newUser.save(function (err) {
                         if (err) {
                             throw err;
@@ -68,6 +69,7 @@ function configureFacebook(passport) {
                     newUser.facebook.token = accessToken;
                     newUser.facebook.displayName = profile.name.givenName + " " + profile.name.familyName;
                     newUser.facebook.email = profile.emails[0].value;
+                    newUser.facebook.imageUrl = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
                     newUser.save(function (err) {
                         if (err) {
                             throw err;
