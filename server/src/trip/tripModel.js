@@ -6,7 +6,7 @@ var definedNotNull = require("../misc/util").definedNotNull;
 var Trip = new Schema(
         {
             units: String,
-            fueltType: String,
+            fuelType: String,
             consumption: Number,
             consumptionUnits: String,
             date: String,
@@ -24,7 +24,7 @@ var Trip = new Schema(
  */
 Trip.methods.convert = function (obj, includeId) {
     this.units = obj.units;
-    this.fueltType = obj.fueltType;
+    this.fuelType = obj.fuelType;
     this.consumption = obj.consumption;
     this.consumptionUnits = obj.consumptionUnits;
     this.date = obj.date;
@@ -48,6 +48,7 @@ Trip.statics.isValid = function (obj) {
             definedNotNull(obj.owner) && (typeof obj.owner === "string" || typeof obj.owner === "number") &&
             definedNotNull(obj.units) && typeof obj.units === "string" &&
             definedNotNull(obj.name) && typeof obj.name === "string" &&
+            definedNotNull(obj.fuelType) && typeof obj.fuelType === "string" &&
             definedNotNull(obj.consumption) && typeof obj.consumption === "number" &&
             !isNaN(obj.consumption) &&
             definedNotNull(obj.consumptionUnits) && typeof obj.name === "string";
