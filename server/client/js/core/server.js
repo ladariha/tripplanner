@@ -19,6 +19,16 @@ angular.module("tripPlanner.core")
                     return (url.length > 1) ? this.endpoints[endpoint] + "?" + url : this.endpoints[endpoint];
                 };
 
+                Server.prototype._patterns.prettyUrl = function(endpoint, parameters) {
+                    var url = "";
+                    for (var parameter in parameters) {
+                        if (parameters.hasOwnProperty(parameter)) {
+                            url += "/" + encodeURIComponent(parameters[parameter]);
+                        }
+                    }
+                    return (url.length > 1) ? this.endpoints[endpoint]  + url : this.endpoints[endpoint];
+                };
+
                 Server.prototype.buildURL = function(endpoint, parameters) {
                     return this._patterns[this.preferredPattern].call(this, endpoint, parameters);
                 };

@@ -10,7 +10,7 @@ angular.module("tripPlanner.core")
                     "session": "http://localhost:13131/api/session",
                     "googleAuth" : "http://localhost:13131/api/oauth/google",
                     "facebookAuth" : "http://localhost:13131/api/oauth/facebook"
-                }, "php");
+                }, "prettyUrl");
                 this.session = session;
             }])
         .factory("tp.core.Session", ["tp.user.UserModel", "$http", function (User, $http) {
