@@ -1,0 +1,13 @@
+{
+    "attributes": {},
+    "elements": {
+        "tp-notification": {},
+        "tp-profile": {
+            "attributes": {
+                "user-id": {},
+                "label": {}
+            }
+        },
+        "tp-login": {}
+    }
+}
