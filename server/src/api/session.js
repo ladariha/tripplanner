@@ -1,6 +1,6 @@
 "use strict";
 
-var auth = require("../auth/AuthorizationCtrl");
+var auth = require("../auth/authorizationCtrl");
 var http = require("../misc/http");
 
 exports.registerRoute = function (app) {

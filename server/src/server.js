@@ -9,7 +9,7 @@ var app = express();
 var server = null;
 var applicationCore = {};
 var tripPlanner = require("./core/tripPlanner");
-var authorization = require("./auth/ConfigurationCtrl");
+var authorization = require("./auth/configurationCtrl");
 
 
 function loadConfig(filename) {

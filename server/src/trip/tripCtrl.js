@@ -1,8 +1,8 @@
 "use strict";
 
-var TripModel = require("./TripModel");
+var TripModel = require("./tripModel");
 var Promise = require("promise");
-var dbProvider = require("./TripDao");
+var dbProvider = require("./tripDao");
 var TPError = require("../model/promiseError");
 
 

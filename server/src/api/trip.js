@@ -1,6 +1,6 @@
 "use strict";
 
-var tripCtrl = require("../trip/TripCtrl");
+var tripCtrl = require("../trip/tripCtrl");
 var http = require("../misc/http");
 
 exports.registerRoute = function (app) {

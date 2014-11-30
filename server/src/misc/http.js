@@ -43,6 +43,13 @@ var http = {
         });
         response.write(msg);
         response.end();
+    },
+    NotFound: function (response, msg) {
+        response.writeHead(404, {
+            "Content-Type": "text/plain"
+        });
+        response.write(msg);
+        response.end();
     }
 };
 

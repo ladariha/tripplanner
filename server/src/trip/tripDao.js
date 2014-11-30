@@ -2,7 +2,7 @@
 
 var Promise = require("promise");
 var TPError = require("../model/promiseError");
-var Trip = require("./TripModel");
+var Trip = require("./tripModel");
 
 var TripProvider = {
     create: function (trip) {
