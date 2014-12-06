@@ -15,7 +15,9 @@ angular.module("tripPlanner", [
     "tripPlanner.map",
     "tripPlanner.logger",
     "tripPlanner.controllers",
-    "tripPlanner.utils"
+    "tripPlanner.utils",
+    "tripPlanner.home",
+    "tripPlanner.session"
 ]).config(["$routeProvider", "$provide", "$httpProvider", function ($routeProvider, $provide, $httpProvider) {
 
         $provide.factory("busyIndicatorInterceptor", function ($q, $rootScope) {
@@ -32,9 +34,9 @@ angular.module("tripPlanner", [
         });
 
         $httpProvider.interceptors.push("busyIndicatorInterceptor");
-        $routeProvider.when("/trip/new", {templateUrl: "partials/create/trip.html", controller: "NewTripCtrl"});
-        $routeProvider.when("/trip/:id", {templateUrl: "partials/view/trip.html", controller: "ViewTripCtrl"});
-        $routeProvider.when("/", {templateUrl: "partials/view/home.html", controller: "HomeCtrl"});
+        $routeProvider.when("/trip/new", {templateUrl: "js/trip/partial/tripForm.html", controller: "tp.trip.NewTripCtrl"});
+        $routeProvider.when("/trip/:id", {templateUrl: "js/trip/partial/trip.html", controller: "tp.trip.ViewTripCtrl"});
+        $routeProvider.when("/", {templateUrl: "js/home/partial/home.html", controller: "tp.home.HomeCtrl"});
         $routeProvider.otherwise({redirectTo: "/"});
     }]);
 

@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.user")
-        .factory("tp.user.UserHandler", ["tp.core.Session", "tp.user.UserCache", "tp.user.UserHttp", "tp.user.UserModel",
+        .factory("tp.user.UserHandler", ["tp.session.Session", "tp.user.UserCache", "tp.user.UserHttp", "tp.user.UserModel",
             function (Session, UserCache, UserHttp, UserModel) {
 
                 var UserHandler = {

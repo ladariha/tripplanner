@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.auth").factory("tp.auth.HttpInterceptor", ["tp.core.Session", "$rootScope", "tp.auth.Profile", "tp.auth.LoginService","$q","$injector",
+angular.module("tripPlanner.auth").factory("tp.auth.HttpInterceptor", ["tp.session.Session", "$rootScope", "tp.auth.Profile", "tp.auth.LoginService", "$q", "$injector",
     function (Session, $rootScope, Profile, LoginService, $q, $injector) {
 
         var IGNORE_URLS = ["ignoreURL"];
@@ -97,4 +97,30 @@ angular.module("tripPlanner.auth").factory("tp.auth.HttpInterceptor", ["tp.core.
             });
         };
 
+    }]).factory("tp.auth.LocationInterceptor", ["$rootScope", "$location", "tp.session.Session", function ($rootScope, $location, Session) {
+
+        var PROTECTED_LOCATIONS = ["/trip/new"];
+        var waitingForLogin = false;
+        var cancelledLocation = null;
+        
+        $rootScope.$on("$locationChangeStart", function (event, next, current) {
+            if (PROTECTED_LOCATIONS.indexOf($location.path()) > -1 && !Session.getUser()) {
+                waitingForLogin = true;
+                cancelledLocation = $location.path();
+                $("#tpLogin").modal();
+                event.preventDefault();
+            }
+        });
+
+        $rootScope.$on("userLoggedIn", function (d) {
+            if (waitingForLogin) {
+                waitingForLogin = false;
+                if ($("#tpLogin").is(":visible")) {
+                    $("#tpLogin").modal("hide");
+                }
+                $location.path(cancelledLocation);
+            }
+        });
+
+        return {};
     }]);

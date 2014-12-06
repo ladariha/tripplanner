@@ -1,6 +1,7 @@
 "use strict";
 
-angular.module("tripPlanner.auth", ["tripPlanner.core"]).factory("tp.auth.LoginService", ["tp.core.Session", "tp.auth.AuthHttp", "$rootScope", "$timeout", "tp.Core", "$interval",
+angular.module("tripPlanner.auth", ["tripPlanner.core", "tripPlanner.session"])
+       .factory("tp.auth.LoginService", ["tp.session.Session", "tp.auth.AuthHttp", "$rootScope", "$timeout", "tp.Core", "$interval",
     function (Session, AuthHttp, $rootScope, $timeout, Core, $interval) {
 
         function popupCenter(url, w, h) {

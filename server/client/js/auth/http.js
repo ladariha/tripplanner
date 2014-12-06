@@ -8,7 +8,7 @@ angular.module("tripPlanner.auth")
                             $http.get(core.server.buildURL("session", {})).success(function (result) {
                                 resolve(result);
                             }).error(function (data, status, headers, config) {
-                                $rootScope.$broadcast("httpError", data, status, headers, config);
+                              //  $rootScope.$broadcast("httpError", data, status, headers, config);
                                 reject(data, status, headers, config);
                             });
                         });

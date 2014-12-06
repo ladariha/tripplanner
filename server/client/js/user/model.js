@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.user", ["tripPlanner.utils", "tripPlanner.core"])
+angular.module("tripPlanner.user", ["tripPlanner.utils", "tripPlanner.core", "tripPlanner.session"])
         .factory("tp.user.UserModel", [function () {
                 function User(username, email, userId, ssoId, ssoName, profileImageUrl) {
                     this.username = username;
