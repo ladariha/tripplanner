@@ -18,7 +18,7 @@ angular.module("tripPlanner.core").directive("tpNotification", [function () {
 
 
             },
-            templateUrl: "js/core/notification.html"
+            templateUrl: "js/core/notificationDirective.html"
 
 
         };
