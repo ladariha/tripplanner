@@ -9,7 +9,7 @@ angular.module("tripPlanner.user")
                         return new Promise(function (resolve, reject) {
                             if (UserCache.get(userId)) {
                                 resolve(UserCache.get(userId));
-                            } else if (Session.getUser().userId === userId) {
+                            } else if (Session.getUser() && Session.getUser().userId === userId) {
                                 resolve(Session.getUser());
                             } else {
                                 UserHttp.get(userId).then(function (user) {
