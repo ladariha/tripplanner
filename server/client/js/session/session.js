@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.session", [])
-        .factory("tp.session.Session", ["tp.user.UserModel", "$http", function (User, $http) {
+        .factory("tp.session.Session", ["tp.user.UserModel", "$http", "$rootScope", "$timeout", function (User, $http, $rootScope, $timeout) {
 
                 function Session() {
                     window.console.log("new session");
@@ -29,6 +29,10 @@ angular.module("tripPlanner.session", [])
                     $http.defaults.headers.common["X-TripPlanner-SessionId"] = -1;
                     $http.defaults.headers.common["X-TripPlanner-Created"] = this.created;
                     $http.defaults.headers.common["X-TripPlanner-UserId"] = this.user.userId;
+                    var self = this;
+                    $timeout(function () {
+                        $rootScope.$broadcast("userLoggedIn", self.user);
+                    });
                 };
 
                 Session.prototype.removeUser = function () {
@@ -38,6 +42,10 @@ angular.module("tripPlanner.session", [])
                     delete $http.defaults.headers.common["X-TripPlanner-SessionId"];
                     delete $http.defaults.headers.common["X-TripPlanner-Created"];
                     delete $http.defaults.headers.common["X-TripPlanner-UserId"];
+
+                    $timeout(function () {
+                        $rootScope.$broadcast("userLoggedOut");
+                    });
                 };
 
                 return new Session();
