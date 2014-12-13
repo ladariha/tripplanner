@@ -36,6 +36,7 @@ angular.module("tripPlanner", [
         $httpProvider.interceptors.push("busyIndicatorInterceptor");
         $routeProvider.when("/trip/new", {templateUrl: "js/trip/partial/tripForm.html", controller: "tp.trip.NewTripCtrl"});
         $routeProvider.when("/trip/:id", {templateUrl: "js/trip/partial/trip.html", controller: "tp.trip.ViewTripCtrl"});
+        $routeProvider.when("/login", {templateUrl: "js/auth/partial/login.html", controller : "tp.auth.LoginCtrl"});
         $routeProvider.when("/", {templateUrl: "js/home/partial/home.html", controller: "tp.home.HomeCtrl"});
         $routeProvider.otherwise({redirectTo: "/"});
     }]);

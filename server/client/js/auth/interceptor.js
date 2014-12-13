@@ -97,28 +97,34 @@ angular.module("tripPlanner.auth").factory("tp.auth.HttpInterceptor", ["tp.sessi
             });
         };
 
-    }]).factory("tp.auth.LocationInterceptor", ["$rootScope", "$location", "tp.session.Session", function ($rootScope, $location, Session) {
+    }]).factory("tp.auth.LocationInterceptor", ["$rootScope", "$location", "tp.session.Session", "$timeout", function ($rootScope, $location, Session, $timeout) {
 
         var PROTECTED_LOCATIONS = ["/trip/new"];
         var waitingForLogin = false;
         var cancelledLocation = null;
-        
+
         $rootScope.$on("$locationChangeStart", function (event, next, current) {
             if (PROTECTED_LOCATIONS.indexOf($location.path()) > -1 && !Session.getUser()) {
                 waitingForLogin = true;
                 cancelledLocation = $location.path();
-                $("#tpLogin").modal();
                 event.preventDefault();
+                $location.path("/login");
             }
         });
 
         $rootScope.$on("userLoggedIn", function (d) {
             if (waitingForLogin) {
+                $timeout(function () {
+                    $rootScope.$apply(function () {
+                        $location.url(cancelledLocation);
+                        $location.replace();
+                    });
+                });
+
                 waitingForLogin = false;
-                if ($("#tpLogin").is(":visible")) {
-                    $("#tpLogin").modal("hide");
-                }
-                $location.path(cancelledLocation);
+
+
+
             }
         });
 
