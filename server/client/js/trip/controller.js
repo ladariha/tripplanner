@@ -28,8 +28,6 @@ angular.module("tripPlanner.trip")
                         $location.path("trip/" + newTrip.id);
                     }, function (msg) {
                         $scope.handleGenericError(msg);
-                    }).then(function () {
-                        $scope.$apply();
                     });
                 };
 
@@ -42,22 +40,11 @@ angular.module("tripPlanner.trip")
                 init();
 
             }])
-        .controller("tp.trip.ViewTripCtrl", ["$scope", "tp.trip.TripHandler", "$routeParams", "tp.TimeDateConvertor",
-            function TripCtrl($scope, TripHandler, $routeParams, TimeDateConvertor) {
-                $scope.trip = null;
+        .controller("tp.trip.ViewTripCtrl", ["$scope", "$routeParams", "tp.TimeDateConvertor", "trip",
+            function TripCtrl($scope, $routeParams, TimeDateConvertor, trip) {
+                $scope.trip = trip;
+                $scope.trip.date = TimeDateConvertor.UTCToDate($scope.trip.date);
                 $scope.tripId = $routeParams.id || -1;
-
-                function init() {
-                    new TripHandler().get($scope.tripId).then(function (data) {
-                        $scope.trip = data;
-                        $scope.trip.date = TimeDateConvertor.UTCToDate($scope.trip.date);
-                    }).then(function () {
-                        $scope.$apply();
-                    });
-                }
-
-                init();
-
             }]);
 
 

@@ -12,9 +12,7 @@ angular.module("tripPlanner.user")
 
                         function loadUser(userId) {
                             UserHandler.getUser(userId).then(function (user) {
-                                $timeout(function () {
-                                    $scope.user = user;
-                                });
+                                $scope.user = user;
                             }, function (err) {
                                 window.console.error(err);
                             });

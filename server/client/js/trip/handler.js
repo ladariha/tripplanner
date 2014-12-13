@@ -1,7 +1,7 @@
 "use strict";
 angular.module("tripPlanner.trip", ["tripPlanner.tripDay", "tripPlanner.core", "tripPlanner.utils", "tripPlanner.session"])
-        .factory("tp.trip.TripHandler", ["tp.trip.TripHttp", "tp.TimeDateConvertor", "tp.trip.TripCache", "tp.trip.TripModel", "tp.session.Session",
-            function (TripHttp, TimeDateConvertor, TripCache, TripModel, Session) {
+        .factory("tp.trip.TripHandler", ["tp.trip.TripHttp", "tp.TimeDateConvertor", "tp.trip.TripCache", "tp.trip.TripModel", "tp.session.Session", "$q",
+            function (TripHttp, TimeDateConvertor, TripCache, TripModel, Session, $q) {
 
                 function TripHandler() {
                 }
@@ -18,21 +18,22 @@ angular.module("tripPlanner.trip", ["tripPlanner.tripDay", "tripPlanner.core", "
                 };
 
                 TripHandler.prototype.get = function (id) {
-                    return new Promise(function (resolve, reject) {
-                        if (TripCache.get() && TripCache.get().id === id) {
-                            resolve(TripCache.get());
-                        } else {
-                            TripCache.reset();
-                            return TripHttp.get(id).then(function (data) {
-                                var _t = new TripModel();
-                                _t.convertFromServer(data);
-                                TripCache.set(_t);
-                                resolve(_t);
-                            }, function (err) {
-                                reject(err);
-                            });
-                        }
-                    });
+
+                    var deferred = $q.defer();
+                    if (TripCache.get() && TripCache.get().id === id) {
+                        deferred.resolve(TripCache.get());
+                    } else {
+                        TripCache.reset();
+                        TripHttp.get(id).then(function (data) {
+                            var _t = new TripModel();
+                            _t.convertFromServer(data);
+                            TripCache.set(_t);
+                            deferred.resolve(_t);
+                        }, function (err) {
+                            deferred.reject(err);
+                        });
+                    }
+                    return deferred.promise;
                 };
 
                 return TripHandler;
