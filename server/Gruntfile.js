@@ -51,7 +51,8 @@ module.exports = function (grunt) {
             }
         }
     });
-
+    grunt.loadTasks('./build');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.registerTask("jshint-client", ["jshint:client"]);
     grunt.registerTask("jshint-server", ["jshint:server"]);
