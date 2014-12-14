@@ -97,18 +97,20 @@ angular.module("tripPlanner.auth").factory("tp.auth.HttpInterceptor", ["tp.sessi
             });
         };
 
-    }]).factory("tp.auth.LocationInterceptor", ["$rootScope", "$location", "tp.session.Session", "$timeout", function ($rootScope, $location, Session, $timeout) {
+    }]).factory("tp.auth.LocationInterceptor", ["$rootScope", "$state", "tp.session.Session", "$timeout", function ($rootScope, $state, Session, $timeout) {
 
-        var PROTECTED_LOCATIONS = ["/trip/new"];
+        var PROTECTED_STATES = ["tripNew"];
         var waitingForLogin = false;
-        var cancelledLocation = null;
+        var cancelledState = null;
+        var cancelledParams = null;
 
-        $rootScope.$on("$locationChangeStart", function (event, next, current) {
-            if (PROTECTED_LOCATIONS.indexOf($location.path()) > -1 && !Session.getUser()) {
+        $rootScope.$on("$stateChangeStart", function (event, toState, fromState, fromParams) {
+            if (PROTECTED_STATES.indexOf(toState.name) > -1 && !Session.getUser()) {
                 waitingForLogin = true;
-                cancelledLocation = $location.path();
+                cancelledState = toState;
+                cancelledParams = fromParams;
                 event.preventDefault();
-                $location.path("/login");
+                $state.go("login");
             }
         });
 
@@ -116,15 +118,10 @@ angular.module("tripPlanner.auth").factory("tp.auth.HttpInterceptor", ["tp.sessi
             if (waitingForLogin) {
                 $timeout(function () {
                     $rootScope.$apply(function () {
-                        $location.url(cancelledLocation);
-                        $location.replace();
+                        $state.go(cancelledState);
                     });
                 });
-
                 waitingForLogin = false;
-
-
-
             }
         });
 
