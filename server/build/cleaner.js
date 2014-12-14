@@ -38,7 +38,7 @@ module.exports = function (grunt) {
     function removeAssets() {
         var remove = _.difference(assets, links);
         remove.forEach(function (el) {
-            grunt.file.delete('app/' + el);
+            grunt.file.delete('client/' + el);
         });
     }
 
