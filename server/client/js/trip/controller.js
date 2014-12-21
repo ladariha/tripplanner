@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.trip")
-        .controller("tp.trip.NewTripCtrl", ["$scope", "tp.trip.TripModel", "tp.trip.TripHandler", "$location", "tp.trip.TripCache",
+        .controller("tp.trip.NewTripCtrl", ["$scope", "tp.trip.TripModel", "tp.trip.TripHandler", "$state", "tp.trip.TripCache",
             /**
              * 
              * @param {type} $scope
@@ -10,7 +10,7 @@ angular.module("tripPlanner.trip")
              * @param {type} TripDay
              * @returns {undefined}
              */
-            function NewTripCtrl($scope, TripModel, TripHandler, $location, TripCache) {
+            function NewTripCtrl($scope, TripModel, TripHandler, $state, TripCache) {
                 $scope.trip = null;
                 $scope.openedDatePicker = false;
 
@@ -25,7 +25,7 @@ angular.module("tripPlanner.trip")
                 $scope.createTrip = function () {
                     new TripHandler().createTrip($scope.trip).then(function (newTrip) {
                         TripCache.set(newTrip);
-                        $location.path("trip/" + newTrip.id);
+                        $state.go("trip", {"id": "5496ae936953b2ed221d55c7"});
                     }, function (msg) {
                         $scope.handleGenericError(msg);
                     });
@@ -40,11 +40,11 @@ angular.module("tripPlanner.trip")
                 init();
 
             }])
-        .controller("tp.trip.ViewTripCtrl", ["$scope", "$routeParams", "tp.TimeDateConvertor", "trip",
-            function TripCtrl($scope, $routeParams, TimeDateConvertor, trip) {
+        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.TimeDateConvertor", "$stateParams",
+            function ViewTripCtrl($scope, trip, TimeDateConvertor, $stateParams) {
                 $scope.trip = trip;
                 $scope.trip.date = TimeDateConvertor.UTCToDate($scope.trip.date);
-                $scope.tripId = $routeParams.id || -1;
+                $scope.tripId = trip.id || -1;
             }]);
 
 

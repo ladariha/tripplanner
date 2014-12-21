@@ -51,8 +51,8 @@ angular.module("tripPlanner", [
                     templateUrl: "js/trip/partial/trip.html",
                     controller: "tp.trip.ViewTripCtrl",
                     resolve: {
-                        "trip": ["tp.trip.TripHandler", "$route", function (tripHandler, $route) {
-                                return new tripHandler().get($route.current.params.id);
+                        "trip": ["tp.trip.TripHandler", "$stateParams", function (tripHandler, $stateParams) {
+                                return new tripHandler().get($stateParams.id);
                             }]
                     }
                 })
