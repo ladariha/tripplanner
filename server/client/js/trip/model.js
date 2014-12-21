@@ -7,14 +7,14 @@ angular.module("tripPlanner.trip")
                     this.tripDays = [];
                     this.editors = [];
                     this.owner = null;
-                    this.date = new Date();
+                    this.date = null;
                     this.name = null;
                     this.units = units;
                     this.fuelType = "petrol";
                     this.consumption = 0;
                     this.consumptionUnits = "lkm";
                 }
-
+                
                 Trip.prototype.isValid = function () {
                     for (var i = 0, max = this.tripDays.length; i < max; i++) {
                         if (!this.tripDays[i].isValid()) {
@@ -23,7 +23,7 @@ angular.module("tripPlanner.trip")
                     }
                     return rules.definedNotNull(this.date) && rules.definedNotNull(this.units) && rules.definedNotNull(this.name) && rules.definedNotNull(this.consumption) && !isNaN(this.consumption) && rules.definedNotNull(this.consumptionUnits);
                 };
-
+                
                 Trip.prototype.convertFromServer = function (obj) {
                     this.units = obj.units;
                     this.fuelType = obj.fuelType;
