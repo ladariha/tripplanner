@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.trip")
-        .factory("tp.trip.TripModel", ["tp.validators", function (rules) {
+        .factory("tp.trip.TripModel", ["tp.validators", "tp.TimeDateConvertor", function (rules, TimeDateConvertor) {
                 function Trip(units) {
                     this.id = -1;
                     this.tripDays = [];
@@ -29,7 +29,7 @@ angular.module("tripPlanner.trip")
                     this.fuelType = obj.fuelType;
                     this.consumption = obj.consumption;
                     this.consumptionUnits = obj.consumptionUnits;
-                    this.date = obj.date;
+                    this.date = TimeDateConvertor.UTCToDate(obj.date);
                     this.name = obj.name;
                     this.owner = obj.owner;
                     this.editors = obj.editors;

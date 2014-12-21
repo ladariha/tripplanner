@@ -40,10 +40,9 @@ angular.module("tripPlanner.trip")
                 init();
 
             }])
-        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.TimeDateConvertor", "$stateParams",
-            function ViewTripCtrl($scope, trip, TimeDateConvertor, $stateParams) {
+        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip",
+            function ViewTripCtrl($scope, trip) {
                 $scope.trip = trip;
-                $scope.trip.date = TimeDateConvertor.UTCToDate($scope.trip.date);
                 $scope.tripId = trip.id || -1;
             }]);
 
