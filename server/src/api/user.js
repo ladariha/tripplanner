@@ -4,7 +4,6 @@ var http = require("../misc/http");
 var UserCtrl = require("../user/userCtrl");
 exports.registerRoute = function (app) {
     app.get("/api/user", function (req, res) {
-        console.log(2);
         http.Ok(res, req.user);
     });
 
