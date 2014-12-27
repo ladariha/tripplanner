@@ -1,23 +1,7 @@
-<div class="row">
-    <div class="col-xs-9" >
-        <h1><span style="text-transform: capitalize">Trip:</span> {{trip.name}}</h1>
-    </div>
-    <div class="col-xs-3" data-ng-show="trip">
-      <tp-profile label="'Owner'" user-id="trip.owner"></tp-profile>
-    </div>
-</div>
-<div class="row">
-    
-    <div class="col-xs-4" >
-        
-        <i class="mdi-action-today icon-barmaterial-pink">&nbsp; {{trip.date.toPrettyString()}}</i>
-    </div>
-    <div class="col-xs-4" >
-        <h5><b>Car consumption:</b> <span data-ng-bind="trip.consumption"></span>&nbsp;<span data-ng-bind="trip.getPrettyConsumptionUnits()"></span></h5>
-        <h5><b>Fuel:</b> <span data-ng-bind="trip.fuelType"></span></h5>
-    </div>
-</div>
+<!--trip core data -->
+<div ui-view=""></div>
 
+<!--
 <div class="row">
     <h3>Days</h3>
     <div class="list-group">
@@ -52,4 +36,4 @@
         </div>
         <div class="list-group-separator"></div>
     </div>
-</div>
+</div>-->

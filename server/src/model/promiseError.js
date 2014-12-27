@@ -14,7 +14,8 @@ function TPError(type, msg, data) {
 
 TPError.BadRequest = "BadRequest";
 TPError.DatabaseError = "DatabaseError";
-
+TPError.Unauthorized = "Unauthorized";
+TPError.NotFound = "NotFound";
 module.exports = TPError;
 
         

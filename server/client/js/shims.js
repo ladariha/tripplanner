@@ -7,22 +7,27 @@
         "shortName": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     };
 
-    Date.prototype.toPrettyString = function () {
-        return this.getDate() + " " + monthsNames.fullName[this.getMonth()] + " " + this.getFullYear();
+    Date.prototype.toPrettyString = function (separator, showZeros) {
+        separator = separator ? separator : " ";
+        if (!showZeros) {
+            return this.getDate() + separator + monthsNames.fullName[this.getMonth()] + separator + this.getFullYear();
+        } else {
+            return (this.getDate() > 9 ? this.getDate() : "0" + this.getDate()) + separator + monthsNames.fullName[this.getMonth()] + separator + this.getFullYear();
+        }
     };
-    
+
     /**
-     * Converts from "03-December-2014" to Date object 
+     * Converts from "03-December-2014" to Date object in local timezone 
      * @param {type} dateString
      * @returns {Date.prototype}
      */
-    Date.prototype.getFromInput = function(dateString){
+    Date.prototype.getFromInput = function (dateString) {
         var values = dateString.split("-");
         this.setDate(parseInt(values[0], 10));
         this.setFullYear(parseInt(values[2], 10));
         this.setMonth(monthsNames.fullName.indexOf(values[1]));
         return this;
-        
+
     };
 
 })();

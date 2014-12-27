@@ -41,20 +41,32 @@ angular.module("tripPlanner", [
                     templateUrl: "js/home/partial/home.html",
                     controller: "tp.home.HomeCtrl"
                 })
-                .state("tripNew", {
-                    url: "/trip/new",
-                    templateUrl: "js/trip/partial/tripForm.html",
-                    controller: "tp.trip.NewTripCtrl"
-                })
                 .state("trip", {
+                    abstract  : true,
+                    params : { "noCache" : false},
                     url: "/trip/:id",
                     templateUrl: "js/trip/partial/trip.html",
-                    controller: "tp.trip.ViewTripCtrl",
                     resolve: {
                         "trip": ["tp.trip.TripHandler", "$stateParams", function (tripHandler, $stateParams) {
-                                return new tripHandler().get($stateParams.id);
+                                if ($stateParams.id && $stateParams.id !== "new") {
+                                    return new tripHandler().get($stateParams.id, $stateParams.noCache);
+                                }
                             }]
                     }
+                })
+
+                .state("trip.view", {
+                    url: "",
+                    templateUrl: "js/trip/partial/tripInfo.html",
+                    controller: "tp.trip.ViewTripCtrl"
+                })
+                .state("trip.new", {
+                    templateUrl: "js/trip/partial/tripForm.html",
+                    controller: "tp.trip.TripFormCtrl"
+                })
+                .state("trip.edit", {
+                    templateUrl: "js/trip/partial/tripForm.html",
+                    controller: "tp.trip.TripFormCtrl"
                 })
                 .state("login", {
                     url: "/login",

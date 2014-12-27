@@ -1,5 +1,5 @@
 "use strict";
-angular.module("tripPlanner.trip", ["tripPlanner.tripDay", "tripPlanner.core", "tripPlanner.utils", "tripPlanner.session"])
+angular.module("tripPlanner.trip", ["tripPlanner.tripDay", "tripPlanner.core", "tripPlanner.utils", "tripPlanner.session", "tripPlanner.logger"])
         .factory("tp.trip.TripHandler", ["tp.trip.TripHttp", "tp.TimeDateConvertor", "tp.trip.TripCache", "tp.trip.TripModel", "tp.session.Session", "$q",
             function (TripHttp, TimeDateConvertor, TripCache, TripModel, Session, $q) {
 
@@ -11,16 +11,30 @@ angular.module("tripPlanner.trip", ["tripPlanner.tripDay", "tripPlanner.core", "
                  * @param {Trip} trip
                  * @returns {Promise}
                  */
-                TripHandler.prototype.createTrip = function (trip) {
+                TripHandler.prototype.create = function (trip) {
                     trip.date = TimeDateConvertor.localToUTCString(trip.date);
                     trip.owner = Session.getUser().userId;
                     return TripHttp.create(trip);
                 };
 
-                TripHandler.prototype.get = function (id) {
+                TripHandler.prototype.remove = function (id) {
+                    TripCache.reset();
+                    return TripHttp.remove(id);
+                };
+
+                TripHandler.prototype.edit = function (trip) {
+                    if(!(trip.date instanceof Date)){
+                        trip.date = new Date().getFromInput(trip.date);
+                    }
+                    trip.date = TimeDateConvertor.localToUTCString(trip.date);
+                    trip.owner = Session.getUser().userId;
+                    return TripHttp.edit(trip);
+                };
+
+                TripHandler.prototype.get = function (id, noCache) {
 
                     var deferred = $q.defer();
-                    if (TripCache.get() && TripCache.get().id === id) {
+                    if (!noCache && TripCache.get() && TripCache.get().id === id) {
                         deferred.resolve(TripCache.get());
                     } else {
                         TripCache.reset();

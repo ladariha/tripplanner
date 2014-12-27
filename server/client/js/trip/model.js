@@ -8,6 +8,7 @@ angular.module("tripPlanner.trip")
                     this.editors = [];
                     this.owner = null;
                     this.date = null;
+                    this.localDate = null;
                     this.name = null;
                     this.units = units;
                     this.fuelType = "petrol";
@@ -29,7 +30,8 @@ angular.module("tripPlanner.trip")
                     this.fuelType = obj.fuelType;
                     this.consumption = obj.consumption;
                     this.consumptionUnits = obj.consumptionUnits;
-                    this.date = TimeDateConvertor.UTCToDate(obj.date);
+                    this.date = obj.date;
+                    this.localDate = TimeDateConvertor.UTCToDate(obj.date);
                     this.name = obj.name;
                     this.owner = obj.owner;
                     this.editors = obj.editors;

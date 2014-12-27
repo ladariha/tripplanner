@@ -16,6 +16,13 @@ angular.module("tripPlanner.core").directive("tpNotification", [function () {
                     $scope.level = "danger";
                 });
 
+                $scope.$on("log", function (evt, message, title, level) {
+                    $scope.display = true;
+                    $scope.message = message;
+                    $scope.title = title;
+                    $scope.level = level;
+                });
+
 
             },
             templateUrl: "js/core/notificationDirective.html"

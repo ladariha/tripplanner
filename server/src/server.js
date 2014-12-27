@@ -44,7 +44,7 @@ function loadConfig(filename) {
     app.use(bodyParser.urlencoded({
         extended: true
     }));
-
+    
     console.log("loading routing handlers...");
     var routes = utils.listFiles((path.join(path.dirname(__filename), config.server.paths.api)).toString());
     // load all routers
@@ -83,6 +83,9 @@ function loadConfig(filename) {
             }
         }
     }
+    
+    console.log("loading listeners...");
+    require("./core/listeners");
 
     server = app.listen(config.server.port, function () {
         console.log("Listening on port %d", server.address().port);
