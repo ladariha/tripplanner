@@ -5,7 +5,9 @@
                 <img class="profileImg" data-ng-src="{{user.profileImgUrl}}" alt="Owner profile picture"/>
             </div>
             <div class="row-content">
-                <h4 class="list-group-item-heading" data-ng-bind="::user.displayName"></h4>
+                <h4 class="list-group-item-heading">
+                    <a ui-sref="user({id: user.userId})" data-ng-bind="::user.displayName"></a>
+                </h4>
                 <p class="list-group-item-text" data-ng-bind="::label"></p>
             </div>
         </div>
