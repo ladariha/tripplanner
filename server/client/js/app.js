@@ -42,8 +42,8 @@ angular.module("tripPlanner", [
                     controller: "tp.home.HomeCtrl"
                 })
                 .state("trip", {
-                    abstract  : true,
-                    params : { "noCache" : false},
+                    abstract: true,
+                    params: {"noCache": false},
                     url: "/trip/:id",
                     templateUrl: "js/trip/partial/trip.html",
                     resolve: {
@@ -54,7 +54,6 @@ angular.module("tripPlanner", [
                             }]
                     }
                 })
-
                 .state("trip.view", {
                     url: "",
                     templateUrl: "js/trip/partial/tripInfo.html",
@@ -72,6 +71,17 @@ angular.module("tripPlanner", [
                     url: "/login",
                     templateUrl: "js/auth/partial/login.html",
                     controller: "tp.auth.LoginCtrl"
+                })
+                .state("user", {
+                    url: "/user/:id",
+                    resolve: {
+                        "user": ["tp.user.UserHandler", "$stateParams", function (userHandler, $stateParams) {
+                                return userHandler.getUser($stateParams.id);
+
+                            }]
+                    },
+                    templateUrl: "js/user/partial/user.html",
+                    controller: "tp.user.UserCtrl"
                 });
 
         $urlRouterProvider.otherwise("/");

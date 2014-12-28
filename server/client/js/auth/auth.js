@@ -25,10 +25,10 @@ angular.module("tripPlanner.auth", ["tripPlanner.core", "tripPlanner.session"])
                                 AuthHttp.getSession().then(function (data) {
                                     if (data.hasOwnProperty("google")) {
                                         LoginService.authProvider = "google";
-                                        Session.setUser(data.google.email, data.id, data.google.email, data.google.displayName, data.google.id, "google", data.google.imageUrl);
+                                        Session.setUser(data.google.email, data.id, data.google.email, data.google.displayName, data.google.id, "google", data.google.imageUrl, data.trips);
                                     } else { // facebook
                                         LoginService.authProvider = "facebook";
-                                        Session.setUser(data.facebook.email, data.id, data.facebook.email, data.facebook.displayName, data.facebook.id, "facebook", data.facebook.imageUrl);
+                                        Session.setUser(data.facebook.email, data.id, data.facebook.email, data.facebook.displayName, data.facebook.id, "facebook", data.facebook.imageUrl, data.trips);
                                     }
                                     $interval.cancel(sessionChecking);
                                 }, function () {
@@ -57,10 +57,10 @@ angular.module("tripPlanner.auth", ["tripPlanner.core", "tripPlanner.session"])
                                 AuthHttp.getSession().then(function (data) {
                                     if (data.hasOwnProperty("google")) {
                                         LoginService.authProvider = "google";
-                                        Session.setUser(data.google.email, data.id, data.google.email, data.google.displayName, data.google.id, "google", data.google.imageUrl);
+                                        Session.setUser(data.google.email, data.id, data.google.email, data.google.displayName, data.google.id, "google", data.google.imageUrl, data.trips);
                                     } else { // facebook
                                         LoginService.authProvider = "facebook";
-                                        Session.setUser(data.facebook.email, data.id, data.facebook.email, data.facebook.displayName, data.facebook.id, "facebook", data.facebook.imageUrl);
+                                        Session.setUser(data.facebook.email, data.id, data.facebook.email, data.facebook.displayName, data.facebook.id, "facebook", data.facebook.imageUrl, data.trips);
                                     }
                                 }, function () {
                                     Session.removeUser();

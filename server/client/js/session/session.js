@@ -15,7 +15,7 @@ angular.module("tripPlanner.session", [])
                     return this.user;
                 };
 
-                Session.prototype.setUser = function (username, userId, email, displayName, ssoId, ssoName, profileImgUrl) {
+                Session.prototype.setUser = function (username, userId, email, displayName, ssoId, ssoName, profileImgUrl, trips) {
                     this.user = new User();
                     this.user.username = username;
                     this.user.userId = userId;
@@ -24,6 +24,7 @@ angular.module("tripPlanner.session", [])
                     this.user.ssoName = ssoName;
                     this.user.ssoId = ssoId;
                     this.user.profileImgUrl = profileImgUrl;
+                    this.user.trips = trips;
                     this.sessionId = -1;
                     this.created = new Date();
                     $http.defaults.headers.common["X-TripPlanner-SessionId"] = -1;

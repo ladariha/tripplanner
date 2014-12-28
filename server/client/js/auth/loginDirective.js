@@ -19,11 +19,13 @@ angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService",
 
                 $scope.$on("userLoggedIn", function (evt, user) {
                     $scope.isLoggedIn = true;
+                    $scope.userId = user.userId;
                     $scope.displayName = user.displayName;
                     $scope.$apply();
                 });
                 $scope.$on("userLoggedOut", function () {
                     $scope.isLoggedIn = false;
+                    $scope.userId = -1;
                     $scope.displayName = null;
                     $scope.$apply();
                 });

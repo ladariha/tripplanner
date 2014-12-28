@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-xs-12" >
+        <h1 style="font-variant: small-caps">
+            <img class="profileImg" data-ng-src="{{user.profileImgUrl}}" alt="Profile picture"/>
+            {{::user.displayName}}
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12" >
+        <h2> Trips <small>({{::user.trips.length}})</small></h2>
+        <ul>
+            <li data-ng-repeat="trip in user.trips">
+                <a ui-sref="trip.view({id: trip.id})">{{::trip.name}}</a>
+            </li>
+        </ul>
+    </div>
+</div>

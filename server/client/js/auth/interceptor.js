@@ -65,7 +65,7 @@ angular.module("tripPlanner.auth").factory("tp.auth.HttpInterceptor", ["tp.sessi
             return this.init(response).then(function () {
                 return hello(LoginService.authProvider).api("me");
             }).then(function (profile) {
-                Session.setUser(Profile.getUsername(profile), Profile.getUserId(profile), Profile.getEmail(profile), Profile.getDisplayName(profile));
+                Session.setUser(Profile.getUsername(profile), Profile.getUserId(profile), Profile.getEmail(profile), Profile.getDisplayName(profile), data.trips);
                 $rootScope.$broadcast("userLoggedIn", Session.getUser());
                 self.displayDialog(false);
                 var $h = $injector.get("$http");

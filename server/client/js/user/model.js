@@ -10,6 +10,7 @@ angular.module("tripPlanner.user", ["tripPlanner.utils", "tripPlanner.core", "tr
                     this.ssoId = ssoId;
                     this.ssoName = ssoName;
                     this.profileImgUrl = profileImageUrl;
+                    this.trips = [];
                 }
 
                 User.prototype.convertFromServer = function (data) {
@@ -21,6 +22,7 @@ angular.module("tripPlanner.user", ["tripPlanner.utils", "tripPlanner.core", "tr
                     this.ssoName = serviceName;
                     this.ssoId = data[serviceName].id;
                     this.profileImgUrl = data[serviceName].imageUrl;
+                    this.trips = data.trips;
                 };
 
                 return User;
