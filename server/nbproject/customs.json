@@ -1,5 +1,10 @@
 {
-    "attributes": {},
+    "attributes": {
+        "ui-sref": {
+            "context": "a"
+        },
+        "ui-view": {}
+    },
     "elements": {
         "tp-notification": {},
         "tp-profile": {
