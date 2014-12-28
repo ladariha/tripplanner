@@ -7,7 +7,6 @@ var mongoose = require("mongoose");
 
 exports.init = function (host, port, database) {
     mongoose.connect(host + ":" + port + "/" + database);
-    return;
 //    // load models and init them
 //    var fileModels = utils.listFilesAndNames((path.join(path.dirname(__filename), "../model/")));
 //    var anyModel;
