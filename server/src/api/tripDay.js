@@ -6,7 +6,7 @@ var application = require("../server");
  * 
  * @type TripCtrl
  */
-var tripCtrl = require("../trip/tripCtrl");
+var tripCtrl = require("../trip/controller");
 
 exports.registerRoute = function(app) {
     app.get("/api/tripDay", function(req, res) {
