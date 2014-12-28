@@ -29,9 +29,11 @@ User.methods.toClient = function () {
     var _o = this.toObject();
     if (_o.hasOwnProperty("facebook")) {
         delete _o.facebook.token;
+        delete _o.facebook.email;
     }
     if (_o.hasOwnProperty("google")) {
         delete _o.google.token;
+        delete _o.google.email;
     }
     _o.id = _o._id;
     delete _o._id;
