@@ -2,9 +2,9 @@
 
 
 var Promise = require("promise");
-var dbProvider = require("./userDao");
+var dbProvider = require("./dao");
 var TPError = require("../model/promiseError");
-var tripCtrl = require("../trip/tripCtrl");
+var tripCtrl = require("../trip/controller");
 
 
 var UserCtrl = {

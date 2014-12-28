@@ -2,7 +2,7 @@
 
 var Promise = require("promise");
 var TPError = require("../model/promiseError");
-var User = require("./userModel");
+var User = require("./model");
 
 var UserProvider = {
     get: function (id) {

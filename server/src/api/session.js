@@ -2,7 +2,7 @@
 
 var auth = require("../auth/authorizationCtrl");
 var http = require("../misc/http");
-var userCtrl = require("../user/userCtrl");
+var userCtrl = require("../user/controller");
 
 exports.registerRoute = function (app) {
     app.delete("/api/session", function (req, res) {

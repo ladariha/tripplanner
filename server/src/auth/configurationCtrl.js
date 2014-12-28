@@ -3,7 +3,7 @@
 
 var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 var FacebookStrategy = require("passport-facebook").Strategy;
-var User = require("../user/userModel");
+var User = require("../user/model");
 var fs = require("fs");
 var path = require("path");
 var configAuth = JSON.parse(fs.readFileSync(path.join(path.dirname(__filename), "private.json")).toString());

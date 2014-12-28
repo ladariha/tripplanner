@@ -1,7 +1,7 @@
 "use strict";
 
 var http = require("../misc/http");
-var userCtrl = require("../user/userCtrl");
+var userCtrl = require("../user/controller");
 exports.registerRoute = function (app) {
     app.get("/api/user", function (req, res) {
         http.Ok(res, req.user);
