@@ -74,6 +74,9 @@ var TripCtrl = {
                         reject(err);
                     });
         });
+    },
+    getUsersTrips : function(userId){
+        return dbProvider.getUsersTrips(userId);
     }
 };
 

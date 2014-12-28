@@ -98,6 +98,24 @@ var TripProvider = {
                 }
             });
         });
+    },
+    getUsersTrips: function (userId) {
+        return new Promise(function (resolve, reject) {
+            Trip.find({"owner": userId}, function (err, docs) {
+                if (err) {
+                    reject(new TPError(TPError.DatabaseError, "Unable to find data in db", err));
+                } else if (docs === null) {
+                    reject(new TPError(TPError.NotFound, "Unable to find given trip", err));
+                } else {
+                    var trips = [];
+                    for (var i = 0, imax = docs.length; i < imax; i++) {
+                        trips.push({"name": docs[i].name, "id": docs[i]._id});
+                    }
+
+                    resolve(trips);
+                }
+            });
+        });
     }
 
 };

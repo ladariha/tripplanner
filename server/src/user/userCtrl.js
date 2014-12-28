@@ -4,16 +4,25 @@
 var Promise = require("promise");
 var dbProvider = require("./userDao");
 var TPError = require("../model/promiseError");
-
+var tripCtrl = require("../trip/tripCtrl");
 
 
 var UserCtrl = {
-    get: function (id) {
+    get: function (id, convertToObj) {
         return new Promise(function (resolve, reject) {
             if (id === null || typeof id === "undefined") {
                 reject(new TPError(TPError.BadRequest, "Invalid user ID"));
-            }else{
-                resolve(dbProvider.get(id));
+            } else {
+                var res = null;
+                dbProvider.get(id)
+                        .then(function (user) {
+                            res = convertToObj ? user.toClient() : user;
+                            return tripCtrl.getUsersTrips(id);
+                        })
+                        .then(function (trips) {
+                            res.trips = trips;
+                            resolve(res);
+                        });
             }
         });
     }
