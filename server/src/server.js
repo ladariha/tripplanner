@@ -44,7 +44,7 @@ function loadConfig(filename) {
     app.use(bodyParser.urlencoded({
         extended: true
     }));
-    
+
     console.log("loading routing handlers...");
     var routes = utils.listFiles((path.join(path.dirname(__filename), config.server.paths.api)).toString());
     // load all routers
@@ -53,7 +53,7 @@ function loadConfig(filename) {
     });
 
     console.log("registering static files");
-    app.use(express.static(path.join(__dirname, config.server.paths.static)));  
+    app.use(express.static(path.join(__dirname, config.server.paths.static)));
 
     applicationCore.ext = {
         trip: {},
@@ -76,14 +76,14 @@ function loadConfig(filename) {
     var tripDayExts = utils.listFoldersAndNames((path.join(path.dirname(__filename), config.server.paths.tripDayExtensions)).toString());
 
     for (var i in tripDayExts) {
-        if (tripDayExts.hasOwnProperty(i)) {
+        if (tripDayExts.hasOwnProperty(i) && !utils.endsWith(tripDayExts[i], ".js")) {
             _e = require(tripDayExts[i] + "/src.js");
             if (applicationCore.tripPlanner.isExtensionValid(_e)) {
                 applicationCore.ext.tripDay[i] = _e;
             }
         }
     }
-    
+
     console.log("loading listeners...");
     require("./core/listeners");
 

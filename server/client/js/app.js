@@ -55,14 +55,13 @@ angular.module("tripPlanner", [
                             }]
                     }
                 })
-                .state("trip.view", {
-                    url: "",
-                    templateUrl: "js/trip/partial/tripInfo.html",
-                    controller: "tp.trip.ViewTripCtrl"
-                })
                 .state("trip.new", {
                     templateUrl: "js/trip/partial/tripForm.html",
                     controller: "tp.trip.TripFormCtrl"
+                })
+                .state("trip.view", {
+                    url : "",
+                    templateUrl: "js/trip/partial/tripInfo.html"
                 })
                 .state("trip.edit", {
                     templateUrl: "js/trip/partial/tripForm.html",

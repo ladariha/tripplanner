@@ -5,8 +5,7 @@ var Promise = require("promise");
 var dbProvider = require("./dao");
 var TPError = require("../model/promiseError");
 var Mediator = require("../core/mediator");
-
-
+var tripDayCtrl = require("../tripday/controller");
 
 var TripCtrl = {
     getEditorsId: function (id) {
@@ -39,7 +38,16 @@ var TripCtrl = {
             if (id === null || typeof id === "undefined") {
                 reject(new TPError(TPError.BadRequest, "Invalid trip ID"));
             } else {
-                resolve(dbProvider.get(id));
+                var result = null;
+                dbProvider.get(id)
+                        .then(function (trip) {
+                            result = trip;
+                            return tripDayCtrl.getDaysForTrip(id);
+                        })
+                        .then(function (days) {
+                            result.days = days;
+                            resolve(result);
+                        });
             }
         });
     },
@@ -50,7 +58,19 @@ var TripCtrl = {
             } else {
                 var _t = new TripModel();
                 _t.convert(trip);
-                resolve(dbProvider.create(_t));
+                var result = null;
+                dbProvider.create(_t)
+                        .then(function (t) {
+                            result = t;
+                            t.days = [];
+                            t.days.push(tripDayCtrl.getEmptyDay(t));
+                            return tripDayCtrl.create(t.days[0]);
+                        })
+                        .then(function () {
+                            resolve(result);
+                        }, function (err) {
+                            reject(err);
+                        });
             }
         });
     },
@@ -75,7 +95,7 @@ var TripCtrl = {
                     });
         });
     },
-    getUsersTrips : function(userId){
+    getUsersTrips: function (userId) {
         return dbProvider.getUsersTrips(userId);
     }
 };

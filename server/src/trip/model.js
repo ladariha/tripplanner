@@ -36,8 +36,13 @@ Trip.methods.convert = function (obj, includeId) {
 };
 
 Trip.methods.toClient = function(){
+    var days = this.days || [];
     var _o = this.toObject();
     _o.id = _o._id;
+    _o.days = [];
+    for (var i = 0, max = days.length; i < max; i++) {
+        _o.days.push(days[i].toClient());
+    }
     delete _o._id;
     return _o;
 };

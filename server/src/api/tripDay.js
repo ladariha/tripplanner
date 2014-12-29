@@ -1,7 +1,7 @@
 "use strict";
 
 var application = require("../server");
-
+require("../ext/tripday/model");
 /**
  * 
  * @type TripCtrl

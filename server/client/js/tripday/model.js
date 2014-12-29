@@ -1,28 +1,17 @@
 "use strict";
 
 angular.module("tripPlanner.tripDay")
-        .factory("tp.tripDay.TripDayModel", ["tp.validators", "tp.place.PlaceModel", function(rules, Place) {
+        .factory("tp.tripDay.TripDayModel", ["tp.validators", "tp.place.PlaceModel", function (rules, Place) {
                 function TripDay(avoids) {
                     this.id = -1;
                     this.tripId = -1;
-                    this.from = new Place();
-                    this.to = new Place();
-                    this.avoids = avoids;
-                    this.date = new Date();
-                    this.duration = 0;
-                    this.distance = 0;
+                    this.name = "";
+                    this.data = [];
+                    this.date = null;
                 }
 
-                TripDay.prototype.isValid = function() {
-                    return this.from.isValid() && this.to.isValid() && rules.definedNotNull(this.date);
-                };
-
-                TripDay.prototype.setPlace = function(place, identifier) {
-                    if (place instanceof Place && place.isValid()) {
-                        this[identifier] = place;
-                    } else {
-                        throw new TypeError("Provided place for '" + identifier + "' is not a valid option. ");
-                    }
+                TripDay.prototype.isValid = function () {
+                    return rules.definedNotNull(this.tripId) && rules.definedNotNull(this.name) && rules.definedNotNull(this.data) && rules.definedNotNull(this.date);
                 };
 
                 return TripDay;

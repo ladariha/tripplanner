@@ -57,15 +57,8 @@ angular.module("tripPlanner.trip")
         .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.session.Session", "$state", "$stateParams", "tp.trip.TripHandler", "tp.logger",
             function ViewTripCtrl($scope, trip, Session, $state, $stateParams, TripHandler, Logger) {
 
-                if ($stateParams.id === "new") {
-                    $state.go("trip.new");
-                    return;
-                }
-
                 $scope.trip = trip;
                 $scope.tripId = trip ? trip.id : -1;
-
-
 
                 $scope.$on("userLoggedIn", function (evt, user) {
                     initPermissions();
@@ -75,7 +68,7 @@ angular.module("tripPlanner.trip")
                 });
 
                 function initPermissions() {
-                    $scope.hasPermission = Session.getUser() ? trip.owner === Session.getUser().userId : false;
+                    $scope.hasPermission = Session.getUser() && trip ? trip.owner === Session.getUser().userId : false;
                 }
 
                 $scope.editTrip = function () {
