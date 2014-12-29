@@ -2,14 +2,16 @@
 
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var definedNotNull = require("../misc/util").definedNotNull;
+var utils = require("../misc/util");
+var definedNotNull = utils.definedNotNull;
+
 var Trip = new Schema(
         {
             units: String,
             fuelType: String,
             consumption: Number,
             consumptionUnits: String,
-            date: String,
+            date: Date,
             owner : String,
             editors : [{type: String}],
             name: {type: String, index: true}
@@ -27,7 +29,7 @@ Trip.methods.convert = function (obj, includeId) {
     this.fuelType = obj.fuelType;
     this.consumption = obj.consumption;
     this.consumptionUnits = obj.consumptionUnits;
-    this.date = obj.date;
+    this.date = utils.UTCToDate(obj.date);
     this.name = obj.name;
     this.owner = obj.owner;
     this.editors = obj.editors;
@@ -40,6 +42,7 @@ Trip.methods.toClient = function(){
     var _o = this.toObject();
     _o.id = _o._id;
     _o.days = [];
+    _o.date = utils.dateToUTC(_o.date);
     for (var i = 0, max = days.length; i < max; i++) {
         _o.days.push(days[i].toClient());
     }

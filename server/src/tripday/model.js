@@ -2,12 +2,14 @@
 
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var definedNotNull = require("../misc/util").definedNotNull;
+var utils = require("../misc/util");
+var definedNotNull = utils.definedNotNull;
 var Extension = require("../ext/tripday/model");
+
 var TripDay = new Schema(
         {
             tripId: String,
-            date: String,
+            date: Date,
             data: [{type: Extension}],
             name: {type: String, index: true}
         }
@@ -18,7 +20,7 @@ var TripDay = new Schema(
  */
 TripDay.methods.convert = function (obj, includeId) {
 
-    this.date = obj.date;
+    this.date = utils.UTCToDate(obj.date);
     this.data = obj.data;
     this.name = obj.name;
     this.tripId = obj.tripId;
@@ -29,6 +31,7 @@ TripDay.methods.convert = function (obj, includeId) {
 TripDay.methods.toClient = function () {
     var _o = this.toObject();
     _o.id = _o._id;
+    _o.date = utils.dateToUTC(_o.date);
     delete _o._id;
     return _o;
 };
