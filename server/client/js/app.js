@@ -46,6 +46,7 @@ angular.module("tripPlanner", [
                     params: {"noCache": false},
                     url: "/trip/:id",
                     templateUrl: "js/trip/partial/trip.html",
+                    controller: "tp.trip.ViewTripCtrl",
                     resolve: {
                         "trip": ["tp.trip.TripHandler", "$stateParams", function (tripHandler, $stateParams) {
                                 if ($stateParams.id && $stateParams.id !== "new") {
