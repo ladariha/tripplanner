@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.trip")
-        .factory("tp.trip.TripModel", ["tp.validators", "tp.TimeDateConvertor", function (rules, TimeDateConvertor) {
+        .factory("tp.trip.TripModel", ["tp.validators", "tp.TimeDateConvertor", "tp.tripDay.TripDayModel", function (rules, TimeDateConvertor, TripDay) {
                 function Trip(units) {
                     this.id = -1;
                     this.days = [];
@@ -33,7 +33,13 @@ angular.module("tripPlanner.trip")
                     this.id = obj.id;
 
                     // tripDays
-                    this.days = obj.days;
+                    this.days = [];
+                    var day;
+                    for (var i = 0, max = obj.days.length; i < max; i++) {
+                        day = new TripDay();
+                        day.convertFromServer(obj.days[i]);
+                        this.days.push(day);
+                    }
                     // editors
                 };
 
