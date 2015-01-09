@@ -32,8 +32,6 @@ angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService",
 
             },
             templateUrl: "js/auth/loginDirective.html"
-
-
         };
 
     }]);
