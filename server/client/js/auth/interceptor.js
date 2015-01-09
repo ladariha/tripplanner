@@ -8,7 +8,7 @@ angular.module("tripPlanner.auth")
                 var waitingForLogin = false;
                 var cancelledState = null;
                 var cancelledParams = null;
-                var e = $stateParams;
+
                 $rootScope.$on("$stateChangeStart", function (event, toState, fromState, fromParams) {
                     if (PROTECTED_STATES.indexOf(toState.name) > -1 && !Session.getUser()) {
                         waitingForLogin = true;
@@ -19,7 +19,7 @@ angular.module("tripPlanner.auth")
                     }
                 });
 
-                $rootScope.$on("userLoggedIn", function (d) {
+                $rootScope.$on("userLoggedIn", function () {
                     if (waitingForLogin) {
                         $timeout(function () {
                             $rootScope.$apply(function () {
