@@ -20,10 +20,30 @@ function loadConfig(filename) {
     }
 }
 
+function loadExtensions(folder, extensionType) {
+    var tripExts = utils.listFoldersAndNames((path.join(path.dirname(__filename), folder)).toString());
+    var _e;
+    for (var i in tripExts) {
+
+        _e = require(tripExts[i] + "/src.js");
+        if (applicationCore.tripPlanner.isExtensionValid(_e)) {
+            applicationCore.ext[extensionType][i] = _e;
+        }
+    }
+}
+
+function loadRouting(folder, pass) {
+    var routes = utils.listFiles((path.join(path.dirname(__filename), folder)).toString());
+    // load all routers
+    routes.forEach(function (route) {
+        require(route).registerRoute(app, pass);
+    });
+}
+
 (function start() {
 
     console.log("loading configuration...");
-    var config = loadConfig(path.join(__dirname, "config.json")) || {};
+    var config = loadConfig(path.join(__dirname, "config.json"));
 
     console.log("loading sources...");
     applicationCore.tripPlanner = tripPlanner;
@@ -31,11 +51,7 @@ function loadConfig(filename) {
     db.init(config.database.host, config.database.port, config.database.databaseName);
 
     // CORS
-    app.all("*", function (req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With, X-TripPlanner-SessionId, X-TripPlanner-Created, X-TripPlanner-UserId, Content-Type");
-        next();
-    });
+    app.all("*", authorization.addCorsHeaders);
 
     // login
     var pass = authorization.configure(app);
@@ -46,11 +62,7 @@ function loadConfig(filename) {
     }));
 
     console.log("loading routing handlers...");
-    var routes = utils.listFiles((path.join(path.dirname(__filename), config.server.paths.api)).toString());
-    // load all routers
-    routes.forEach(function (route) {
-        require(route).registerRoute(app, pass);
-    });
+    loadRouting(config.server.paths.api, pass);
 
     console.log("registering static files");
     app.use(express.static(path.join(__dirname, config.server.paths.static)));
@@ -61,28 +73,10 @@ function loadConfig(filename) {
     };
 
     console.log("loading trip extensions...");
-    var tripExts = utils.listFoldersAndNames((path.join(path.dirname(__filename), config.server.paths.tripExtensions)).toString());
-    var _e;
-    for (var i in tripExts) {
-        if (tripExts.hasOwnProperty(i)) {
-            _e = require(tripExts[i] + "/src.js");
-            if (applicationCore.tripPlanner.isExtensionValid(_e)) {
-                applicationCore.ext.trip[i] = _e;
-            }
-        }
-    }
+    loadExtensions(config.server.paths.tripExtensions, "trip");
 
     console.log("loading trip day extensions...");
-    var tripDayExts = utils.listFoldersAndNames((path.join(path.dirname(__filename), config.server.paths.tripDayExtensions)).toString());
-
-    for (var i in tripDayExts) {
-        if (tripDayExts.hasOwnProperty(i) && !utils.endsWith(tripDayExts[i], ".js")) {
-            _e = require(tripDayExts[i] + "/src.js");
-            if (applicationCore.tripPlanner.isExtensionValid(_e)) {
-                applicationCore.ext.tripDay[i] = _e;
-            }
-        }
-    }
+    loadExtensions(config.server.paths.tripDayExtensions, "tripDay");
 
     console.log("loading listeners...");
     require("./core/listeners");

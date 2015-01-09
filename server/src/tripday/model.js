@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var utils = require("../misc/util");
 var definedNotNull = utils.definedNotNull;
-var Extension = require("../ext/tripday/model");
+var Extension = require("../ext/tripDayExtModel");
 
 var TripDay = new Schema(
         {

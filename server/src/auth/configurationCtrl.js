@@ -114,5 +114,11 @@ exports.configure = function (app) {
 
 exports.scopes = {
     "google": {"scope": ["profile", "email"]},
-    "facebook" : {"scope" : ["email"]}
+    "facebook": {"scope": ["email"]}
+};
+
+exports.addCorsHeaders = function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, X-TripPlanner-SessionId, X-TripPlanner-Created, X-TripPlanner-UserId, Content-Type");
+    next();
 };
