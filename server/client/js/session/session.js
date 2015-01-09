@@ -6,7 +6,6 @@ angular.module("tripPlanner.session", [])
                 function Session() {
                     window.console.log("new session");
                     this.user = null;
-                    this.sessionId = -1;
                     this.created = null;
 
                 }
@@ -25,9 +24,7 @@ angular.module("tripPlanner.session", [])
                     this.user.ssoId = ssoId;
                     this.user.profileImgUrl = profileImgUrl;
                     this.user.trips = trips;
-                    this.sessionId = -1;
                     this.created = new Date();
-                    $http.defaults.headers.common["X-TripPlanner-SessionId"] = -1;
                     $http.defaults.headers.common["X-TripPlanner-Created"] = this.created;
                     $http.defaults.headers.common["X-TripPlanner-UserId"] = this.user.userId;
                     var self = this;
@@ -38,9 +35,7 @@ angular.module("tripPlanner.session", [])
 
                 Session.prototype.removeUser = function () {
                     this.user = null;
-                    this.sessionId = -1;
                     this.created = null;
-                    delete $http.defaults.headers.common["X-TripPlanner-SessionId"];
                     delete $http.defaults.headers.common["X-TripPlanner-Created"];
                     delete $http.defaults.headers.common["X-TripPlanner-UserId"];
 
