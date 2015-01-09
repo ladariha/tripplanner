@@ -49,11 +49,23 @@ module.exports = function (grunt) {
                     '-W097': true // use strict in function form warning
                 }
             }
+        },
+        plato: {
+            "default": {
+                options: {
+                    "jshint": grunt.file.readJSON('.jshintrc'),
+                    "exclude": /\.min\.js$/ 
+                },
+                files: {
+                    "../report": ["client/js/**/*.js", "src/**/*.js"]
+                }
+            }
         }
     });
     grunt.loadTasks('./build');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-plato');
     grunt.registerTask("jshint-client", ["jshint:client"]);
     grunt.registerTask("jshint-server", ["jshint:server"]);
 };
