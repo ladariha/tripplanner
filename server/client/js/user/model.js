@@ -23,6 +23,7 @@ angular.module("tripPlanner.user", ["tripPlanner.utils", "tripPlanner.core", "tr
                     this.ssoId = data[serviceName].id;
                     this.profileImgUrl = data[serviceName].imageUrl;
                     this.trips = data.trips;
+                    return this;
                 };
 
                 return User;
