@@ -39,8 +39,7 @@ angular.module("tripPlanner.trip", ["tripPlanner.tripDay", "tripPlanner.core", "
                     } else {
                         TripCache.reset();
                         TripHttp.get(id).then(function (data) {
-                            var _t = new TripModel();
-                            _t.convertFromServer(data);
+                            var _t = new TripModel().convertFromServer(data);
                             TripCache.set(_t);
                             deferred.resolve(_t);
                         }, function (err) {
