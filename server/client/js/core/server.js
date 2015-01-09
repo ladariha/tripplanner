@@ -26,7 +26,7 @@ angular.module("tripPlanner.core")
                             url += "/" + encodeURIComponent(parameters[parameter]);
                         }
                     }
-                    return this.endpoints[endpoint];
+                    return this.endpoints[endpoint] + url;
                 };
 
                 Server.prototype.buildURL = function(endpoint, parameters) {
