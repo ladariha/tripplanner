@@ -2,7 +2,7 @@
 
 angular.module("tripPlanner.auth", ["tripPlanner.core", "tripPlanner.session"])
         .factory("tp.auth.LoginService",
-                ["tp.session.Session", "tp.auth.AuthHttp", "tp.Core", "$interval", 
+                ["tp.session.Session", "tp.auth.AuthHttp", "tp.Core", "$interval",
                     function (Session, AuthHttp, Core, $interval) {
 
                         function popupCenter(url, w, h) {
@@ -23,13 +23,15 @@ angular.module("tripPlanner.auth", ["tripPlanner.core", "tripPlanner.session"])
 
                             function doCheck() {
                                 AuthHttp.getSession().then(function (data) {
-                                    if (data.hasOwnProperty("google")) {
-                                        LoginService.authProvider = "google";
-                                        Session.setUser(data.google.email, data.id, data.google.email, data.google.displayName, data.google.id, "google", data.google.imageUrl, data.trips);
-                                    } else { // facebook
-                                        LoginService.authProvider = "facebook";
-                                        Session.setUser(data.facebook.email, data.id, data.facebook.email, data.facebook.displayName, data.facebook.id, "facebook", data.facebook.imageUrl, data.trips);
-                                    }
+                                    LoginService.authProvider = data.hasOwnProperty("google") ? "google" : "facebook";
+                                    Session.setUser(
+                                            data[LoginService.authProvider].email,
+                                            data.id, data[LoginService.authProvider].email,
+                                            data[LoginService.authProvider].displayName,
+                                            data[LoginService.authProvider].id,
+                                            LoginService.authProvider,
+                                            data[LoginService.authProvider].imageUrl,
+                                            data.trips);
                                     $interval.cancel(sessionChecking);
                                 }, function () {
                                     Session.removeUser();
@@ -55,20 +57,22 @@ angular.module("tripPlanner.auth", ["tripPlanner.core", "tripPlanner.session"])
                             authProvider: null,
                             checkForSession: function () {
                                 AuthHttp.getSession().then(function (data) {
-                                    if (data.hasOwnProperty("google")) {
-                                        LoginService.authProvider = "google";
-                                        Session.setUser(data.google.email, data.id, data.google.email, data.google.displayName, data.google.id, "google", data.google.imageUrl, data.trips);
-                                    } else { // facebook
-                                        LoginService.authProvider = "facebook";
-                                        Session.setUser(data.facebook.email, data.id, data.facebook.email, data.facebook.displayName, data.facebook.id, "facebook", data.facebook.imageUrl, data.trips);
-                                    }
+                                    LoginService.authProvider = data.hasOwnProperty("google") ? "google" : "facebook";
+                                    Session.setUser(
+                                            data[LoginService.authProvider].email,
+                                            data.id, data[LoginService.authProvider].email,
+                                            data[LoginService.authProvider].displayName,
+                                            data[LoginService.authProvider].id,
+                                            LoginService.authProvider,
+                                            data[LoginService.authProvider].imageUrl,
+                                            data.trips);
                                 }, function () {
                                     Session.removeUser();
                                 });
                             }
                         };
 
-                         LoginService.checkForSession();
+                        LoginService.checkForSession();
 
                         return LoginService;
 
