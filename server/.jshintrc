@@ -1,0 +1,26 @@
+{
+    "strict": true,
+    "curly": true,
+    "eqnull": true,
+    "unused": true,
+    "eqeqeq": true,
+    "undef": true,
+    "camelcase": true,
+    "forin": true,
+    "immed": true,
+    "node": true,
+    "latedef": true,
+    "newcap": true,
+    "quotmark": "double",
+    "trailing": true,
+    "globals": {
+        "angular": true,
+        "window": true,
+        "google": true,
+        "exports": true,
+        "require": true,
+        "$": true,
+        "Promise": true
+    },
+    "-W097": true
+}
