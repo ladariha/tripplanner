@@ -34,12 +34,10 @@ angular.module("tripPlanner.trip")
 
                     // tripDays
                     this.days = [];
-                    var day;
                     for (var i = 0, max = obj.days.length; i < max; i++) {
-                        day = new TripDay();
-                        day.convertFromServer(obj.days[i]);
-                        this.days.push(day);
+                        this.days.push(new TripDay().convertFromServer(obj.days[i]));
                     }
+                    return this;
                     // editors
                 };
 

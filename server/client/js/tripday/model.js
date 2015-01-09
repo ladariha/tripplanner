@@ -22,6 +22,7 @@ angular.module("tripPlanner.tripDay")
                     this.tripId = obj.tripId;
                     this.data = obj.data;
                     this.localDate = TimeDateConvertor.UTCToDate(obj.date);
+                    return this;
                 };
 
                 return TripDay;
