@@ -1,5 +1,7 @@
 "use strict";
 
+var scopes = require("../auth/configurationCtrl").scopes;
+
 exports.registerRoute = function (app, passport) {
     app.get("/api/oauth/google/callback", passport.authenticate("google", {
         successRedirect: "/redirect.html",
@@ -11,9 +13,9 @@ exports.registerRoute = function (app, passport) {
         failureRedirect: "/"
     }));
 
-    app.get("/api/oauth/google", passport.authenticate("google", {scope: ["profile", "email"]}));
+    app.get("/api/oauth/google", passport.authenticate("google", scopes.google));
 
-    app.get("/api/oauth/facebook", passport.authenticate("facebook", {scope: "email"}));
+    app.get("/api/oauth/facebook", passport.authenticate("facebook", scopes.facebook));
 };
 
 

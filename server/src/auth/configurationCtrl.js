@@ -64,7 +64,7 @@ function configureFacebook(passport) {
                     return done(null, user);
                 } else {
                     var newUser = new User();
-                    
+
                     newUser.facebook.id = profile.id;
                     newUser.facebook.token = accessToken;
                     newUser.facebook.displayName = profile.name.givenName + " " + profile.name.familyName;
@@ -110,4 +110,9 @@ exports.configure = function (app) {
     app.use(passport.session()); // persistent login sessions
     app.use(flash()); // use connect-flash for flash messages stored in session  
     return passport;
+};
+
+exports.scopes = {
+    "google": {"scope": ["profile", "email"]},
+    "facebook" : {"scope" : ["email"]}
 };
