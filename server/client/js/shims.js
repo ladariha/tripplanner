@@ -21,8 +21,9 @@
      * @param {type} dateString
      * @returns {Date.prototype}
      */
-    Date.prototype.getFromInput = function (dateString) {
-        var values = dateString.split("-");
+    Date.prototype.getFromInput = function (dateString, separator) {
+        separator = (typeof separator !== "undefined" && separator !== null) ? separator : "-";
+        var values = dateString.split(separator);
         this.setDate(parseInt(values[0], 10));
         this.setFullYear(parseInt(values[2], 10));
         this.setMonth(monthsNames.fullName.indexOf(values[1]));

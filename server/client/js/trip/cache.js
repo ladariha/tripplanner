@@ -1,7 +1,7 @@
 "use strict";
 angular.module("tripPlanner.trip")
-        .factory("tp.trip.TripCache", [
-            function () {
+        .factory("tp.trip.TripCache", [ "tp.tripDay.TripDayCache",
+            function (tripDayCache) {
 
                 var cachedTrip = null;
                 var tripCache = {
@@ -11,10 +11,12 @@ angular.module("tripPlanner.trip")
                     set: function (trip) {
                         if (trip !== null && typeof trip !== "undefined") {
                             cachedTrip = trip;
+                            tripDayCache.set(trip.days, trip.id);
                         }
                     },
                     reset: function () {
                         cachedTrip = null;
+                        tripDayCache.reset();
                     }
                 };
                 return tripCache;

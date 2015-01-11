@@ -161,3 +161,6 @@ body {
     width: 80px;
     border-radius: 100%;
 }
+.day{
+    cursor: pointer;
+}

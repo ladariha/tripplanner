@@ -1,94 +1,95 @@
 <div class="row">
-    <h2> <span data-ng-if="trip.id == -1">Create new </span>
-        <span data-ng-if="trip.id != -1">Edit</span> trip
-    </h2>
-    <div class="row">    
-        <div class="col-xs-6" >
-            <h3>Name: </h3>
-            <input required="required" class="form-control" type="text" data-ng-model="trip.name" placeholder="Enter trip name">
-            <h4>Date: </h4>
 
-            <p class="input-group">
-                <input type="text" class="form-control"  datepicker-popup="dd-MMMM-yyyy" placeholder="Trip start date" data-ng-model="trip.date" is-open="openedDatePicker" data-ng-required="true" close-text="Close" />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" data-ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span>
-            </p>
+    <div class="col-xs-6" >
+        <h1 style="font-variant: small-caps"> 
+            <span data-ng-if="trip.id == -1">Create new trip</span>
+            <span data-ng-if="trip.id != -1">Trip: {{::trip.name}}</span>
+        </h1>
+        <h3>Name: </h3>
+        <input required="required" class="form-control" type="text" data-ng-model="trip.name" placeholder="Enter trip name">
+        <h4>Date: </h4>
+
+        <p class="input-group">
+            <input type="text" class="form-control"  datepicker-popup="dd MMMM yyyy" placeholder="Trip start date" data-ng-model="trip.localDate" is-open="openedDatePicker" data-ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" data-ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+        </p>
 
 
-        </div>
-
-        <div class="col-xs-6">
-            <h4>Distance units</h4>
-            <div class="radio radio-primary">
-                <label>
-                    <input type="radio" class="bs-material" data-ng-model="trip.units" name="distanceUnits" id="optionsRadios1" value="km">
-                    <span class="circle"></span>
-                    <span class="check"></span>
-                    km
-                </label>
-            </div>
-            <div class="radio radio-primary">
-                <label>
-                    <input type="radio" class="bs-material"  data-ng-model="trip.units" name="distanceUnits" id="optionsRadios2" value="miles">
-                    <span class="circle"></span>
-                    <span class="check"></span>
-                    miles
-                </label>
-            </div>
-
-        </div>
     </div>
+
+    <div class="col-xs-6">
+        <h4>Distance units</h4>
+        <div class="radio radio-primary">
+            <label>
+                <input type="radio" class="bs-material" data-ng-model="trip.units" name="distanceUnits" id="optionsRadios1" value="km">
+                <span class="circle"></span>
+                <span class="check"></span>
+                km
+            </label>
+        </div>
+        <div class="radio radio-primary">
+            <label>
+                <input type="radio" class="bs-material"  data-ng-model="trip.units" name="distanceUnits" id="optionsRadios2" value="miles">
+                <span class="circle"></span>
+                <span class="check"></span>
+                miles
+            </label>
+        </div>
+
+    </div>
+
+</div>
+<div class="row">
     <h3>Car information</h3>
-    <div class="row">
-        <div class="col-xs-8">
-            <h4></h4>
-            <div class="row">
-                <div class="col-xs-9">
-                    <form class="form-horizontal" novalidate role="form">
+    <div class="col-xs-8">
+        <h4></h4>
+        <div class="row">
+            <div class="col-xs-9">
+                <form class="form-horizontal" novalidate role="form">
 
 
-                        <div class="form-group">
-                            <label for="fuelC">Average fuel consumption</label>
-                            <div  class="col-sm-10">
-                                <input required="required" type="number" class="form-control" id="fuelC" data-ng-model="trip.consumption" placeholder="Fuel consumption">
-                            </div>
+                    <div class="form-group">
+                        <label for="fuelC">Average fuel consumption</label>
+                        <div  class="col-sm-10">
+                            <input required="required" type="number" class="form-control" id="fuelC" data-ng-model="trip.consumption" placeholder="Fuel consumption">
                         </div>
-                        <div class="form-group">
-                            <label for="consUnits">Fuel consumption units</label>
-                            <div  class="col-sm-10">
-                                <select id="consUnits" class="form-control small" data-ng-model="trip.consumptionUnits">
-                                    <option value="kml">Kilometers/liter (km/l)</option>
-                                    <option value="lkm">Liter / 100 km(l/100km)</option>
-                                    <option value="mpg_uk">Miles / Gallon (UK) (mpg)</option>
-                                    <option value="mpg_us">Miles / Gallon (US) (mpg)</option>
-                                    <option value="mil">Miles / liter (mi/l)</option>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="consUnits">Fuel consumption units</label>
+                        <div  class="col-sm-10">
+                            <select id="consUnits" class="form-control small" data-ng-model="trip.consumptionUnits">
+                                <option value="kml">Kilometers/liter (km/l)</option>
+                                <option value="lkm">Liter / 100 km(l/100km)</option>
+                                <option value="mpg_uk">Miles / Gallon (UK) (mpg)</option>
+                                <option value="mpg_us">Miles / Gallon (US) (mpg)</option>
+                                <option value="mil">Miles / liter (mi/l)</option>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label for="fuelType" >Fuel type</label><br/>
-                            <div  class="col-sm-10">
-                                <select id="fuelType" class="form-control small" data-ng-model="trip.fuelType">
-                                    <option value="petrol">Petrol</option>
-                                    <option value="diesel">Diesel</option>
-                                    <option value="cng">CNG</option>
-                                    <option value="lpg">LPG</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fuelType" >Fuel type</label><br/>
+                        <div  class="col-sm-10">
+                            <select id="fuelType" class="form-control small" data-ng-model="trip.fuelType">
+                                <option value="petrol">Petrol</option>
+                                <option value="diesel">Diesel</option>
+                                <option value="cng">CNG</option>
+                                <option value="lpg">LPG</option>
+                                <option value="other">Other</option>
+                            </select>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="col-xs-3">
+    </div>
+    <div class="col-xs-3">
 
-        </div>
     </div>
-    <div class="row">
-        <button data-ng-if="trip.id == -1" class="btn btn-primary pull-right" data-ng-click="createTrip()" data-ng-disabled="!tripIsValid()" >Create</button>
-        <button data-ng-if="trip.id != -1" class="btn btn-primary pull-right" data-ng-click="updateTrip()" data-ng-disabled="!tripIsValid()" >Save</button>
-        <button data-ng-if="trip.id != -1" class="btn btn-warning pull-right" data-ng-click="cancelEdit()" >Cancel</button>
-    </div>
+</div>
+<div class="row">
+    <button data-ng-if="trip.id == -1" class="btn btn-primary pull-right" data-ng-click="createTrip()" data-ng-disabled="!trip.isValid()" >Create</button>
+    <button data-ng-if="trip.id != -1" class="btn btn-primary pull-right" data-ng-click="updateTrip()" data-ng-disabled="!trip.isValid()" >Save</button>
+    <button data-ng-if="trip.id != -1" class="btn btn-warning pull-right" data-ng-click="cancelEdit()" >Cancel</button>
 </div>
