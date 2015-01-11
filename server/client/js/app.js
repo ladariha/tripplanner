@@ -17,7 +17,8 @@ angular.module("tripPlanner", [
     "tripPlanner.controllers",
     "tripPlanner.utils",
     "tripPlanner.home",
-    "tripPlanner.session"
+    "tripPlanner.session",
+    "tripPlanner.dialog"
 ]).config(["$stateProvider", "$provide", "$httpProvider", "$urlRouterProvider", function ($stateProvider, $provide, $httpProvider, $urlRouterProvider) {
 
         $provide.factory("busyIndicatorInterceptor", function ($q, $rootScope) {
@@ -60,12 +61,39 @@ angular.module("tripPlanner", [
                     controller: "tp.trip.TripFormCtrl"
                 })
                 .state("trip.view", {
-                    url : "",
+                    url: "",
                     templateUrl: "js/trip/partial/tripInfo.html"
                 })
                 .state("trip.edit", {
                     templateUrl: "js/trip/partial/tripForm.html",
                     controller: "tp.trip.TripFormCtrl"
+                })
+                .state("day", {
+                    abstract: true,
+                    params: {"noCache": false},
+                    url: "/day/:id",
+                    templateUrl: "js/tripday/partial/tripDay.html",
+                    controller: "tp.tripDay.ViewTripDayCtrl",
+                    resolve: {
+                        "trip": ["tp.tripDay.TripDayHandler", "$stateParams", function (tripDayHandler, $stateParams) {
+                                console.log($stateParams.noCache);
+                                if ($stateParams.id && $stateParams.id !== "new") {
+                                    return new tripDayHandler().get($stateParams.id, $stateParams.noCache);
+                                }
+                            }]
+                    }
+                })
+                .state("day.new", {
+                    templateUrl: "js/tripday/partial/tripForm.html",
+                    controller: "tp.tripDay.TripDayFormCtrl"
+                })
+                .state("day.view", {
+                    url: "",
+                    templateUrl: "js/tripday/partial/tripInfo.html"
+                })
+                .state("day.edit", {
+                    templateUrl: "js/tripday/partial/tripForm.html",
+                    controller: "tp.tripDay.TripDayFormCtrl"
                 })
                 .state("login", {
                     url: "/login",

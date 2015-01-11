@@ -76,22 +76,9 @@
 
         </div> <!-- /container -->
 
-        <div class="modal" id="tpModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="tpModaTitle">Modal title</h4>
-                    </div>
-                    <div class="modal-body" id="tpModalBody">
-                        <p>One fine body…</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <tp-infodialog body="infoMsg" title="infoTitle" visible="infoVisible"></tp-infodialog>
+        <tp-choicedialog body="choiceMsg" title="choiceTitle" visible="choiceVisible" resolve="choiceDialogResolve(true)" reject="choiceDialogResolve(false)"></tp-choicedialog>
+        
 
 
         <!-- Bootstrap core JavaScript
@@ -124,7 +111,10 @@
         <script src="js/core/core.js" type="text/javascript"></script>
         <script src="js/core/server.js" type="text/javascript"></script>
         <script src="js/core/notificationDirective.js" type="text/javascript"></script>
-
+        
+        <!-- DIALOG -->
+        <script src="js/dialog/dialog.js" type="text/javascript"></script>
+        
         <!-- SESSION -->
         <script src="js/session/session.js" type="text/javascript"></script>
 
@@ -140,7 +130,8 @@
         <!--TRIPDAY -->
         <script src="js/tripday/http.js" type="text/javascript"></script>
         <script src="js/tripday/model.js" type="text/javascript"></script>
-
+        <script src="js/tripday/cache.js" type="text/javascript"></script>
+        <script src="js/tripday/handler.js" type="text/javascript"></script>
         <!--USER -->
         <script src="js/user/model.js" type="text/javascript"></script>
         <script src="js/user/cache.js" type="text/javascript"></script>

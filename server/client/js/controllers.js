@@ -4,13 +4,22 @@
 
 angular.module("tripPlanner.controllers",
         ["tripPlanner.map", "tripPlanner.trip", "tripPlanner.user", "tripPlanner.core", "tripPlanner.logger", "tripPlanner.utils", "tripPlanner.auth", "tripPlanner.session"])
-        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.session.Session", "tp.auth.LoginService","tp.auth.LocationInterceptor",
-            function TripPlannerCtrl($scope, logger, sessionFct, LoginService) {
+        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.session.Session", "tp.auth.LoginService", "tp.auth.LocationInterceptor","$q",
+            function TripPlannerCtrl($scope, logger, sessionFct, LoginService, LocationInterceptor, $q) {
 
                 $scope.debug = false;
                 $scope.preferredMapProvider = "google";
                 $scope.loggedIn = false;
                 $scope.displayName = null;
+
+                $scope.infoMsg = "";
+                $scope.infoTitle = "";
+                $scope.infoVisible = false;
+
+                $scope.choiceMsg = "";
+                $scope.choiceTitle = "";
+                $scope.choiceVisible = false;
+                var choicePromise = null;
 
                 $scope.currentUser = function () {
                     return sessionFct.getUser();
@@ -31,6 +40,41 @@ angular.module("tripPlanner.controllers",
                 $scope.ngRefresh = function () {
                     if (!$scope.$$phase) {
                         $scope.$digest();
+                    }
+                };
+
+
+                $scope.infoModal = function (title, message) {
+
+                    $scope.infoVisible = false;
+                    $scope.infoVisible = true;
+                    $scope.infoMsg = message;
+                    $scope.infoTitle = title;
+
+                };
+
+                $scope.infoModalHide = function () {
+                    $scope.infoVisible = false;
+                };
+                $scope.choiceModal = function (title, message) {
+
+                    $scope.choiceVisible = true;
+                    $scope.choiceMsg = message;
+                    $scope.choiceTitle = title;
+                    choicePromise = $q.defer();
+                    return choicePromise.promise;
+                };
+
+                $scope.choiceModalHide = function () {
+                    choiceVisible = false;
+                    choicePromise = null;
+                };
+                
+                $scope.choiceDialogResolve = function(val){
+                    if(val){
+                        choicePromise.resolve();
+                    }else{
+                        choicePromise.reject();
                     }
                 };
 
