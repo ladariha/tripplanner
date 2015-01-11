@@ -2,7 +2,7 @@
 
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var definedNotNull = require("../../misc/util").definedNotNull;
+var definedNotNull = require("../misc/util").definedNotNull;
 var TripDayExtension = new Schema(
         {
             tripDayId: String,
