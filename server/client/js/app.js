@@ -49,9 +49,9 @@ angular.module("tripPlanner", [
                     templateUrl: "js/trip/partial/trip.html",
                     controller: "tp.trip.ViewTripCtrl",
                     resolve: {
-                        "trip": ["tp.trip.TripHandler", "$stateParams", function (tripHandler, $stateParams) {
+                        "trip": ["tp.trip.TripHandler", "$stateParams", function (TripHandler, $stateParams) {
                                 if ($stateParams.id && $stateParams.id !== "new") {
-                                    return new tripHandler().get($stateParams.id, $stateParams.noCache);
+                                    return new TripHandler().get($stateParams.id, $stateParams.noCache);
                                 }
                             }]
                     }
@@ -75,10 +75,9 @@ angular.module("tripPlanner", [
                     templateUrl: "js/tripday/partial/tripDay.html",
                     controller: "tp.tripDay.ViewTripDayCtrl",
                     resolve: {
-                        "trip": ["tp.tripDay.TripDayHandler", "$stateParams", function (tripDayHandler, $stateParams) {
-                                console.log($stateParams.noCache);
+                        "trip": ["tp.tripDay.TripDayHandler", "$stateParams", function (TripDayHandler, $stateParams) {
                                 if ($stateParams.id && $stateParams.id !== "new") {
-                                    return new tripDayHandler().get($stateParams.id, $stateParams.noCache);
+                                    return new TripDayHandler().get($stateParams.id, $stateParams.noCache);
                                 }
                             }]
                     }

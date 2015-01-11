@@ -1,6 +1,6 @@
 "use strict";
 angular.module("tripPlanner.user")
-        .directive("tpProfile", ["tp.user.UserHandler", "$timeout", function (UserHandler, $timeout) {
+        .directive("tpProfile", ["tp.user.UserHandler", function (UserHandler) {
 
                 return {
                     restrict: "E",
@@ -18,7 +18,7 @@ angular.module("tripPlanner.user")
                             });
                         }
 
-                        $scope.$watch("userId", function (newValue, oldValue) {
+                        $scope.$watch("userId", function (newValue) {
                             if (newValue) {
                                 loadUser(newValue);
                             }

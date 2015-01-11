@@ -3,7 +3,7 @@
 angular.module("tripPlanner.logger", [])
         .factory("tp.logger", ["$rootScope", function ($rootScope) {
 
-                $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+                $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
                     window.console.log(error);
                 });
 
