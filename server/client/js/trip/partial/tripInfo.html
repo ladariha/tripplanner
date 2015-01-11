@@ -5,7 +5,7 @@
     <div class="col-xs-3" data-ng-show="trip">
         <tp-profile label="'Owner'" user-id="trip.owner"></tp-profile>
         <div data-ng-if="hasPermission">
-            <button data-ng-click="editTrip()" class="btn btn-flat btn-info"><i class="mdi-content-create"></i>&nbsp;Edit</button>
+            <a ui-sref="trip.edit({noCache: true})" ui-sref-opts="{reload: true}" class="btn btn-flat btn-info"><i class="mdi-content-create"></i>&nbsp;Edit</a>
             <button data-ng-click="deleteTrip()" class="btn btn-flat btn-danger"><i class="mdi-content-clear"></i>&nbsp;Delete</button>
         </div>
     </div>
@@ -14,10 +14,9 @@
 
     <div class="col-xs-4" >
 
-        <i class="mdi-action-today icon-barmaterial-pink">&nbsp; {{trip.localDate.toPrettyString()}}</i>
+        <i class="mdi-action-today icon-barmaterial-pink">&nbsp; {{trip.localDate}}</i>
     </div>
     <div class="col-xs-4" >
-        <h5><b>Car consumption:</b> <span data-ng-bind="trip.consumption"></span>&nbsp;<span data-ng-bind="trip.getPrettyConsumptionUnits()"></span></h5>
-        <h5><b>Fuel:</b> <span data-ng-bind="trip.fuelType"></span></h5>
+        <h5><b>Car consumption:</b> <span data-ng-bind="trip.consumption"></span>&nbsp;<span data-ng-bind="trip.getPrettyConsumptionUnits()"></span>&nbsp;({{::trip.fuelType}})</h5>
     </div>
 </div>

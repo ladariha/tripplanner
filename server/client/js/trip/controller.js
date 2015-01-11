@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.trip")
-        .controller("tp.trip.TripFormCtrl", ["$scope", "tp.trip.TripModel", "tp.trip.TripHandler", "$state", "trip","tp.TimeDateConvertor",
+        .controller("tp.trip.TripFormCtrl", ["$scope", "tp.trip.TripModel", "tp.trip.TripHandler", "$state", "trip",
             /**
              * 
              * @param {type} $scope
@@ -10,40 +10,29 @@ angular.module("tripPlanner.trip")
              * @param {type} TripDay
              * @returns {undefined}
              */
-            function TripFormCtrl($scope, TripModel, TripHandler, $state, trip, TimeDateConvertor) {
+            function TripFormCtrl($scope, TripModel, TripHandler, $state, trip) {
+
                 $scope.trip = trip ? trip : new TripModel("km");
                 $scope.openedDatePicker = false;
+
                 var tripHandler = new TripHandler();
-
-
-                if($scope.trip.id !== -1){
-                    // convert UTC string to local Date
-                    $scope.trip.date = TimeDateConvertor.UTCToDate($scope.trip.date).toPrettyString("-", true);
-                }
-
-
-                $scope.tripIsValid = function () {
-                    return $scope.debug || $scope.trip.isValid();
-                };
+                var exitParams = {"id": $scope.trip.id, noCache: true};
+                var exitOptions = {reload: true};
 
                 $scope.createTrip = function () {
                     tripHandler.create($scope.trip).then(function (newTrip) {
                         $state.go("trip.view", {"id": newTrip.id});
-                    }, function (msg) {
-                        $scope.handleGenericError(msg);
-                    });
+                    }, $scope.handleGenericError);
                 };
 
                 $scope.cancelEdit = function () {
-                    $state.go("trip.view", {"id": $scope.trip.id, noCache: true}, {reload: true});
+                    $state.go("trip.view", exitParams, exitOptions);
                 };
 
                 $scope.updateTrip = function () {
                     tripHandler.edit($scope.trip).then(function () {
-                        $state.go("trip.view", {"id": $scope.trip.id, noCache: true}, {reload: true});
-                    }, function (msg) {
-                        $scope.handleGenericError(msg);
-                    });
+                        $state.go("trip.view", exitParams, exitOptions);
+                    }, $scope.handleGenericError);
                 };
 
                 $scope.openDatePicker = function ($event) {
@@ -54,38 +43,56 @@ angular.module("tripPlanner.trip")
 
 
             }])
-        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.session.Session", "$state", "$stateParams", "tp.trip.TripHandler", "tp.logger",
-            function ViewTripCtrl($scope, trip, Session, $state, $stateParams, TripHandler, Logger) {
+        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.session.Session", "$state", "$stateParams", "tp.trip.TripHandler", "tp.logger", "tp.trip.TripModel",
+            function ViewTripCtrl($scope, trip, Session, $state, $stateParams, TripHandler, Logger, TripModel) {
 
-                $scope.trip = trip;
-                $scope.tripId = trip ? trip.id : -1;
+                $scope.trip = trip ? trip : new TripModel("km");
+                $scope.buttons = [];
 
-                $scope.$on("userLoggedIn", function (evt, user) {
+                $scope.$on("userLoggedIn", function () {
                     initPermissions();
                 });
                 $scope.$on("userLoggedOut", function () {
                     initPermissions();
                 });
 
-                function initPermissions() {
-                    $scope.hasPermission = Session.getUser() && trip ? trip.owner === Session.getUser().userId : false;
+                function initDaysControls() {
+                    var buttons = [];
+                    for (var i = 0, max = $scope.trip.days.length; i < max; i++) {
+                        buttons[i] = false;
+                    }
+                    $scope.buttons = buttons;
                 }
 
-                $scope.editTrip = function () {
-                    $state.go("trip.edit", {noCache: true}, {reload: true});
+                function initPermissions() {
+                    $scope.hasPermission = Session.getUser() && trip && trip.owner === Session.getUser().userId ? true : false;
+                }
+
+                $scope.openDay = function (index) {
+
+                };
+
+                $scope.deleteDay = function (index) {
+
                 };
 
                 $scope.deleteTrip = function () {
-                    new TripHandler().remove($scope.trip.id).then(function () {
-                        Logger.log("Done", "Trip has been removed", "success");
-                        $state.go("home");
-                    }, function (msg) {
-                        $scope.handleGenericError(msg);
-                    });
+                    $scope.choiceModal("Delete trip?", "Do you really want to remve this trip?")
+                            .then(function () {
+                                return new TripHandler().remove($scope.trip.id);
+                            })
+                            .then(function () {
+                                Logger.log("Done", "Trip has been removed", "success");
+                                $state.go("home");
+                            }, function (data, status, headers, config) {
+                                if (data) {
+                                    $scope.handleGenericError(data, status, headers, config);
+                                }
+                            });
                 };
 
                 initPermissions();
-
+                initDaysControls();
             }]);
 
 
