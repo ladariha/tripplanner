@@ -11,17 +11,20 @@ angular.module("tripPlanner.dialog", [])
                     },
                     controller: function ($scope) {
 
-                        $scope.$watch("visible", function (value) {
+                        $scope.close = closeDialog();
+                        $scope.$watch("visible", visibleWatch);
+
+                        function visibleWatch(value) {
                             if (value) {
                                 $("#tpModalInfo").modal();
                             } else {
                                 $("#tpModalInfo").modal("hide");
                             }
-                        });
+                        }
 
-                        $scope.close = function () {
+                        function closeDialog() {
                             $scope.visible = false;
-                        };
+                        }
 
                     },
                     templateUrl: "js/dialog/infoDialogDirective.html"

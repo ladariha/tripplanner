@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.utils", [])
-        .factory("tp.validators", function () {
+        .factory("tp.validators", function Validators() {
 
             return {
                 definedNotNull: function (obj) {
@@ -10,7 +10,22 @@ angular.module("tripPlanner.utils", [])
             };
 
         })
-        .factory("tp.ConsumptionConvertor", function () {
+        .factory("tp.ConsumptionConvertor", function ConsumptionConvertor() {
+
+            return {
+                /**
+                 * Converts fuel consumption from given metric system to specified
+                 * metric system
+                 * @param {Number} value
+                 * @param {String} from possible values: kml, lkm, mpg_uk, mpg_us, mil
+                 * @param {String} to possible values: kml, lkm, mpg_uk, mpg_us, mil
+                 * @returns {Number}
+                 */
+                convert: function (value, from, to) {
+                    var base = toLkm(value, from);
+                    return lkmToMetric(base, to);
+                }
+            };
 
             function toLkm(value, incomingFormat) {
                 switch (incomingFormat) {
@@ -45,25 +60,8 @@ angular.module("tripPlanner.utils", [])
                         throw new Error("Unknown format");
                 }
             }
-
-
-
-            return {
-                /**
-                 * Converts fuel consumption from given metric system to specified
-                 * metric system
-                 * @param {Number} value
-                 * @param {String} from possible values: kml, lkm, mpg_uk, mpg_us, mil
-                 * @param {String} to possible values: kml, lkm, mpg_uk, mpg_us, mil
-                 * @returns {Number}
-                 */
-                convert: function (value, from, to) {
-                    var base = toLkm(value, from);
-                    return lkmToMetric(base, to);
-                }
-            };
         })
-        .factory("tp.TimeDateConvertor", function () {
+        .factory("tp.TimeDateConvertor", function TimeDateConvertor() {
 
             var monthsNames = {
                 "fullName": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -104,7 +102,7 @@ angular.module("tripPlanner.utils", [])
 
                     return _d;
                 },
-                toPrettyString : function(d){
+                toPrettyString: function (d) {
                     return d.getDate() + " " + monthsNames.fullName[d.getMonth()] + " " + d.getYear();
                 }
             };

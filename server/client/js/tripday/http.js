@@ -1,11 +1,14 @@
 "use strict";
-angular.module("tripPlanner.tripDay", ["tripPlanner.core", "tripPlanner.utils", "tripPlanner.trip",  "tripPlanner.session", "tripPlanner.logger"])
-        .factory("tp.tripDay.TripDayHttp", ["tp.Core", "$http", "$rootScope", "$q", function (core, $http, $rootScope, $q) {
+angular.module("tripPlanner.tripDay")
+        .factory("tp.tripDay.TripDayHttp", ["tp.Core", "$http", "$rootScope", "$q", function TripDayHttp(core, $http, $rootScope, $q) {
 
 
-                function TripDayHttp() {
-                }
-                TripDayHttp.prototype.create = function (tripDay) {
+                var httpService = {
+                    create: create
+                };
+                return httpService;
+
+                function create(tripDay) {
                     var deferred = $q.defer();
                     $http.post(core.server.buildURL("tripDay", {}), JSON.stringify(tripDay)).success(function (result) {
                         deferred.resolve(result);
@@ -14,7 +17,5 @@ angular.module("tripPlanner.tripDay", ["tripPlanner.core", "tripPlanner.utils", 
                         deferred.reject(data, status, headers, config);
                     });
                     return deferred.promise;
-                };
-
-                return new TripDayHttp();
+                }
             }]);

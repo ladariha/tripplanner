@@ -1,7 +1,7 @@
 "use strict";
 angular.module("tripPlanner.user")
         .factory("tp.user.UserCache", [
-            function () {
+            function UserCache() {
 
                 var cachedUsers = [];
                 var userCache = {

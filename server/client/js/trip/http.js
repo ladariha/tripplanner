@@ -1,55 +1,64 @@
 "use strict";
 angular.module("tripPlanner.trip")
-        .factory("tp.trip.TripHttp", ["tp.Core", "$http", "$rootScope", "$q", function (core, $http, $rootScope, $q) {
+        .factory("tp.trip.TripHttp", ["tp.Core", "$http", "$rootScope", "$q", function TripHttp(core, $http, $rootScope, $q) {
 
-
-                var TripHttp = {
-                    create: function (trip) {
-                        var deferred = $q.defer();
-
-                        $http.post(core.server.buildURL("trip", {}), JSON.stringify(trip)).success(function (result) {
-                            deferred.resolve(result);
-                        }).error(function (data, status, headers, config) {
-                            $rootScope.$broadcast("httpError", data, status, headers, config);
-                            deferred.reject(data, status, headers, config);
-                        });
-
-                        return deferred.promise;
-                    },
-                    edit: function (trip) {
-                        var deferred = $q.defer();
-                        $http.put(core.server.buildURL("trip", {"id": trip.id}), JSON.stringify(trip)).success(function (result) {
-                            deferred.resolve(result);
-                        }).error(function (data, status, headers, config) {
-                            $rootScope.$broadcast("httpError", data, status, headers, config);
-                            deferred.reject(data, status, headers, config);
-                        });
-
-                        return deferred.promise;
-                    },
-                    get: function (tripId) {
-                        var deferred = $q.defer();
-                        $http.get(core.server.buildURL("trip", {"id": tripId})).success(function (result) {
-                            deferred.resolve(result);
-                        }).error(function (data, status, headers, config) {
-                            $rootScope.$broadcast("httpError", data, status, headers, config);
-                            deferred.reject(data, status, headers, config);
-                        });
-
-                        return deferred.promise;
-
-                    },
-                    remove: function (tripId) {
-                        var deferred = $q.defer();
-                        $http.delete(core.server.buildURL("trip", {"id": tripId})).success(function (result) {
-                            deferred.resolve(result);
-                        }).error(function (data, status, headers, config) {
-                            $rootScope.$broadcast("httpError", data, status, headers, config);
-                            deferred.reject(data, status, headers, config);
-                        });
-                        return deferred.promise;
-                    }
+                var httpService = {
+                    create: create,
+                    edit: edit,
+                    get: get,
+                    remove: remove
                 };
 
-                return TripHttp;
+                return httpService;
+
+
+                function create(trip) {
+                    var deferred = $q.defer();
+
+                    $http.post(core.server.buildURL("trip", {}), JSON.stringify(trip)).success(function (result) {
+                        deferred.resolve(result);
+                    }).error(function (data, status, headers, config) {
+                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        deferred.reject(data, status, headers, config);
+                    });
+
+                    return deferred.promise;
+                }
+
+                function edit(trip) {
+                    var deferred = $q.defer();
+                    $http.put(core.server.buildURL("trip", {"id": trip.id}), JSON.stringify(trip)).success(function (result) {
+                        deferred.resolve(result);
+                    }).error(function (data, status, headers, config) {
+                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        deferred.reject(data, status, headers, config);
+                    });
+
+                    return deferred.promise;
+                }
+
+                function get(tripId) {
+                    var deferred = $q.defer();
+                    $http.get(core.server.buildURL("trip", {"id": tripId})).success(function (result) {
+                        deferred.resolve(result);
+                    }).error(function (data, status, headers, config) {
+                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        deferred.reject(data, status, headers, config);
+                    });
+
+                    return deferred.promise;
+                }
+
+                function remove(tripId) {
+                    var deferred = $q.defer();
+                    $http.delete(core.server.buildURL("trip", {"id": tripId})).success(function (result) {
+                        deferred.resolve(result);
+                    }).error(function (data, status, headers, config) {
+                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        deferred.reject(data, status, headers, config);
+                    });
+                    return deferred.promise;
+                }
+
+
             }]);

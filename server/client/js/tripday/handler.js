@@ -1,7 +1,7 @@
 "use strict";
 angular.module("tripPlanner.tripDay")
         .factory("tp.tripDay.TripDayHandler", ["tp.trip.TripHttp", "tp.TimeDateConvertor", "tp.trip.TripCache", "tp.trip.TripModel", "tp.session.Session", "$q",
-            function (TripHttp, TimeDateConvertor, TripCache, TripModel, Session, $q) {
+            function TripDayHandlerFactory(TripHttp, timeDateConvertor, TripCache, TripModel, session, $q) {
 
                 function TripDayHandler() {
                 }
@@ -12,8 +12,8 @@ angular.module("tripPlanner.tripDay")
                  * @returns {Promise}
                  */
                 TripDayHandler.prototype.create = function (trip) {
-                    trip.date = TimeDateConvertor.localToUTCString(trip.date);
-                    trip.owner = Session.getUser().userId;
+                    trip.date = timeDateConvertor.localToUTCString(trip.date);
+                    trip.owner = session.getUser().userId;
                     return TripHttp.create(trip);
                 };
 
@@ -26,8 +26,8 @@ angular.module("tripPlanner.tripDay")
                     if(!(trip.date instanceof Date)){
                         trip.date = new Date().getFromInput(trip.date);
                     }
-                    trip.date = TimeDateConvertor.localToUTCString(trip.date);
-                    trip.owner = Session.getUser().userId;
+                    trip.date = timeDateConvertor.localToUTCString(trip.date);
+                    trip.owner = session.getUser().userId;
                     return TripHttp.edit(trip);
                 };
 

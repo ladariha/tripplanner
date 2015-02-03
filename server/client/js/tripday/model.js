@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.tripDay")
-        .factory("tp.tripDay.TripDayModel", ["tp.validators", "tp.TimeDateConvertor", function (rules, TimeDateConvertor) {
+        .factory("tp.tripDay.TripDayModel", ["tp.validators", "tp.TimeDateConvertor", function TripDayModel(rules, timeDateConvertor) {
                 function TripDay() {
                     this.id = -1;
                     this.tripId = -1;
@@ -21,7 +21,7 @@ angular.module("tripPlanner.tripDay")
                     this.date = obj.date;
                     this.tripId = obj.tripId;
                     this.data = obj.data;
-                    this.localDate = TimeDateConvertor.UTCToDate(obj.date);
+                    this.localDate = timeDateConvertor.UTCToDate(obj.date);
                     return this;
                 };
 

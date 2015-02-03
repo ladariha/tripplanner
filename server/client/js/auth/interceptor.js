@@ -2,7 +2,7 @@
 
 angular.module("tripPlanner.auth")
         .factory("tp.auth.LocationInterceptor", ["$rootScope", "$state", "tp.session.Session", "$timeout",
-            function ($rootScope, $state, Session, $timeout) {
+            function LocationInterceptor($rootScope, $state, Session, $timeout) {
 
                 var PROTECTED_STATES = ["trip.new", "trip.edit"];
                 var waitingForLogin = false;

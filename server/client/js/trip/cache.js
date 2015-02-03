@@ -1,7 +1,7 @@
 "use strict";
 angular.module("tripPlanner.trip")
         .factory("tp.trip.TripCache", [ "tp.tripDay.TripDayCache",
-            function (tripDayCache) {
+            function TripCache(tripDayCache) {
 
                 var cachedTrip = null;
                 var tripCache = {

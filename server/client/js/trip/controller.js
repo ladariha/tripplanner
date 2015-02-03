@@ -14,47 +14,59 @@ angular.module("tripPlanner.trip")
 
                 $scope.trip = trip ? trip : new TripModel("km");
                 $scope.openedDatePicker = false;
+                $scope.cancelEdit = cancelEdit;
+                $scope.createTrip = createTrip;
+                $scope.openDatePicker = openDatePicker;
+                $scope.updateTrip = updateTrip;
+
 
                 var tripHandler = new TripHandler();
                 var exitParams = {"id": $scope.trip.id, noCache: true};
                 var exitOptions = {reload: true};
 
-                $scope.createTrip = function () {
+                function createTrip() {
                     tripHandler.create($scope.trip).then(function (newTrip) {
                         $state.go("trip.view", {"id": newTrip.id});
                     }, $scope.handleGenericError);
-                };
+                }
 
-                $scope.cancelEdit = function () {
+                function cancelEdit() {
                     $state.go("trip.view", exitParams, exitOptions);
-                };
+                }
 
-                $scope.updateTrip = function () {
+                function updateTrip() {
                     tripHandler.edit($scope.trip).then(function () {
                         $state.go("trip.view", exitParams, exitOptions);
                     }, $scope.handleGenericError);
-                };
+                }
 
-                $scope.openDatePicker = function ($event) {
+                function openDatePicker($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
                     $scope.openedDatePicker = true;
-                };
-
-
+                }
             }])
         .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.session.Session", "$state", "$stateParams", "tp.trip.TripHandler", "tp.logger", "tp.trip.TripModel",
-            function ViewTripCtrl($scope, trip, Session, $state, $stateParams, TripHandler, Logger, TripModel) {
+            function ViewTripCtrl($scope, trip, session, $state, $stateParams, TripHandler, logger, TripModel) {
 
                 $scope.trip = trip ? trip : new TripModel("km");
                 $scope.buttons = [];
+                $scope.deleteDay = deleteDay;
+                $scope.deleteTrip = deleteTrip;
+                $scope.openDay = openDay;
 
-                $scope.$on("userLoggedIn", function () {
-                    initPermissions();
-                });
-                $scope.$on("userLoggedOut", function () {
-                    initPermissions();
-                });
+                $scope.$on("userLoggedIn", initPermissions);
+                $scope.$on("userLoggedOut", initPermissions);
+
+
+
+                function openDay(index) {
+
+                }
+                function deleteDay(index) {
+
+                }
+
 
                 function initDaysControls() {
                     var buttons = [];
@@ -65,31 +77,23 @@ angular.module("tripPlanner.trip")
                 }
 
                 function initPermissions() {
-                    $scope.hasPermission = Session.getUser() && trip && trip.owner === Session.getUser().userId ? true : false;
+                    $scope.hasPermission = session.getUser() && trip && trip.owner === session.getUser().userId ? true : false;
                 }
 
-                $scope.openDay = function (index) {
-
-                };
-
-                $scope.deleteDay = function (index) {
-
-                };
-
-                $scope.deleteTrip = function () {
+                function deleteTrip() {
                     $scope.choiceModal("Delete trip?", "Do you really want to remve this trip?")
                             .then(function () {
                                 return new TripHandler().remove($scope.trip.id);
                             })
                             .then(function () {
-                                Logger.log("Done", "Trip has been removed", "success");
+                                logger.log("Done", "Trip has been removed", "success");
                                 $state.go("home");
                             }, function (data, status, headers, config) {
                                 if (data) {
                                     $scope.handleGenericError(data, status, headers, config);
                                 }
                             });
-                };
+                }
 
                 initPermissions();
                 initDaysControls();

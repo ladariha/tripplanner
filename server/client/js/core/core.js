@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.core")
-        .service("tp.Core", ["tp.core.Server", function (Server) {
+        .service("tp.Core", ["tp.core.Server", function Core(Server) {
                 this.version = "0.1";
                 this.hostname = window.location.hostname;
                 this.server = new Server({

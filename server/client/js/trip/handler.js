@@ -1,7 +1,7 @@
 "use strict";
-angular.module("tripPlanner.trip", ["tripPlanner.tripDay", "tripPlanner.core", "tripPlanner.utils", "tripPlanner.session", "tripPlanner.logger"])
+angular.module("tripPlanner.trip")
         .factory("tp.trip.TripHandler", ["tp.trip.TripHttp", "tp.TimeDateConvertor", "tp.trip.TripCache", "tp.trip.TripModel", "tp.session.Session", "$q",
-            function (TripHttp, TimeDateConvertor, TripCache, TripModel, Session, $q) {
+            function TripHandlerFactory(TripHttp, timeDateConvertor, tripCache, TripModel, session, $q) {
 
                 function TripHandler() {
                 }
@@ -12,13 +12,13 @@ angular.module("tripPlanner.trip", ["tripPlanner.tripDay", "tripPlanner.core", "
                  * @returns {Promise}
                  */
                 TripHandler.prototype.create = function (trip) {
-                    trip.date = TimeDateConvertor.localToUTCString(trip.localDate);
-                    trip.owner = Session.getUser().userId;
+                    trip.date = timeDateConvertor.localToUTCString(trip.localDate);
+                    trip.owner = session.getUser().userId;
                     return TripHttp.create(trip);
                 };
 
                 TripHandler.prototype.remove = function (id) {
-                    TripCache.reset();
+                    tripCache.reset();
                     return TripHttp.remove(id);
                 };
 
@@ -26,8 +26,8 @@ angular.module("tripPlanner.trip", ["tripPlanner.tripDay", "tripPlanner.core", "
                     if(!(trip.localDate instanceof Date)){
                         trip.localDate = new Date().getFromInput(trip.localDate, " ");
                     }
-                    trip.date = TimeDateConvertor.localToUTCString(trip.localDate);
-                    trip.owner = Session.getUser().userId;
+                    trip.date = timeDateConvertor.localToUTCString(trip.localDate);
+                    trip.owner = session.getUser().userId;
                     delete trip.days;
                     return TripHttp.edit(trip);
                 };
@@ -35,13 +35,13 @@ angular.module("tripPlanner.trip", ["tripPlanner.tripDay", "tripPlanner.core", "
                 TripHandler.prototype.get = function (id, noCache) {
 
                     var deferred = $q.defer();
-                    if (!noCache && TripCache.get() && TripCache.get().id === id) {
-                        deferred.resolve(TripCache.get());
+                    if (!noCache && tripCache.get() && tripCache.get().id === id) {
+                        deferred.resolve(tripCache.get());
                     } else {
-                        TripCache.reset();
+                        tripCache.reset();
                         TripHttp.get(id).then(function (data) {
                             var _t = new TripModel().convertFromServer(data);
-                            TripCache.set(_t);
+                            tripCache.set(_t);
                             deferred.resolve(_t);
                         }, function (err) {
                             deferred.reject(err);

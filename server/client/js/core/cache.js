@@ -1,9 +1,9 @@
 "use strict";
 
-angular.module("tripPlanner.core", ["tripPlanner.utils", "tripPlanner.user"])
-        .factory("tp.core.Cache", function () {
+angular.module("tripPlanner.core")
+        .factory("tp.core.Cache", function Cache() {
 
-            var cache = {
+            var cacheService = {
                 get: function (key) {
                     return JSON.parse(window.localStorage.getItem(key));
                 },
@@ -26,5 +26,5 @@ angular.module("tripPlanner.core", ["tripPlanner.utils", "tripPlanner.user"])
                 }
             };
 
-            return cache;
+            return cacheService;
         });

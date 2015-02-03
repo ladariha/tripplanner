@@ -1,12 +1,15 @@
 "use strict";
 angular.module("tripPlanner.user")
-        .factory("tp.user.UserHttp", ["tp.Core", "$http", "$rootScope", "$q", function (core, $http, $rootScope, $q) {
+        .factory("tp.user.UserHttp", ["tp.Core", "$http", "$rootScope", "$q", function UserHttp(core, $http, $rootScope, $q) {
 
 
-                function UserHttp() {
-                }
+                var httpService = {
+                    get: get
+                };
 
-                UserHttp.prototype.get = function (userId) {
+                return httpService;
+
+                function get(userId) {
                     var deferred = $q.defer();
                     $http.get(core.server.buildURL("user", {"id": userId})).success(function (result) {
                         deferred.resolve(result);
@@ -15,7 +18,5 @@ angular.module("tripPlanner.user")
                         deferred.reject(data, status, headers, config);
                     });
                     return deferred.promise;
-                };
-
-                return new UserHttp();
+                }
             }]);

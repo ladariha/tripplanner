@@ -1,9 +1,50 @@
 "use strict";
 
-angular.module("tripPlanner.auth", ["tripPlanner.core", "tripPlanner.session"])
+angular.module("tripPlanner.auth")
         .factory("tp.auth.LoginService",
                 ["tp.session.Session", "tp.auth.AuthHttp", "tp.Core", "$interval",
-                    function (Session, AuthHttp, Core, $interval) {
+                    function LoginService(session, authHttp, core, $interval) {
+
+                        checkForSession();
+
+                        var loginService = {
+                            login: login,
+                            logout: logout,
+                            authProvider: null,
+                            checkForSession: checkForSession
+                        };
+
+                        return loginService;
+
+
+                        function login(serviceName) {
+                            popupCenter(core.server.buildURL(serviceName + "Auth", {}), 950, 700);
+                            waitForResponse(serviceName);
+                        }
+
+                        function logout() {
+                            authHttp.logout().then(function () {
+                                session.removeUser();
+                            }, function (data) {
+                                window.console.error(data);
+                            });
+                        }
+
+                        function checkForSession() {
+                            authHttp.getSession().then(function (data) {
+                                loginService.authProvider = data.hasOwnProperty("google") ? "google" : "facebook";
+                                session.setUser(
+                                        data[loginService.authProvider].email,
+                                        data.id, data[loginService.authProvider].email,
+                                        data[loginService.authProvider].displayName,
+                                        data[loginService.authProvider].id,
+                                        loginService.authProvider,
+                                        data[loginService.authProvider].imageUrl,
+                                        data.trips);
+                            }, function () {
+                                session.removeUser();
+                            });
+                        }
 
                         function popupCenter(url, w, h) {
                             var dualScreenLeft = typeof window.screenLeft !== "undefined" ? window.screenLeft : window.screen.left;
@@ -22,58 +63,22 @@ angular.module("tripPlanner.auth", ["tripPlanner.core", "tripPlanner.session"])
                         function waitForResponse() {
 
                             function doCheck() {
-                                AuthHttp.getSession().then(function (data) {
-                                    LoginService.authProvider = data.hasOwnProperty("google") ? "google" : "facebook";
-                                    Session.setUser(
-                                            data[LoginService.authProvider].email,
-                                            data.id, data[LoginService.authProvider].email,
-                                            data[LoginService.authProvider].displayName,
-                                            data[LoginService.authProvider].id,
-                                            LoginService.authProvider,
-                                            data[LoginService.authProvider].imageUrl,
+                                authHttp.getSession().then(function (data) {
+                                    loginService.authProvider = data.hasOwnProperty("google") ? "google" : "facebook";
+                                    session.setUser(
+                                            data[loginService.authProvider].email,
+                                            data.id, data[loginService.authProvider].email,
+                                            data[loginService.authProvider].displayName,
+                                            data[loginService.authProvider].id,
+                                            loginService.authProvider,
+                                            data[loginService.authProvider].imageUrl,
                                             data.trips);
                                     $interval.cancel(sessionChecking);
                                 }, function () {
-                                    Session.removeUser();
+                                    session.removeUser();
                                 });
                             }
 
                             var sessionChecking = $interval(doCheck, 1000);
                         }
-
-
-                        var LoginService = {
-                            login: function (serviceName) {
-                                popupCenter(Core.server.buildURL(serviceName + "Auth", {}), 950, 700);
-                                waitForResponse(serviceName);
-                            },
-                            logout: function () {
-                                AuthHttp.logout().then(function () {
-                                    Session.removeUser();
-                                }, function (data) {
-                                    window.console.error(data);
-                                });
-                            },
-                            authProvider: null,
-                            checkForSession: function () {
-                                AuthHttp.getSession().then(function (data) {
-                                    LoginService.authProvider = data.hasOwnProperty("google") ? "google" : "facebook";
-                                    Session.setUser(
-                                            data[LoginService.authProvider].email,
-                                            data.id, data[LoginService.authProvider].email,
-                                            data[LoginService.authProvider].displayName,
-                                            data[LoginService.authProvider].id,
-                                            LoginService.authProvider,
-                                            data[LoginService.authProvider].imageUrl,
-                                            data.trips);
-                                }, function () {
-                                    Session.removeUser();
-                                });
-                            }
-                        };
-
-                        LoginService.checkForSession();
-
-                        return LoginService;
-
                     }]);

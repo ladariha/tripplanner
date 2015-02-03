@@ -21,7 +21,7 @@ angular.module("tripPlanner", [
     "tripPlanner.dialog"
 ]).config(["$stateProvider", "$provide", "$httpProvider", "$urlRouterProvider", function ($stateProvider, $provide, $httpProvider, $urlRouterProvider) {
 
-        $provide.factory("busyIndicatorInterceptor", function ($q, $rootScope) {
+        $provide.factory("busyIndicatorInterceptor", function BusyIndicatorInterceptor($q, $rootScope) {
             return {
                 "request": function (config) {
                     $rootScope.$broadcast("busyMode", true);

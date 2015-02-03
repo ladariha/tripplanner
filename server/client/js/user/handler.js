@@ -2,27 +2,29 @@
 
 angular.module("tripPlanner.user")
         .factory("tp.user.UserHandler", ["tp.session.Session", "tp.user.UserCache", "tp.user.UserHttp", "tp.user.UserModel", "$q",
-            function (Session, UserCache, UserHttp, UserModel, $q) {
+            function UserHandlerFactory(session, userCache, userHttp, UserModel, $q) {
 
-                var UserHandler = {
-                    getUser: function (userId) {
-                        var deferred = $q.defer();
-                        if (UserCache.get(userId)) {
-                            deferred.resolve(UserCache.get(userId));
-                        } else if (Session.getUser() && Session.getUser().userId === userId) {
-                            deferred.resolve(Session.getUser());
-                        } else {
-                            UserHttp.get(userId).then(function (user) {
-                                var _t = new UserModel();
-                                _t.convertFromServer(user);
-                                UserCache.set(_t);
-                                deferred.resolve(_t);
-                            }, function (err) {
-                                deferred.reject(err);
-                            });
-                        }
-                        return deferred.promise;
+
+                function UserHandler() {
+
+                }
+                UserHandler.prototype.getUser = function (userId) {
+                    var deferred = $q.defer();
+                    if (userCache.get(userId)) {
+                        deferred.resolve(userCache.get(userId));
+                    } else if (session.getUser() && session.getUser().userId === userId) {
+                        deferred.resolve(session.getUser());
+                    } else {
+                        userHttp.get(userId).then(function (user) {
+                            var _t = new UserModel();
+                            _t.convertFromServer(user);
+                            userCache.set(_t);
+                            deferred.resolve(_t);
+                        }, function (err) {
+                            deferred.reject(err);
+                        });
                     }
+                    return deferred.promise;
                 };
 
                 return UserHandler;
