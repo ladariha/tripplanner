@@ -39,7 +39,7 @@ module.exports = function (grunt) {
                     "camelcase": true,
                     "forin": true,
                     "immed": true,
-                    "latedef": true,
+                    "latedef": "nofunc",
                     "newcap": true,
                     "quotmark": "double",
                     "trailing": true,
