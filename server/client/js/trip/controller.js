@@ -50,6 +50,12 @@ angular.module("tripPlanner.trip")
             function ViewTripCtrl($scope, trip, session, $state, $stateParams, TripHandler, logger, TripModel) {
 
                 $scope.trip = trip ? trip : new TripModel("km");
+                
+                if($scope.trip.id === -1){
+                    $state.go("trip.new");
+                    return;
+                }
+                
                 $scope.buttons = [];
                 $scope.deleteDay = deleteDay;
                 $scope.deleteTrip = deleteTrip;
@@ -58,15 +64,12 @@ angular.module("tripPlanner.trip")
                 $scope.$on("userLoggedIn", initPermissions);
                 $scope.$on("userLoggedOut", initPermissions);
 
-
-
                 function openDay(index) {
 
                 }
                 function deleteDay(index) {
 
                 }
-
 
                 function initDaysControls() {
                     var buttons = [];
