@@ -102,8 +102,8 @@ angular.module("tripPlanner", [
                 .state("user", {
                     url: "/user/:id",
                     resolve: {
-                        "user": ["tp.user.UserHandler", "$stateParams", function (userHandler, $stateParams) {
-                                return userHandler.getUser($stateParams.id);
+                        "user": ["tp.user.UserHandler", "$stateParams", function (UserHandler, $stateParams) {
+                                return new UserHandler().getUser($stateParams.id);
 
                             }]
                     },

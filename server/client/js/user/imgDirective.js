@@ -9,9 +9,9 @@ angular.module("tripPlanner.user")
                         label: "=label"
                     },
                     controller: function ($scope) {
-
+                        var userHandler = new UserHandler();
                         function loadUser(userId) {
-                            UserHandler.getUser(userId).then(function (user) {
+                            userHandler.getUser(userId).then(function (user) {
                                 $scope.user = user;
                             }, function (err) {
                                 window.console.error(err);
