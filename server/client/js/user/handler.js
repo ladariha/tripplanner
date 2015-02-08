@@ -10,8 +10,8 @@ angular.module("tripPlanner.user")
                 }
                 UserHandler.prototype.getUser = function (userId) {
                     var deferred = $q.defer();
-                    if (userCache.get(userId)) {
-                        deferred.resolve(userCache.get(userId));
+                    if (userCache.get()) {
+                        deferred.resolve(userCache.get());
                     } else if (session.getUser() && session.getUser().userId === userId) {
                         deferred.resolve(session.getUser());
                     } else {

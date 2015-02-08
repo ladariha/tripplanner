@@ -1,22 +1,14 @@
 "use strict";
 angular.module("tripPlanner.user")
-        .factory("tp.user.UserCache", [
-            function UserCache() {
+        .factory("tp.user.UserCache", ["tp.core.CacheSpi",
+            function UserCacheFactory(Cache) {
 
-                var cachedUsers = [];
-                var userCache = {
-                    get: function (userId) {
-                        return cachedUsers[userId];
-                    },
-                    set: function (user) {
-                        if (user !== null && typeof user !== "undefined") {
-                            cachedUsers[user.userId] = user;
-                        }
-                    },
-                    reset: function () {
-                        cachedUsers = [];
-                    }
-                };
-                return userCache;
+                function UserCache() {
+                    Cache.call(this);
+                }
+
+                UserCache.prototype = Object.create(Cache.prototype);
+
+                return new UserCache();
             }
         ]);

@@ -1,24 +1,24 @@
 "use strict";
 angular.module("tripPlanner.trip")
-        .factory("tp.trip.TripCache", [ "tp.tripDay.TripDayCache",
-            function TripCache(tripDayCache) {
+        .factory("tp.trip.TripCache", ["tp.tripDay.TripDayCache", "tp.core.CacheSpi",
+            function TripCacheFactory(tripDayCache, Cache) {
 
-                var cachedTrip = null;
-                var tripCache = {
-                    get: function () {
-                        return cachedTrip;
-                    },
-                    set: function (trip) {
-                        if (trip !== null && typeof trip !== "undefined") {
-                            cachedTrip = trip;
-                            tripDayCache.set(trip.days, trip.id);
-                        }
-                    },
-                    reset: function () {
-                        cachedTrip = null;
-                        tripDayCache.reset();
+                function TripCache() {
+                    Cache.call(this);
+                }
+
+                TripCache.prototype = Object.create(Cache.prototype);
+                TripCache.prototype.get = function (obj) {
+                    if (obj !== null && typeof obj !== "undefined") {
+                        this.cache = obj;
+                        tripDayCache.set(obj.days, obj.id);
                     }
                 };
-                return tripCache;
+                TripCache.prototype.reset = function () {
+                    this.cache = null;
+                    tripDayCache.reset();
+                };
+
+                return new TripCache();
             }
         ]);
