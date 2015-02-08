@@ -2,16 +2,17 @@
 
 var application = require("../server");
 require("../ext/tripDayExtModel");
+var http = require("../misc/http");
 /**
  * 
  * @type TripCtrl
  */
-var tripCtrl = require("../trip/controller");
+var tripDayCtrl = require("../tripday/dd");
 
-exports.registerRoute = function(app) {
-    app.get("/api/tripDay", function(req, res) {
+exports.registerRoute = function (app) {
+    app.get("/api/tripDay", function (req, res) {
 
-        tripCtrl.create({}, function(err, data) {
+        tripDayCtrl.create({}, function (err, data) {
             if (err) {
                 res.writeHead(500, {
                     "Content-Type": "text/plain"
@@ -32,9 +33,21 @@ exports.registerRoute = function(app) {
 
     });
 
+    app.delete("/api/tripDay/:id/:tripId", function (req, res) {
+        if (false) {//!req.user
+            http.Unauthorized(res, "You need to be logged in to remove trip day");
+        } else {
+            tripDayCtrl.remove(req.params.id, req.params.tripId, 1).then(function () {
+                http.Ok(res, "Day removed");
+            }, function (err) {
+                http[err.type](res, err.msg);
+            });
+        }
+    });
 
-    app.post("/api/tripDay", function(req, res) {
-       
+
+    app.post("/api/tripDay", function (req, res) {
+
         res.writeHead(200, {
             "Content-Type": "text/plain"
         });

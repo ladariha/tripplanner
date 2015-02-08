@@ -6,7 +6,23 @@
         "ui-view": {}
     },
     "elements": {
+        "tp-infodialog": {
+            "attributes": {
+                "body": {},
+                "title": {},
+                "visible": {}
+            }
+        },
         "tp-notification": {},
+        "tp-choicedialog": {
+            "attributes": {
+                "yes": {},
+                "body": {},
+                "title": {},
+                "visible": {},
+                "no": {}
+            }
+        },
         "tp-profile": {
             "attributes": {
                 "user-id": {},

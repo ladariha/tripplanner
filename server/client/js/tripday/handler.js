@@ -1,7 +1,7 @@
 "use strict";
 angular.module("tripPlanner.tripDay")
-        .factory("tp.tripDay.TripDayHandler", ["tp.trip.TripHttp", "tp.TimeDateConvertor", "tp.trip.TripCache", "tp.trip.TripModel", "tp.session.Session", "$q",
-            function TripDayHandlerFactory(TripHttp, timeDateConvertor, TripCache, TripModel, session, $q) {
+        .factory("tp.tripDay.TripDayHandler", ["tp.tripDay.TripDayHttp", "tp.TimeDateConvertor", "tp.trip.TripCache", "tp.trip.TripModel", "tp.session.Session", "$q",
+            function TripDayHandlerFactory(TripDayHttp, timeDateConvertor, TripCache, TripModel, session, $q) {
 
                 function TripDayHandler() {
                 }
@@ -14,12 +14,12 @@ angular.module("tripPlanner.tripDay")
                 TripDayHandler.prototype.create = function (trip) {
                     trip.date = timeDateConvertor.localToUTCString(trip.date);
                     trip.owner = session.getUser().userId;
-                    return TripHttp.create(trip);
+                    return TripDayHttp.create(trip);
                 };
 
-                TripDayHandler.prototype.remove = function (id) {
+                TripDayHandler.prototype.remove = function (id, tripId) {
                     TripCache.reset();
-                    return TripHttp.remove(id);
+                    return TripDayHttp.remove(id, tripId);
                 };
 
                 TripDayHandler.prototype.edit = function (trip) {
@@ -28,7 +28,7 @@ angular.module("tripPlanner.tripDay")
                     }
                     trip.date = timeDateConvertor.localToUTCString(trip.date);
                     trip.owner = session.getUser().userId;
-                    return TripHttp.edit(trip);
+                    return TripDayHttp.edit(trip);
                 };
 
                 TripDayHandler.prototype.get = function (id, noCache) {
@@ -38,7 +38,7 @@ angular.module("tripPlanner.tripDay")
                         deferred.resolve(TripCache.get());
                     } else {
                         TripCache.reset();
-                        TripHttp.get(id).then(function (data) {
+                        TripDayHttp.get(id).then(function (data) {
                             var _t = new TripModel();
                             _t.convertFromServer(data);
                             TripCache.set(_t);

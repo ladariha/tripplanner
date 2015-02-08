@@ -9,10 +9,11 @@ angular.module("tripPlanner.tripDay")
                     this.data = [];
                     this.date = null;
                     this.localDate = null;
+                    this.description = "";
                 }
 
                 TripDay.prototype.isValid = function () {
-                    return rules.definedNotNull(this.tripId) && rules.definedNotNull(this.name) && rules.definedNotNull(this.data) && rules.definedNotNull(this.date);
+                    return rules.definedNotNull(this.description) && rules.definedNotNull(this.tripId) && rules.definedNotNull(this.name) && rules.definedNotNull(this.data) && rules.definedNotNull(this.date);
                 };
 
                 TripDay.prototype.convertFromServer = function (obj) {
@@ -21,6 +22,7 @@ angular.module("tripPlanner.tripDay")
                     this.date = obj.date;
                     this.tripId = obj.tripId;
                     this.data = obj.data;
+                    this.description = obj.description;
                     this.localDate = timeDateConvertor.UTCToDate(obj.date);
                     return this;
                 };

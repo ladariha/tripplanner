@@ -46,16 +46,16 @@ angular.module("tripPlanner.trip")
                     $scope.openedDatePicker = true;
                 }
             }])
-        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.session.Session", "$state", "$stateParams", "tp.trip.TripHandler", "tp.logger", "tp.trip.TripModel",
-            function ViewTripCtrl($scope, trip, session, $state, $stateParams, TripHandler, logger, TripModel) {
+        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.session.Session", "$state", "$stateParams", "tp.trip.TripHandler", "tp.logger", "tp.trip.TripModel","tp.tripDay.TripDayHandler",
+            function ViewTripCtrl($scope, trip, session, $state, $stateParams, TripHandler, logger, TripModel, TripDayHandler) {
 
                 $scope.trip = trip ? trip : new TripModel("km");
-                
-                if($scope.trip.id === -1){
+
+                if ($scope.trip.id === -1) {
                     $state.go("trip.new");
                     return;
                 }
-                
+
                 $scope.buttons = [];
                 $scope.deleteDay = deleteDay;
                 $scope.deleteTrip = deleteTrip;
@@ -68,7 +68,18 @@ angular.module("tripPlanner.trip")
 
                 }
                 function deleteDay(index) {
-
+                    $scope.choiceModal("Delete trip day?", "Do you really want to remve this day?")
+                            .then(function () {
+                                return new TripDayHandler().remove($scope.trip.days[index].id, $scope.trip.id);
+                            })
+                            .then(function () {
+                                logger.log("Done", "Day has been removed", "success");
+                                $scope.trip.days.splice(index,1);
+                            }, function (data, status, headers, config) {
+                                if (data) {
+                                    $scope.handleGenericError(data, status, headers, config);
+                                }
+                            });
                 }
 
                 function initDaysControls() {

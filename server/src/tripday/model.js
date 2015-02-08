@@ -10,6 +10,7 @@ var TripDay = new Schema(
         {
             tripId: String,
             date: Date,
+            description: String,
             data: [{type: Extension}],
             name: {type: String, index: true}
         }
@@ -23,6 +24,7 @@ TripDay.methods.convert = function (obj, includeId) {
     this.date = utils.UTCToDate(obj.date);
     this.data = obj.data;
     this.name = obj.name;
+    this.description = obj.description;
     this.tripId = obj.tripId;
     this.id = includeId ? obj.id : this.id;
     return this;
@@ -37,7 +39,7 @@ TripDay.methods.toClient = function () {
 };
 
 TripDay.statics.isValid = function (obj) {
-    return  definedNotNull(obj.tripId) &&
+    return  definedNotNull(obj.tripId) && definedNotNull(obj.description) &&
             definedNotNull(obj.date) && definedNotNull(obj.data) &&
             definedNotNull(obj.name) && typeof obj.name === "string";
 };

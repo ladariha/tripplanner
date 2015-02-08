@@ -4,7 +4,8 @@ angular.module("tripPlanner.tripDay")
 
 
                 var httpService = {
-                    create: create
+                    create: create,
+                    remove: remove
                 };
                 return httpService;
 
@@ -18,4 +19,17 @@ angular.module("tripPlanner.tripDay")
                     });
                     return deferred.promise;
                 }
+
+                function remove(tripDayId, tripId) {
+                    var deferred = $q.defer();
+                    $http.delete(core.server.buildURL("tripDay", {"id": tripDayId, "tripId": tripId})).success(function (result) {
+                        deferred.resolve(result);
+                    }).error(function (data, status, headers, config) {
+                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        deferred.reject(data, status, headers, config);
+                    });
+                    return deferred.promise;
+                }
+
+
             }]);

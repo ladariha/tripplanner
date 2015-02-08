@@ -12,8 +12,8 @@ var Trip = new Schema(
             consumption: Number,
             consumptionUnits: String,
             date: Date,
-            owner : String,
-            editors : [{type: String}],
+            owner: String,
+            editors: [{type: String}],
             name: {type: String, index: true}
         }
 );
@@ -37,7 +37,7 @@ Trip.methods.convert = function (obj, includeId) {
     return this;
 };
 
-Trip.methods.toClient = function(){
+Trip.methods.toClient = function () {
     var days = this.days || [];
     var _o = this.toObject();
     _o.id = _o._id;
@@ -51,7 +51,7 @@ Trip.methods.toClient = function(){
 };
 
 Trip.statics.isValid = function (obj) {
-    return  definedNotNull(obj.date) &&
+    return  definedNotNull(obj.date) && 
             definedNotNull(obj.editors) &&
             definedNotNull(obj.owner) && (typeof obj.owner === "string" || typeof obj.owner === "number") &&
             definedNotNull(obj.units) && typeof obj.units === "string" &&

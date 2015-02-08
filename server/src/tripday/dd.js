@@ -6,32 +6,8 @@ var Promise = require("promise");
 var dbProvider = require("./dao");
 
 var TripDayCtrl = {
-    getEmptyDay: function (trip) {
-        var td = new TripDayModel();
-        td.date = trip.date;
-        td.tripId = trip._id;
-        td.name = "Day 1";
-        return td;
-    },
-    getDaysForTrip: function (tripId) {
-        return dbProvider.getDaysForTrip(tripId);
-    },
-    create: function (tripDay) {
-        if (!(tripDay instanceof TripDayModel)) {
-            var _t = new TripModel();
-            _t.convert(tripDay);
-            tripDay = _t;
-        }
-        return new Promise(function (resolve, reject) {
-            if (!TripDayModel.isValid(tripDay)) {
-                reject(new TPError(TPError.BadRequest, "Received object is not valid"));
-            } else {
-                resolve(dbProvider.create(tripDay));
-            }
-        });
-    },
     remove: function (id, tripId, userId) {
-   
+
         return new Promise(function (resolve, reject) {
             trrr.getEditorsId(tripId)
                     .then(function (editors) {
