@@ -17,7 +17,7 @@ var UserCtrl = {
                 dbProvider.get(id)
                         .then(function (user) {
                             res = convertToObj ? user.toClient() : user;
-                            return tripCtrl.getUsersTrips(id);
+                            return tripCtrl.getTripsForUser(id);
                         })
                         .then(function (trips) {
                             res.trips = trips;
