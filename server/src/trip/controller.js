@@ -7,7 +7,7 @@ var TPError = require("../model/promiseError");
 var Mediator = require("../core/mediator");
 var tripDayCtrl = require("../tripday/controller");
 
-var TripCtrl = {
+var tripCtrl = {
     getEditorsId: function (id) {
         return dbProvider.getEditorsId(id);
     },
@@ -16,7 +16,7 @@ var TripCtrl = {
             if (!TripModel.isValid(trip)) {
                 reject(new TPError(TPError.BadRequest, "Received object is not valid"));
             } else {
-                TripCtrl.getEditorsId(trip.id)
+                tripCtrl.getEditorsId(trip.id)
                         .then(function (editors) {
                             if (editors.indexOf(userId) < 0) {
                                 reject(new TPError(TPError.Unauthorized, "You are not allowed to edit this trip"));
@@ -79,7 +79,7 @@ var TripCtrl = {
     },
     remove: function (id, userId) {
         return new Promise(function (resolve, reject) {
-            TripCtrl.getAuthorId(id)
+            tripCtrl.getAuthorId(id)
                     .then(function (result) {
                         if (result === userId) {
                             return dbProvider.remove(id);
@@ -95,10 +95,16 @@ var TripCtrl = {
                     });
         });
     },
-    getUsersTrips: function (userId) {
+    getTripsForUser: function (userId) {
         return dbProvider.getUsersTrips(userId);
     }
 };
 
 
-module.exports = TripCtrl;
+exports.create = tripCtrl.create;
+exports.remove = tripCtrl.remove;
+exports.edit = tripCtrl.edit;
+exports.get = tripCtrl.get;
+exports.getAuthorId = tripCtrl.getAuthorId;
+exports.getEditorsId = tripCtrl.getEditorsId;
+exports.getTripsForUser = tripCtrl.getTripsForUser;

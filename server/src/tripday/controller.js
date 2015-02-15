@@ -5,12 +5,13 @@ var TPError = require("../model/promiseError");
 var Promise = require("promise");
 var dbProvider = require("./dao");
 
-var TripDayCtrl = {
+var tripDayCtrl = {
     getEmptyDay: function (trip) {
         var td = new TripDayModel();
         td.date = trip.date;
         td.tripId = trip._id;
         td.name = "Day 1";
+        td.description = "";
         return td;
     },
     getDaysForTrip: function (tripId) {
@@ -48,4 +49,7 @@ var TripDayCtrl = {
 };
 
 
-module.exports = TripDayCtrl;
+exports.getEmptyDay = tripDayCtrl.getEmptyDay;
+exports.getDaysForTrip = tripDayCtrl.getDaysForTrip;
+exports.create = tripDayCtrl.create;
+exports.remove = tripDayCtrl.remove;

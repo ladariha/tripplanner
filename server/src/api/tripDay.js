@@ -7,7 +7,7 @@ var http = require("../misc/http");
  * 
  * @type TripCtrl
  */
-var tripDayCtrl = require("../tripday/dd");
+var tripDayCtrl = require("../tripday/controller");
 
 exports.registerRoute = function (app) {
     app.get("/api/tripDay", function (req, res) {
@@ -34,10 +34,10 @@ exports.registerRoute = function (app) {
     });
 
     app.delete("/api/tripDay/:id/:tripId", function (req, res) {
-        if (false) {//!req.user
+        if (!req.user) {//!req.user
             http.Unauthorized(res, "You need to be logged in to remove trip day");
         } else {
-            tripDayCtrl.remove(req.params.id, req.params.tripId, 1).then(function () {
+            tripDayCtrl.remove(req.params.id, req.params.tripId, req.user.id).then(function () {
                 http.Ok(res, "Day removed");
             }, function (err) {
                 http[err.type](res, err.msg);
