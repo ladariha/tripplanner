@@ -8,7 +8,7 @@ angular.module("tripPlanner.trip")
                 }
 
                 TripCache.prototype = Object.create(Cache.prototype);
-                TripCache.prototype.get = function (obj) {
+                TripCache.prototype.set = function (obj) {
                     if (obj !== null && typeof obj !== "undefined") {
                         this.cache = obj;
                         tripDayCache.set(obj.days, obj.id);

@@ -60,6 +60,7 @@ angular.module("tripPlanner.trip")
                 $scope.deleteDay = deleteDay;
                 $scope.deleteTrip = deleteTrip;
                 $scope.openDay = openDay;
+                $scope.hasPermission = false;
 
                 $scope.$on("userLoggedIn", initPermissions);
                 $scope.$on("userLoggedOut", initPermissions);
@@ -92,6 +93,8 @@ angular.module("tripPlanner.trip")
 
                 function initPermissions() {
                     $scope.hasPermission = session.getUser() && trip && trip.owner === session.getUser().userId ? true : false;
+                    $scope.editPermission = session.getUser() && trip && (trip.owner === session.getUser().userId || trip.editors.indexOf(session.getUser().userId) > -1)? true : false;
+                    
                 }
 
                 function deleteTrip() {

@@ -22,7 +22,7 @@ var TripDay = new Schema(
 TripDay.methods.convert = function (obj, includeId) {
 
     this.date = utils.UTCToDate(obj.date);
-    this.data = obj.data;
+    this.data = obj.data || [];
     this.name = obj.name;
     this.description = obj.description;
     this.tripId = obj.tripId;

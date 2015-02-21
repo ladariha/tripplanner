@@ -19,7 +19,7 @@ var http = {
     },
     Ok: function (response, data) {
         response.writeHead(200, {
-            "Content-Type": "application/json"
+            "Content-Type": typeof data === "String" ? "text/plain" : "application/json"
         });
         response.write(JSON.stringify(data));
         response.end();
@@ -50,6 +50,17 @@ var http = {
         });
         response.write(msg);
         response.end();
+    },
+    respond: function (errorType, msg, res) {
+        if (this.hasOwnProperty(errorType)) {
+            this[errorType](res, msg);
+        } else {
+            res.writeHead(500, {
+                "Content-Type": "text/plain"
+            });
+            res.write("error");
+            res.end();
+        }
     }
 };
 

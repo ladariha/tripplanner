@@ -16,11 +16,12 @@ angular.module("tripPlanner.core").directive("tpNotification", [function () {
                     $scope.level = "danger";
                 });
 
-                $scope.$on("log", function (evt, message, title, level) {
+                $scope.$on("log", function (evt, message, title, level, style) {
                     $scope.display = true;
                     $scope.message = message;
                     $scope.title = title;
                     $scope.level = level;
+                    $scope.style = style || "info";
                 });
 
 

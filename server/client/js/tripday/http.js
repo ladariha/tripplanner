@@ -5,9 +5,35 @@ angular.module("tripPlanner.tripDay")
 
                 var httpService = {
                     create: create,
-                    remove: remove
+                    remove: remove,
+                    get: get,
+                    edit: edit
                 };
                 return httpService;
+
+                function get(tripDayId) {
+                    var deferred = $q.defer();
+
+                    $http.get(core.server.buildURL("tripDay", {id: tripDayId})).success(function (result) {
+                        deferred.resolve(result);
+                    }).error(function (data, status, headers, config) {
+                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        deferred.reject(data, status, headers, config);
+                    });
+
+                    return deferred.promise;
+                }
+
+                function edit(tripDay) {
+                    var deferred = $q.defer();
+                    $http.put(core.server.buildURL("tripDay", {id : tripDay.id}), JSON.stringify(tripDay)).success(function (result) {
+                        deferred.resolve(result);
+                    }).error(function (data, status, headers, config) {
+                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        deferred.reject(data, status, headers, config);
+                    });
+                    return deferred.promise;
+                }
 
                 function create(tripDay) {
                     var deferred = $q.defer();

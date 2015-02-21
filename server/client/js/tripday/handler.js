@@ -1,47 +1,47 @@
 "use strict";
 angular.module("tripPlanner.tripDay")
-        .factory("tp.tripDay.TripDayHandler", ["tp.tripDay.TripDayHttp", "tp.TimeDateConvertor", "tp.trip.TripCache", "tp.trip.TripModel", "tp.session.Session", "$q",
-            function TripDayHandlerFactory(TripDayHttp, timeDateConvertor, TripCache, TripModel, session, $q) {
+        .factory("tp.tripDay.TripDayHandler", [
+            "tp.tripDay.TripDayHttp", "tp.TimeDateConvertor", "tp.tripDay.TripDayCache", "tp.tripDay.TripDayModel", "tp.session.Session", "$q",
+            function TripDayHandlerFactory(tripDayHttp, timeDateConvertor, TripDayCache, TripDayModel, session, $q) {
 
                 function TripDayHandler() {
                 }
 
                 /**
                  * 
-                 * @param {Trip} trip
+                 * @param {TripDay} tripDay
                  * @returns {Promise}
                  */
-                TripDayHandler.prototype.create = function (trip) {
-                    trip.date = timeDateConvertor.localToUTCString(trip.date);
-                    trip.owner = session.getUser().userId;
-                    return TripDayHttp.create(trip);
+                TripDayHandler.prototype.create = function (tripDay) {
+                    tripDay.date = timeDateConvertor.localToUTCString(tripDay.date);
+                    TripDayCache.reset();
+                    return tripDayHttp.create(tripDay);
                 };
 
                 TripDayHandler.prototype.remove = function (id, tripId) {
-                    TripCache.reset();
-                    return TripDayHttp.remove(id, tripId);
+                    TripDayCache.reset();
+                    return tripDayHttp.remove(id, tripId);
                 };
 
-                TripDayHandler.prototype.edit = function (trip) {
-                    if(!(trip.date instanceof Date)){
-                        trip.date = new Date().getFromInput(trip.date);
+                TripDayHandler.prototype.edit = function (tripDay) {
+                    if (!(tripDay.date instanceof Date)) {
+                        tripDay.date = new Date().getFromInput(tripDay.date);
                     }
-                    trip.date = timeDateConvertor.localToUTCString(trip.date);
-                    trip.owner = session.getUser().userId;
-                    return TripDayHttp.edit(trip);
+                    tripDay.date = timeDateConvertor.localToUTCString(tripDay.date);
+                    return tripDayHttp.edit(tripDay);
                 };
 
                 TripDayHandler.prototype.get = function (id, noCache) {
 
                     var deferred = $q.defer();
-                    if (!noCache && TripCache.get() && TripCache.get().id === id) {
-                        deferred.resolve(TripCache.get());
+                    if (!noCache && TripDayCache.get() && TripDayCache.get().id === id) {
+                        deferred.resolve(TripDayCache.get());
                     } else {
-                        TripCache.reset();
-                        TripDayHttp.get(id).then(function (data) {
-                            var _t = new TripModel();
+                        TripDayCache.reset();
+                        tripDayHttp.get(id).then(function (data) {
+                            var _t = new TripDayModel();
                             _t.convertFromServer(data);
-                            TripCache.set(_t);
+                            TripDayCache.set(_t, _t.tripId);
                             deferred.resolve(_t);
                         }, function (err) {
                             deferred.reject(err);

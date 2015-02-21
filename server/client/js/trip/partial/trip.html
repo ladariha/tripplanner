@@ -2,8 +2,10 @@
 <div ui-view=""></div>
 
 
-<div class="row" data-ng-if="trip">
-    <h3>Days ({{::trip.days.length}})</h3>
+<div class="row" data-ng-if="trip.id != -1">
+    <h3>Days ({{trip.days.length}}) 
+        <a data-ng-if="editPermission" ui-sref="day.new({ tripId: trip.id})"  ui-sref-opts="{reload: true}" class="btn btn-flat btn-info"><i class="mdi-content-add"></i>&nbsp;Add</a>
+    </h3>
     <div class="list-group">
         <div class="day" data-ng-repeat="day in trip.days track by day.id" data-ng-mouseenter="buttons[$index] = true" 
              data-ng-click="openDay($index)" data-ng-mouseleave="buttons[$index] = false" title="Click to open">
@@ -17,8 +19,8 @@
                 </div>
             </div>
             <div class="col-xs-6">
-                <div data-ng-if="hasPermission && buttons[$index]" >
-                    <a ui-sref="day.edit()" data-ng-click="editDay($index)" class="btn btn-flat btn-info"><i class="mdi-content-create"></i>&nbsp;Edit</a>
+                <div data-ng-if="editPermission && buttons[$index]" >
+                    <a ui-sref="day.edit({id : day.id, noCache: true, tripId : trip.id})" class="btn btn-flat btn-info"><i class="mdi-content-create"></i>&nbsp;Edit</a>
                     <button data-ng-click="deleteDay($index)" class="btn btn-flat btn-danger"><i class="mdi-content-clear"></i>&nbsp;Delete</button>
                 </div>
             </div>

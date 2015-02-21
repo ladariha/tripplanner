@@ -10,28 +10,6 @@ var http = require("../misc/http");
 var tripDayCtrl = require("../tripday/controller");
 
 exports.registerRoute = function (app) {
-    app.get("/api/tripDay", function (req, res) {
-
-        tripDayCtrl.create({}, function (err, data) {
-            if (err) {
-                res.writeHead(500, {
-                    "Content-Type": "text/plain"
-                });
-                res.write(JSON.stringify(err));
-                res.end();
-            } else {
-
-                res.writeHead(200, {
-                    "Content-Type": "application/json"
-                });
-                res.write(JSON.stringify(application.controllers));
-                res.end();
-            }
-        });
-
-
-
-    });
 
     app.delete("/api/tripDay/:id/:tripId", function (req, res) {
         if (!req.user) {//!req.user
@@ -47,12 +25,35 @@ exports.registerRoute = function (app) {
 
 
     app.post("/api/tripDay", function (req, res) {
+        if (!req.user) {//!req.user
+            http.Unauthorized(res, "You need to be logged in to remove trip day");
+        } else {
+            tripDayCtrl.create(req.body).then(function () {
+                http.Ok(res, "Day created");
+            }, function (err) {
+                http.respond(err.type, err.msg, res);
+            });
+        }
+    });
+    
+    app.put("/api/tripDay/:id", function (req, res) {
+        if (!req.user) {//!req.user
+            http.Unauthorized(res, "You need to be logged in to edit trip day");
+        } else {
+            tripDayCtrl.update(req.body, req.user.id).then(function () {
+                http.Ok(res, "Day created");
+            }, function (err) {
+                http.respond(err.type, err.msg, res);
+            });
+        }
+    });
 
-        res.writeHead(200, {
-            "Content-Type": "text/plain"
+    app.get("/api/tripDay/:id", function (req, res) {
+        tripDayCtrl.get(req.params.id).then(function (tripDay) {
+            http.Ok(res, tripDay.toClient());
+        }, function (err) {
+            http.respond(err.type, err.msg, res);
         });
-        res.write("2");
-        res.end();
     });
 
 

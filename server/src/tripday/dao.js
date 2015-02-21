@@ -4,7 +4,7 @@ var Promise = require("promise");
 var TPError = require("../model/promiseError");
 var TripDay = require("./model");
 
-var TripDayDao = {
+var tripDayProvider = {
     create: function (tripday) {
         return new Promise(function (resolve, reject) {
             tripday.save(function (err, obj) {
@@ -27,8 +27,31 @@ var TripDayDao = {
             });
         });
     },
-    edit: function (trip) {
-        
+    edit: function (tripDay) {
+        return new Promise(function (resolve, reject) {
+            tripDayProvider
+                    .get(tripDay.id)
+                    .then(function (original) {
+                        original.convert(tripDay, true);
+                        return tripDayProvider._save(original);
+                    })
+                    .then(function (updatedTrip) {
+                        resolve(updatedTrip);
+                    }, function (err) {
+                        reject(err);
+                    });
+        });
+    },
+    _save: function (tripDay) {
+        return new Promise(function (resolve, reject) {
+            tripDay.save(function (err, obj) {
+                if (err) {
+                    reject(new TPError(TPError.DatabaseError, "Unable to save data to db", err));
+                } else {
+                    resolve(obj);
+                }
+            });
+        });
     },
     get: function (id) {
         return new Promise(function (resolve, reject) {
@@ -45,7 +68,7 @@ var TripDayDao = {
     },
     getDaysForTrip: function (tripId) {
         return new Promise(function (resolve, reject) {
-            TripDay.find({"tripId": tripId}, function (err, obj) {
+            TripDay.find({"tripId": tripId}, null, {sort: {"date": 1}}, function (err, obj) {
                 if (err) {
                     reject(new TPError(TPError.DatabaseError, "Unable to find data in db", err));
                 } else if (obj === null) {
@@ -55,11 +78,24 @@ var TripDayDao = {
                 }
             });
         });
+    },
+    getTripId: function (tripDayId) {
+        return new Promise(function (resolve, reject) {
+            TripDay.findOne({"_id": tripDayId}, function (err, obj) {
+                if (err) {
+                    reject(new TPError(TPError.DatabaseError, "Unable to find data in db", err));
+                } else if (obj === null) {
+                    reject(new TPError(TPError.NotFound, "Unable to find any days for given ID", err));
+                } else {
+                    resolve(obj.tripId);
+                }
+            });
+        });
     }
 
 };
 
-module.exports = TripDayDao;
+module.exports = tripDayProvider;
 
 
 

@@ -4,7 +4,6 @@
 // Declare app level module which depends on filters, and services
 angular.module("tripPlanner", [
     "ui.router",
-    "ngAnimate",
     "ui.bootstrap",
     "tripPlanner.auth",
     "tripPlanner.core",
@@ -70,20 +69,25 @@ angular.module("tripPlanner", [
                 })
                 .state("day", {
                     abstract: true,
-                    params: {"noCache": false},
+                    params: {"noCache": false, "tripId": -1, "id": -1},
                     url: "/day/:id",
                     templateUrl: "js/tripday/partial/tripDay.html",
                     controller: "tp.tripDay.ViewTripDayCtrl",
                     resolve: {
-                        "trip": ["tp.tripDay.TripDayHandler", "$stateParams", function (TripDayHandler, $stateParams) {
-                                if ($stateParams.id && $stateParams.id !== "new") {
+                        "tripDay": ["tp.tripDay.TripDayHandler", "$stateParams", function (TripDayHandler, $stateParams) {
+                                if ($stateParams.id && $stateParams.id !== "new" && parseInt($stateParams.id,10) !== -1) {
                                     return new TripDayHandler().get($stateParams.id, $stateParams.noCache);
+                                }
+                            }],
+                        "trip": ["tp.trip.TripHandler", "$stateParams", function (TripHandler, $stateParams) {
+                                if ($stateParams.tripId && $stateParams.tripId !== -1) {
+                                    return new TripHandler().get($stateParams.tripId, $stateParams.noCache);
                                 }
                             }]
                     }
                 })
                 .state("day.new", {
-                    templateUrl: "js/tripday/partial/tripForm.html",
+                    templateUrl: "js/tripday/partial/tripDayForm.html",
                     controller: "tp.tripDay.TripDayFormCtrl"
                 })
                 .state("day.view", {
@@ -91,7 +95,7 @@ angular.module("tripPlanner", [
                     templateUrl: "js/tripday/partial/tripInfo.html"
                 })
                 .state("day.edit", {
-                    templateUrl: "js/tripday/partial/tripForm.html",
+                    templateUrl: "js/tripday/partial/tripDayForm.html",
                     controller: "tp.tripDay.TripDayFormCtrl"
                 })
                 .state("login", {
