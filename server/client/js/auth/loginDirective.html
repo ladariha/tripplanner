@@ -1,17 +1,11 @@
-<ul class="nav navbar-nav navbar-right">
-    <li class="dropdown" data-ng-if="!isLoggedIn">
-        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Log in <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            <li><a data-ng-click="login('google')">Log in with Google</a></li>
-            <li><a data-ng-click="login('facebook')">Log in with Facebook</a></li>
+<ul class="nav navbar-nav navbar-right" id="loginDropdown">
+    <li class="dropdown">
+        <a data-ng-click="toggle()" class="dropdown-toggle" >{{displayName}} <b class="caret"></b></a>
+        <ul class="dropdown-menu" id="loginMenu">
+            <li data-ng-if="!isLoggedIn"><a data-ng-click="login('google')">Log in with Google</a></li>
+            <li data-ng-if="!isLoggedIn"><a data-ng-click="login('facebook')">Log in with Facebook</a></li>
+            <li data-ng-if="isLoggedIn"><a ui-sref="user({id : userId})">Me</a></li>
+            <li data-ng-if="isLoggedIn"><a data-ng-click="logout()">Logout</a></li>
         </ul>        
-    </li>
-    <li class="dropdown" data-ng-if="isLoggedIn">
-
-        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{displayName}} <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            <li><a ui-sref="user({id : userId})">Me</a></li>
-            <li><a data-ng-click="logout()">Logout</a></li>
-        </ul>
     </li>
 </ul>

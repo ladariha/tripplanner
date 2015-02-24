@@ -8,7 +8,7 @@ angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService",
             },
             controller: function ($scope) {
                 $scope.isLoggedIn = false;
-
+                $scope.displayName = "Log in";
                 $scope.login = function (serviceName) {
                     LoginService.login(serviceName);
                 };
@@ -16,6 +16,10 @@ angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService",
                 $scope.logout = function () {
                     LoginService.logout();
                 };
+                
+                $scope.toggle = function(){
+                    $('#loginMenu').dropdown('toggle');
+                }
 
                 $scope.$on("userLoggedIn", function (evt, user) {
                     $scope.isLoggedIn = true;
@@ -26,7 +30,7 @@ angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService",
                 $scope.$on("userLoggedOut", function () {
                     $scope.isLoggedIn = false;
                     $scope.userId = -1;
-                    $scope.displayName = null;
+                    $scope.displayName = "Log in";
                     $scope.$apply();
                 });
 

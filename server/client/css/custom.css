@@ -164,3 +164,7 @@ body {
 .day{
     cursor: pointer;
 }
+
+#loginDropdown a, loginMenu a {
+    cursor: pointer !important;
+}
