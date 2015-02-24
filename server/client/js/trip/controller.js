@@ -46,7 +46,7 @@ angular.module("tripPlanner.trip")
                     $scope.openedDatePicker = true;
                 }
             }])
-        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.session.Session", "$state", "$stateParams", "tp.trip.TripHandler", "tp.logger", "tp.trip.TripModel","tp.tripDay.TripDayHandler",
+        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.session.Session", "$state", "$stateParams", "tp.trip.TripHandler", "tp.logger", "tp.trip.TripModel", "tp.tripDay.TripDayHandler",
             function ViewTripCtrl($scope, trip, session, $state, $stateParams, TripHandler, logger, TripModel, TripDayHandler) {
 
                 $scope.trip = trip ? trip : new TripModel("km");
@@ -59,15 +59,16 @@ angular.module("tripPlanner.trip")
                 $scope.buttons = [];
                 $scope.deleteDay = deleteDay;
                 $scope.deleteTrip = deleteTrip;
-                $scope.openDay = openDay;
                 $scope.hasPermission = false;
+                if ($scope.trip.days.length) {
+                    $scope.tripDate = $scope.trip.days[0].localDate.toPrettyString() + " - " + $scope.trip.days[$scope.trip.days.length - 1].localDate.toPrettyString();
+                } else {
+                    $scope.tripDate = $scope.trip.localDate;
+                }
 
                 $scope.$on("userLoggedIn", initPermissions);
                 $scope.$on("userLoggedOut", initPermissions);
 
-                function openDay(index) {
-
-                }
                 function deleteDay(index) {
                     $scope.choiceModal("Delete trip day?", "Do you really want to remve this day?")
                             .then(function () {
@@ -75,7 +76,7 @@ angular.module("tripPlanner.trip")
                             })
                             .then(function () {
                                 logger.log("Done", "Day has been removed", "success");
-                                $scope.trip.days.splice(index,1);
+                                $scope.trip.days.splice(index, 1);
                             }, function (data, status, headers, config) {
                                 if (data) {
                                     $scope.handleGenericError(data, status, headers, config);
@@ -93,8 +94,8 @@ angular.module("tripPlanner.trip")
 
                 function initPermissions() {
                     $scope.hasPermission = session.getUser() && trip && trip.owner === session.getUser().userId ? true : false;
-                    $scope.editPermission = session.getUser() && trip && (trip.owner === session.getUser().userId || trip.editors.indexOf(session.getUser().userId) > -1)? true : false;
-                    
+                    $scope.editPermission = session.getUser() && trip && (trip.owner === session.getUser().userId || trip.editors.indexOf(session.getUser().userId) > -1) ? true : false;
+
                 }
 
                 function deleteTrip() {
