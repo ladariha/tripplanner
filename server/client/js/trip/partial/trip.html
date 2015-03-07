@@ -10,8 +10,8 @@
         <div class="day" data-ng-repeat="day in trip.days track by day.id" data-ng-mouseenter="buttons[$index] = true" 
              data-ng-click="openDay($index)" data-ng-mouseleave="buttons[$index] = false" title="Click to open">
             <div class="list-group-item col-xs-6">
-                <div class="row-picture">
-                    <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
+                <div class="row-action-primary">
+                    <i class="mdi-file-folder"></i>
                 </div>
                 <div class="row-content">
                     <h4 class="list-group-item-heading" data-ng-bind="::day.name"></h4>
