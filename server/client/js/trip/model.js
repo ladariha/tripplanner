@@ -36,6 +36,14 @@ angular.module("tripPlanner.trip")
                     return (rules.definedNotNull(this.date) || rules.definedNotNull(this.localDate)) && rules.definedNotNull(this.units) && rules.definedNotNull(this.name) && rules.definedNotNull(this.consumption) && !isNaN(this.consumption) && rules.definedNotNull(this.consumptionUnits);
                 };
 
+                Trip.prototype.getDuration = function () {
+                    if (this.days.length) {
+                        return this.days[0].localDate.toPrettyString() + " - " + this.days[this.days.length - 1].localDate.toPrettyString();
+                    } else {
+                        return this.localDate;
+                    }
+                };
+
                 Trip.prototype.convertFromServer = function (obj) {
                     this.units = obj.units;
                     this.fuelType = obj.fuelType;

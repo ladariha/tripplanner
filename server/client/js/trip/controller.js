@@ -60,11 +60,6 @@ angular.module("tripPlanner.trip")
                 $scope.deleteDay = deleteDay;
                 $scope.deleteTrip = deleteTrip;
                 $scope.hasPermission = false;
-                if ($scope.trip.days.length) {
-                    $scope.tripDate = $scope.trip.days[0].localDate.toPrettyString() + " - " + $scope.trip.days[$scope.trip.days.length - 1].localDate.toPrettyString();
-                } else {
-                    $scope.tripDate = $scope.trip.localDate;
-                }
 
                 $scope.$on("userLoggedIn", initPermissions);
                 $scope.$on("userLoggedOut", initPermissions);
