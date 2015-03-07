@@ -1,6 +1,6 @@
 "use strict";
 angular.module("tripPlanner.trip")
-        .factory("tp.trip.TripCache", ["tp.tripDay.TripDayCache", "tp.core.CacheSpi",
+        .factory("tp.trip.TripCache", ["tp.tripDay.TripDayCache", "tp.core.CacheSPI",
             function TripCacheFactory(tripDayCache, Cache) {
 
                 function TripCache() {

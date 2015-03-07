@@ -1,6 +1,6 @@
 "use strict";
 angular.module("tripPlanner.user")
-        .factory("tp.user.UserCache", ["tp.core.CacheSpi",
+        .factory("tp.user.UserCache", ["tp.core.CacheSPI",
             function UserCacheFactory(Cache) {
 
                 function UserCache() {

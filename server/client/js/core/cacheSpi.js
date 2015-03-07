@@ -1,22 +1,22 @@
 "use strict";
 
 angular.module("tripPlanner.core")
-        .factory("tp.core.CacheSpi", function Cache() {
+        .factory("tp.core.CacheSPI", function Cache() {
 
-            function CacheSpi(){
+            function CacheSPI(){
                 this.cache = null;
             }
-            CacheSpi.prototype.get = function(){
+            CacheSPI.prototype.get = function(){
               return this.cache;  
             };
-            CacheSpi.prototype.set = function(obj){
+            CacheSPI.prototype.set = function(obj){
                 if(obj !== null && typeof obj !== "undefined"){
                     this.cache = obj;
                 }
             };
-            CacheSpi.prototype.reset = function(){
+            CacheSPI.prototype.reset = function(){
                 this.cache = null;
             };
 
-            return CacheSpi;
+            return CacheSPI;
         });
