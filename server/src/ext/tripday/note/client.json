@@ -1,0 +1,19 @@
+{
+    "name": "note",
+    "displayName": "Note",
+    "module": "tripPlanner.extension.note",
+    "handler": "tp.ext.note.NoteHandler",
+    "states": {
+        "create": {
+            "name": "tpExt.NoteCreate",
+            "ctrl": "tp.ext.note.NoteCtrl",
+            "templateUrl" : "js/ext_note/partial/note.html"
+        },
+        "edit": {
+            "name": "tpExt.NoteEdit",
+            "ctrl": "tp.ext.note.NoteCtrl",
+            "templateUrl" : "js/ext_note/partial/note.html"
+        }
+
+    }
+}

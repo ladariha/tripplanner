@@ -1,7 +1,7 @@
 "use strict";
 
 var fs = require("fs");
-
+var path = require("path");
 
 exports.endsWith = function (pattern, suffix) {
     return pattern.indexOf(suffix, pattern.length - suffix.length) !== -1;
@@ -22,11 +22,13 @@ exports.listFiles = function (path) {
     return arr;
 };
 
-exports.listFoldersAndNames = function (path) {
+exports.listFoldersAndNames = function (folder) {
     var arr = {};
-    var files = fs.readdirSync(path);
+    var files = fs.readdirSync(folder);
     files.forEach(function (file) {
-        arr[file] = path + file; // TODO problem with same filename in different folder
+        if (fs.statSync(path.join(folder, file)).isDirectory()) {
+            arr[file] = path.join(folder, file); // TODO problem with same filename in different folder
+        }
     });
     return arr;
 };

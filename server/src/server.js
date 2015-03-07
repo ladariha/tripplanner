@@ -10,6 +10,10 @@ var server = null;
 var applicationCore = {};
 var tripPlanner = require("./core/tripPlanner");
 var authorization = require("./auth/configurationCtrl");
+var extensionsCtrls = {
+    tripDay: require("./ext/tripday/controller"),
+    trip: require("./ext/trip/controller")
+};
 
 
 function loadConfig(filename) {
@@ -21,13 +25,13 @@ function loadConfig(filename) {
 }
 
 function loadExtensions(folder, extensionType) {
-    var tripExts = utils.listFoldersAndNames((path.join(path.dirname(__filename), folder)).toString());
+    var exts = utils.listFoldersAndNames((path.join(path.dirname(__filename), folder)).toString());
     var _e;
-    for (var i in tripExts) {
-
-        _e = require(tripExts[i] + "/src.js");
+    for (var i in exts) {
+        _e = require(exts[i] + "/handler.js");
+        require(exts[i] + "/client.json"); // just to make sure such configuration exists for each extension
         if (applicationCore.tripPlanner.isExtensionValid(_e)) {
-            applicationCore.ext[extensionType][i] = _e;
+            extensionsCtrls[extensionType].registerExtension(i);
         }
     }
 }
@@ -72,8 +76,8 @@ function loadRouting(folder, pass) {
         tripDay: {}
     };
 
-    console.log("loading trip extensions...");
-    loadExtensions(config.server.paths.tripExtensions, "trip");
+//    console.log("loading trip extensions...");
+//    loadExtensions(config.server.paths.tripExtensions, "trip");
 
     console.log("loading trip day extensions...");
     loadExtensions(config.server.paths.tripDayExtensions, "tripDay");
