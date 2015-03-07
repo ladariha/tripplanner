@@ -29,7 +29,7 @@ angular.module("tripPlanner.tripDay")
 
                         function createDay() {
                             tripDayHandler.create($scope.tripDay).then(function () {
-                                $state.go("trip.view", {"id": $scope.trip.id});
+                                $state.go("trip.view", {"id": $scope.trip.id, "noCache" : true});
                             }, $scope.handleGenericError);
                         }
 
