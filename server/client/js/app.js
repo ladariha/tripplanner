@@ -1,19 +1,7 @@
 "use strict";
 
 (function () {
-
-    var extensions;
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            extensions = JSON.parse(xhr.responseText);
-        }
-    };
-    xhr.open("GET", "api/ext/tripday", false); // need to be synchronous...
-    xhr.send();
-
-
-    angular.module("tripPlanner", [
+    var modules = [
         "ui.router",
         "ui.bootstrap",
         "tripPlanner.auth",
@@ -30,7 +18,22 @@
         "tripPlanner.session",
         "tripPlanner.dialog",
         "tripPlanner.extension"
-    ]).config(["$stateProvider", "$provide", "$httpProvider", "$urlRouterProvider", function ($stateProvider, $provide, $httpProvider, $urlRouterProvider) {
+    ];
+    var extensions;
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            extensions = JSON.parse(xhr.responseText);
+            for(var ext in extensions){
+                modules.push(extensions[ext].module);
+            }
+        }
+    };
+    xhr.open("GET", "api/ext/tripday", false); // need to be synchronous...
+    xhr.send();
+
+
+    angular.module("tripPlanner", modules).config(["$stateProvider", "$provide", "$httpProvider", "$urlRouterProvider", function ($stateProvider, $provide, $httpProvider, $urlRouterProvider) {
 
             $provide.factory("busyIndicatorInterceptor", function BusyIndicatorInterceptor($q, $rootScope) {
                 return {
