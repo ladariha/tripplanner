@@ -19,7 +19,7 @@ angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService",
                 
                 $scope.toggle = function(){
                     $('#loginMenu').dropdown('toggle');
-                }
+                };
 
                 $scope.$on("userLoggedIn", function (evt, user) {
                     $scope.isLoggedIn = true;
