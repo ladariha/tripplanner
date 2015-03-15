@@ -4,6 +4,7 @@
     var modules = [
         "ui.router",
         "ui.bootstrap",
+        "textAngular",
         "tripPlanner.auth",
         "tripPlanner.core",
         "tripPlanner.place",
@@ -33,7 +34,6 @@
     };
     xhr.open("GET", "api/ext/tripday", false); // need to be synchronous...
     xhr.send();
-
 
     angular.module("tripPlanner", modules).config(["$stateProvider", "$provide", "$httpProvider", "$urlRouterProvider", function ($stateProvider, $provide, $httpProvider, $urlRouterProvider) {
 
@@ -137,7 +137,11 @@
                 ext = extensions[e];
                 for (var s in ext.states) {
                     if (ext.states.hasOwnProperty(s)) {
-                        $stateProvider.state(ext.states[s].name, {"templateUrl": ext.states[s].templateUrl, "controller": ext.states[s].ctrl});
+                        $stateProvider.state(ext.states[s].name, {
+                            templateUrl: ext.states[s].templateUrl,
+                            controller: ext.states[s].ctrl,
+                            params: ext.states[s].params,
+                            url: ext.states[s].url});
                     }
                 }
             }

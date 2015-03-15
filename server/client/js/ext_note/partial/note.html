@@ -1,1 +1,13 @@
-<h1>Note partial</h1>
+<div class="row">
+    <div class="col-xs-12" >
+        <h1>Create note for "{{::dayName}}"&nbsp;<small>{{::localDate}}</small></h1>
+        <text-angular data-ng-model="note.data"></text-angular>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-8" ></div>
+    <div class="col-xs-4" >
+        <button type="button" class="btn btn-primary pull-right" data-ng-disabled="!note.isValid()" data-ng-click="create()">Create</button>
+        <button type="button" class="btn btn-warning pull-right" data-ng-click="cancel()">Cancel</button>
+    </div>
+</div>

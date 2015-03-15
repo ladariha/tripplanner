@@ -1,19 +1,18 @@
 "use strict";
 angular.module("tripPlanner.extension.note")
-        .factory("tp.ext.note.NoteHandler", ["$q", "tp.ext.ExtensionSPI",
-            function NoteHandlerFactory($q, ExtensionSPI) {
+        .factory("tp.ext.note.NoteHandler", ["$q","tp.ext.note.NoteHttp",
+            function NoteHandlerFactory($q, NoteHttp) {
 
-                var extensions = [];
 
-                function NoteHandler() {
-                    ExtensionSPI.call(this);
-                }
-                
-                
-                
-                NoteHandler.prototype = Object.create(ExtensionSPI.prototype);
+                function NoteHandler() {}
 
-            
+
+
+                NoteHandler.prototype.create = function (note) {
+                    return NoteHttp.create(note);
+                };
+
+
                 return NoteHandler;
 
             }

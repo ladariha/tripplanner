@@ -8,7 +8,7 @@
     </h3>
     <div class="list-group">
         <div class="day" data-ng-repeat="day in trip.days track by day.id" data-ng-mouseenter="buttons[$index] = true" 
-             data-ng-click="openDay($index)" data-ng-mouseleave="buttons[$index] = false" title="Click to open">
+             data-ng-click="openDay($index)" data-ng-mouseleave="buttons[$index] = false">
             <div class="list-group-item col-xs-6">
                 <div class="row-action-primary">
                     <i class="mdi-file-folder"></i>
@@ -22,6 +22,7 @@
                 <div data-ng-if="editPermission && buttons[$index]" >
                     <a ui-sref="day.edit({id : day.id, noCache: true, tripId : trip.id})" class="btn btn-flat btn-info"><i class="mdi-content-create"></i>&nbsp;Edit</a>
                     <button data-ng-click="deleteDay($index)" class="btn btn-flat btn-danger"><i class="mdi-content-clear"></i>&nbsp;Delete</button>
+                    <tp-add-extension day="day"></tp-add-extension>
                 </div>
             </div>
             <div class="list-group-separator"></div>

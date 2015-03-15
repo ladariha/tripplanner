@@ -1,0 +1,9 @@
+<div class="btn-group">
+    <a href="bootstrap-elements.html" data-target="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+        Add widget
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" data-ng-repeat="ext in extensions track by ext.name">
+        <li><a data-ng-click="goToCreate(ext.name)">{{::ext.displayName}}</a></li>
+    </ul>
+</div>

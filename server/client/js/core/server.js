@@ -28,6 +28,11 @@ angular.module("tripPlanner.core")
                 Server.prototype.buildURL = function (endpoint, parameters) {
                     return this._patterns[this.preferredPattern].call(this, endpoint, parameters);
                 };
+                Server.prototype.addUrl = function (key, value) {
+                    if(!this.endpoints.hasOwnProperty(key)){
+                        this.endpoints[key] = value;
+                    }
+                };
 
                 return Server;
 
