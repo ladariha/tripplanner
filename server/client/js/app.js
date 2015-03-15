@@ -24,8 +24,10 @@
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             extensions = JSON.parse(xhr.responseText);
-            for(var ext in extensions){
-                modules.push(extensions[ext].module);
+            for (var ext in extensions) {
+                if (extensions.hasOwnProperty(ext)) {
+                    modules.push(extensions[ext].module);
+                }
             }
         }
     };
@@ -134,7 +136,9 @@
             for (var e in extensions) {
                 ext = extensions[e];
                 for (var s in ext.states) {
-                    $stateProvider.state(ext.states[s].name, {"templateUrl": ext.states[s].templateUrl, "controller": ext.states[s].ctrl});
+                    if (ext.states.hasOwnProperty(s)) {
+                        $stateProvider.state(ext.states[s].name, {"templateUrl": ext.states[s].templateUrl, "controller": ext.states[s].ctrl});
+                    }
                 }
             }
 
