@@ -51,13 +51,14 @@ var tripCtrl = {
             }
         });
     },
-    create: function (trip) {
+    create: function (trip, userId) {
         return new Promise(function (resolve, reject) {
             if (!TripModel.isValid(trip)) {
                 reject(new TPError(TPError.BadRequest, "Received object is not valid"));
             } else {
                 var _t = new TripModel();
                 _t.convert(trip);
+                _t.owner = userId;
                 var result = null;
                 dbProvider.create(_t)
                         .then(function (t) {

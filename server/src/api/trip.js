@@ -16,8 +16,7 @@ exports.registerRoute = function (app) {
         if (!req.user) {
             http.Unauthorized(res, "You need to be logged in to create trip");
         } else {
-
-            tripCtrl.create(req.body).then(function (trip) {
+            tripCtrl.create(req.body, req.user.id).then(function (trip) {
                 http.Ok(res, trip.toClient());
             }, function (err) {
                 http[err.type](res, err.msg);
