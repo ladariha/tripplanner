@@ -27,9 +27,7 @@ var tripCtrl = {
                         .then(function (updatedTrip) {
                             Mediator.emit("tripUpdated", updatedTrip);
                             resolve(updatedTrip);
-                        }, function (err) {
-                            reject(err);
-                        });
+                        }, reject);
             }
         });
     },
@@ -67,11 +65,7 @@ var tripCtrl = {
                             t.days.push(tripDayCtrl.getEmptyDay(t));
                             return tripDayCtrl.create(t.days[0]);
                         })
-                        .then(function () {
-                            resolve(result);
-                        }, function (err) {
-                            reject(err);
-                        });
+                        .then(resolve, reject);
             }
         });
     },
@@ -91,9 +85,7 @@ var tripCtrl = {
                     .then(function () {
                         Mediator.emit("tripRemoved", id);
                         resolve();
-                    }, function (err) {
-                        reject(err);
-                    });
+                    }, reject);
         });
     },
     getTripsForUser: function (userId) {

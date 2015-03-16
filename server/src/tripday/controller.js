@@ -15,9 +15,7 @@ var tripDayCtrl = {
                 reject(new TPError(TPError.BadRequest, "Received object is not valid"));
             } else {
                 tripDayCtrl.getTripId(tripDay.id)
-                        .then(function (tripId) {
-                            return tripCtrl.getEditorsId(tripId);
-                        })
+                        .then(tripCtrl.getEditorsId)
                         .then(function (editors) {
                             if (editors.indexOf(userId) < 0) {
                                 reject(new TPError(TPError.Unauthorized, "You are not allowed to edit this trip"));
@@ -25,11 +23,7 @@ var tripDayCtrl = {
                                 return dbProvider.edit(tripDay);
                             }
                         })
-                        .then(function (uptatedTripDay) {
-                            resolve(uptatedTripDay);
-                        }, function (err) {
-                            reject(err);
-                        });
+                        .then(resolve, reject);
             }
         });
     },

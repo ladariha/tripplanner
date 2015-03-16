@@ -79,11 +79,7 @@ var TripProvider = {
                         original.convert(trip, true);
                         return TripProvider._save(original);
                     })
-                    .then(function (updatedTrip) {
-                        resolve(updatedTrip);
-                    }, function (err) {
-                        reject(err);
-                    });
+                    .then(resolve, reject);
         });
     },
     get: function (id) {
