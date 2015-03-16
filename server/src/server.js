@@ -24,14 +24,15 @@ function loadConfig(filename) {
     }
 }
 
-function loadExtensions(folder, extensionType) {
+function loadExtensions(folder, extensionType, pass) {
     var exts = utils.listFoldersAndNames((path.join(path.dirname(__filename), folder)).toString());
     var _e;
     for (var i in exts) {
-        _e = require(exts[i] + "/handler.js");
-        require(exts[i] + "/client.json"); // just to make sure such configuration exists for each extension
+        _e = require(exts[i] + "/controller.js");
         if (applicationCore.tripPlanner.isExtensionValid(_e)) {
             extensionsCtrls[extensionType].registerExtension(i);
+            require(exts[i] + "/client.json"); // just to make sure such configuration exists for each extension
+            require(exts[i] + "/api.js").registerRoute(app, pass);
         }
     }
 }
@@ -80,7 +81,7 @@ function loadRouting(folder, pass) {
 //    loadExtensions(config.server.paths.tripExtensions, "trip");
 
     console.log("loading trip day extensions...");
-    loadExtensions(config.server.paths.tripDayExtensions, "tripDay");
+    loadExtensions(config.server.paths.tripDayExtensions, "tripDay", pass);
 
     console.log("loading listeners...");
     require("./core/listeners");
