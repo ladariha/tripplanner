@@ -13,16 +13,21 @@ exports.registerRoute = function (app) {
     });
 
     app.post("/api/trip", function (req, res) {
-        tripCtrl.create(req.body).then(function (trip) {
-            http.Ok(res, trip.toClient());
-        }, function (err) {
-            http[err.type](res, err.msg);
-        });
+        if (!req.user) {
+            http.Unauthorized(res, "You need to be logged in to create trip");
+        } else {
+
+            tripCtrl.create(req.body).then(function (trip) {
+                http.Ok(res, trip.toClient());
+            }, function (err) {
+                http[err.type](res, err.msg);
+            });
+        }
     });
 
     app.put("/api/trip/:id", function (req, res) {
         if (!req.user) {
-            http.Unauthorized(res, "You need to be logged in to remove trip");
+            http.Unauthorized(res, "You need to be logged in to update trip");
         } else {
             tripCtrl.edit(req.body, req.user.id).then(function (trip) {
                 http.Ok(res, trip.toClient());
