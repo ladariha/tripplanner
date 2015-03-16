@@ -7,6 +7,9 @@ angular.module("tripPlanner.extension.note")
                     this.tripId = tripId;
                     this.tripDayId = tripDayId;
                     this.data = null;
+                    this.name = "note";
+                    this.id = null;
+                    this.author = null;
                 }
 
                 Note.prototype.isValid = function () {

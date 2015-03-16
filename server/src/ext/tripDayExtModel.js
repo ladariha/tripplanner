@@ -5,6 +5,8 @@ var Schema = mongoose.Schema;
 var definedNotNull = require("../misc/util").definedNotNull;
 var TripDayExtension = new Schema(
         {
+            tripId: String,
+            author: String,
             tripDayId: String,
             data: [{type: Object}],
             name: {type: String, index: true}
@@ -19,6 +21,8 @@ TripDayExtension.methods.convert = function (obj, includeId) {
     this.data = obj.data;
     this.name = obj.name;
     this.tripDayId = obj.tripDayId;
+    this.tripId = obj.tripId;
+    this.author = obj.author;
     this.id = includeId ? obj.id : this.id;
     return this;
 };
@@ -32,7 +36,9 @@ TripDayExtension.methods.toClient = function () {
 
 TripDayExtension.statics.isValid = function (obj) {
     return  definedNotNull(obj.tripDayId) &&
+            definedNotNull(obj.tripId) &&
             definedNotNull(obj.data) &&
+            definedNotNull(obj.author) && typeof obj.author === "string" &&
             definedNotNull(obj.name) && typeof obj.name === "string";
 };
 
