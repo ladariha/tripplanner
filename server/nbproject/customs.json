@@ -6,6 +6,11 @@
         "ui-view": {}
     },
     "elements": {
+        "tp-add-extension": {
+            "attributes": {
+                "day": {}
+            }
+        },
         "tp-infodialog": {
             "attributes": {
                 "body": {},
@@ -19,6 +24,8 @@
                 "yes": {},
                 "body": {},
                 "title": {},
+                "resolve": {},
+                "reject": {},
                 "visible": {},
                 "no": {}
             }
