@@ -11,7 +11,7 @@ var applicationCore = {};
 var tripPlanner = require("./core/tripPlanner");
 var authorization = require("./auth/configurationCtrl");
 var extensionsCtrls = {
-    tripDay: require("./ext/tripday/controller"),
+    tripDay: require("./ext/day/controller"),
     trip: require("./ext/trip/controller")
 };
 

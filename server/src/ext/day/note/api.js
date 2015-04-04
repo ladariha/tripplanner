@@ -10,18 +10,13 @@ exports.registerRoute = function (app) {
             http.Unauthorized(res, "You need to be logged in to create a note");
         } else {
 
-            ctrl.create(req.body).then(function (note) {
-                http.Ok(res, note.toClient());
+            ctrl.create(req.body, req.user.id).then(function (note) {
+                http.Ok(res, "Created");
             }, function (err) {
                 http[err.type](res, err.msg);
             });
         }
-
-
-
     });
-
-
 };
 
 

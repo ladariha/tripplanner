@@ -7,7 +7,7 @@ var sanitizer = require("sanitizer");
  * @returns {String} stripped String
  */
 String.prototype.sanitize = function () {
-    sanitizer.sanitize(this);
+    return sanitizer.sanitize(this);
 };
 
 /**

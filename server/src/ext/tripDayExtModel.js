@@ -8,7 +8,7 @@ var TripDayExtension = new Schema(
             tripId: String,
             author: String,
             tripDayId: String,
-            data: [{type: Object}],
+            data: Object,
             name: {type: String, index: true}
         }
 );
@@ -42,4 +42,5 @@ TripDayExtension.statics.isValid = function (obj) {
             definedNotNull(obj.name) && typeof obj.name === "string";
 };
 
-module.exports = mongoose.model("TripDayExtension", TripDayExtension);
+exports.TripDayExtension = mongoose.model("TripDayExtension", TripDayExtension);
+exports.schema = TripDayExtension;

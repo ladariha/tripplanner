@@ -4,14 +4,14 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var utils = require("../misc/util");
 var definedNotNull = utils.definedNotNull;
-var Extension = require("../ext/tripDayExtModel");
+var Extension = require("../ext/tripDayExtModel").schema;
 
 var TripDay = new Schema(
         {
             tripId: String,
             date: Date,
             description: String,
-            data: [{type: Extension}],
+            data: [Extension],
             name: {type: String, index: true}
         }
 );

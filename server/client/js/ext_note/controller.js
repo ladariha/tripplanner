@@ -17,7 +17,9 @@ angular.module("tripPlanner.extension.note")
                 },100);
 
                 function create() {
-                    noteHandler.create($scope.note);
+                    noteHandler.create($scope.note).then(function(){
+                         $state.go("trip.view", {"id": tripDay.tripId, noCache: true}, {reload: true});
+                    }, $scope.handleGenericError);
                 }
 
                 function cancel() {
