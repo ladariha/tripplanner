@@ -83,8 +83,7 @@ function loadRouting(folder, pass) {
     console.log("loading trip day extensions...");
     loadExtensions(config.server.paths.tripDayExtensions, "tripDay", pass);
 
-    console.log("loading listeners...");
-    require("./core/listeners");
+    require("./core/loader");
 
     server = app.listen(config.server.port, function () {
         console.log("Listening on port %d", server.address().port);
