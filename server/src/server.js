@@ -1,19 +1,23 @@
 "use strict";
-var express = require("express");
+
 var fs = require("fs");
 var path = require("path");
+
+var express = require("express");
+var bodyParser = require("body-parser");
+
 var utils = require("./misc/util");
 var db = require("./core/db");
-var bodyParser = require("body-parser");
-var app = express();
-var server = null;
-var applicationCore = {};
 var tripPlanner = require("./core/tripPlanner");
 var authorization = require("./auth/configurationCtrl");
 var extensionsCtrls = {
     tripDay: require("./ext/day/controller"),
     trip: require("./ext/trip/controller")
 };
+
+var app = express();
+var server = null;
+var applicationCore = {};
 
 
 function loadConfig(filename) {

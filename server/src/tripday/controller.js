@@ -1,81 +1,75 @@
 "use strict";
-var TripDayModel = require("./model");
-var tripCtrl = require("../trip/controller");
-var TPError = require("../model/promiseError");
 var Promise = require("promise");
+var TripDayModel = require("./model");
+var TPError = require("../model/promiseError");
 var dbProvider = require("./dao");
 
-var tripDayCtrl = {
-    get: function (id) {
-        return dbProvider.get(id);
-    },
-    update: function (tripDay, userId) {
-        return new Promise(function (resolve, reject) {
-            if (!TripDayModel.isValid(tripDay)) {
-                reject(new TPError(TPError.BadRequest, "Received object is not valid"));
-            } else {
-                tripDayCtrl.getTripId(tripDay.id)
-                        .then(tripCtrl.getEditorsId)
-                        .then(function (editors) {
-                            if (editors.indexOf(userId) < 0) {
-                                reject(new TPError(TPError.Unauthorized, "You are not allowed to edit this trip"));
-                            } else {
-                                return dbProvider.edit(tripDay);
-                            }
-                        })
-                        .then(resolve, reject);
-            }
-        });
-    },
-    getTripId: function (tripDayId) {
-        return dbProvider.getTripId(tripDayId);
-    },
-    getEmptyDay: function (trip) {
-        var td = new TripDayModel();
-        td.date = trip.date;
-        td.tripId = trip._id;
-        td.name = "Day 1";
-        td.description = "";
-        return td;
-    },
-    getDaysForTrip: function (tripId) {
-        return dbProvider.getDaysForTrip(tripId);
-    },
-    create: function (tripDay) {
-        if (!(tripDay instanceof TripDayModel)) {
-            var _t = new TripDayModel();
-            _t.convert(tripDay);
-            tripDay = _t;
-        }
-        return new Promise(function (resolve, reject) {
-            if (!TripDayModel.isValid(tripDay)) {
-                reject(new TPError(TPError.BadRequest, "Received object is not valid"));
-            } else {
-                resolve(dbProvider.create(tripDay));
-            }
-        });
-    },
-    remove: function (id, tripId, userId) {
 
-        return new Promise(function (resolve, reject) {
-            tripCtrl.getEditorsId(tripId)
+function TripDayCtrl() {}
+
+TripDayCtrl.prototype.get = function (id) {
+    return dbProvider.get(id);
+};
+TripDayCtrl.prototype.update = function (tripDay, userId) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        if (!TripDayModel.isValid(tripDay)) {
+            reject(new TPError(TPError.BadRequest, "Received object is not valid"));
+        } else {
+            self.getTripId(tripDay.id)
+                    .then(dbProvider.getEditorsId)
                     .then(function (editors) {
                         if (editors.indexOf(userId) < 0) {
-                            reject(new TPError(TPError.Unauthorized, "You are not allowed to remove this day"));
+                            reject(new TPError(TPError.Unauthorized, "You are not allowed to edit this trip"));
                         } else {
-                            resolve(dbProvider.remove(id));
+                            return dbProvider.edit(tripDay);
                         }
-                    });
-        });
-    }
+                    })
+                    .then(resolve, reject);
+        }
+    });
+};
+TripDayCtrl.prototype.getTripId = function (tripDayId) {
+    return dbProvider.getTripId(tripDayId);
+};
+TripDayCtrl.prototype.getEmptyDay = function (trip) {
+    var td = new TripDayModel();
+    td.date = trip.date;
+    td.tripId = trip._id;
+    td.name = "Day 1";
+    td.description = "";
+    return td;
+};
+TripDayCtrl.prototype.getDaysForTrip = function (tripId) {
+    return dbProvider.getDaysForTrip(tripId);
+},
+        TripDayCtrl.prototype.create = function (tripDay) {
+            if (!(tripDay instanceof TripDayModel)) {
+                var _t = new TripDayModel();
+                _t.convert(tripDay);
+                tripDay = _t;
+            }
+            return new Promise(function (resolve, reject) {
+                if (!TripDayModel.isValid(tripDay)) {
+                    reject(new TPError(TPError.BadRequest, "Received object is not valid"));
+                } else {
+                    resolve(dbProvider.create(tripDay));
+                }
+            });
+        };
+TripDayCtrl.prototype.remove = function (id, tripId, userId) {
 
-
+    return new Promise(function (resolve, reject) {
+        dbProvider.getEditorsId(tripId)
+                .then(function (editors) {
+                    if (editors.indexOf(userId) < 0) {
+                        reject(new TPError(TPError.Unauthorized, "You are not allowed to remove this day"));
+                    } else {
+                        resolve(dbProvider.remove(id));
+                    }
+                });
+    });
 };
 
 
-exports.getEmptyDay = tripDayCtrl.getEmptyDay;
-exports.getDaysForTrip = tripDayCtrl.getDaysForTrip;
-exports.create = tripDayCtrl.create;
-exports.remove = tripDayCtrl.remove;
-exports.get = tripDayCtrl.get;
-exports.update = tripDayCtrl.update;
+module.exports = new TripDayCtrl();

@@ -1,17 +1,20 @@
 "use strict";
 // http://scotch.io/tutorials/javascript/easy-node-authentication-google
-
-var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-var FacebookStrategy = require("passport-facebook").Strategy;
-var User = require("../user/model");
 var fs = require("fs");
 var path = require("path");
-var configAuth = JSON.parse(fs.readFileSync(path.join(path.dirname(__filename), "private.json")).toString());
+
 var session = require("express-session");
 var morgan = require("morgan");
 var cookieParser = require("cookie-parser");
 var passport = require("passport");
 var flash = require("connect-flash");
+var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+var FacebookStrategy = require("passport-facebook").Strategy;
+
+var User = require("../user/model");
+
+var configAuth = JSON.parse(fs.readFileSync(path.join(path.dirname(__filename), "private.json")).toString());
+
 
 
 function configureGoogle(passport) {
@@ -20,31 +23,31 @@ function configureGoogle(passport) {
         clientSecret: configAuth.google.clientSecret,
         callbackURL: configAuth.google.callbackURL
     },
-    function (token, refreshToken, profile, done) {
-        process.nextTick(function () {
-            User.findOne({"google.id": profile.id}, function (err, user) {
-                if (err) {
-                    return done(err);
-                }
-                if (user) {
-                    return done(null, user);
-                } else {
-                    var newUser = new User();
-                    newUser.google.id = profile.id;
-                    newUser.google.token = token;
-                    newUser.google.displayName = profile.displayName;
-                    newUser.google.email = profile.emails[0].value;
-                    newUser.google.imageUrl = profile._json.picture;
-                    newUser.save(function (err) {
+            function (token, refreshToken, profile, done) {
+                process.nextTick(function () {
+                    User.findOne({"google.id": profile.id}, function (err, user) {
                         if (err) {
-                            throw err;
+                            return done(err);
                         }
-                        return done(null, newUser);
+                        if (user) {
+                            return done(null, user);
+                        } else {
+                            var newUser = new User();
+                            newUser.google.id = profile.id;
+                            newUser.google.token = token;
+                            newUser.google.displayName = profile.displayName;
+                            newUser.google.email = profile.emails[0].value;
+                            newUser.google.imageUrl = profile._json.picture;
+                            newUser.save(function (err) {
+                                if (err) {
+                                    throw err;
+                                }
+                                return done(null, newUser);
+                            });
+                        }
                     });
-                }
-            });
-        });
-    }));
+                });
+            }));
 }
 
 function configureFacebook(passport) {
@@ -53,33 +56,33 @@ function configureFacebook(passport) {
         clientSecret: configAuth.facebook.clientSecret,
         callbackURL: configAuth.facebook.callbackURL
     },
-    function (accessToken, refreshToken, profile, done) {
-        process.nextTick(function () {
-            User.findOne({"facebook.id": profile.id}, function (err, user) {
-                if (err) {
-                    return done(err);
-                }
-
-                if (user) {
-                    return done(null, user);
-                } else {
-                    var newUser = new User();
-
-                    newUser.facebook.id = profile.id;
-                    newUser.facebook.token = accessToken;
-                    newUser.facebook.displayName = profile.name.givenName + " " + profile.name.familyName;
-                    newUser.facebook.email = profile.emails[0].value;
-                    newUser.facebook.imageUrl = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
-                    newUser.save(function (err) {
+            function (accessToken, refreshToken, profile, done) {
+                process.nextTick(function () {
+                    User.findOne({"facebook.id": profile.id}, function (err, user) {
                         if (err) {
-                            throw err;
+                            return done(err);
                         }
-                        return done(null, newUser);
+
+                        if (user) {
+                            return done(null, user);
+                        } else {
+                            var newUser = new User();
+
+                            newUser.facebook.id = profile.id;
+                            newUser.facebook.token = accessToken;
+                            newUser.facebook.displayName = profile.name.givenName + " " + profile.name.familyName;
+                            newUser.facebook.email = profile.emails[0].value;
+                            newUser.facebook.imageUrl = "http://graph.facebook.com/" + profile.id + "/picture?type=square";
+                            newUser.save(function (err) {
+                                if (err) {
+                                    throw err;
+                                }
+                                return done(null, newUser);
+                            });
+                        }
                     });
-                }
-            });
-        });
-    }
+                });
+            }
     ));
 }
 
