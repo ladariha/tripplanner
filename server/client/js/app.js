@@ -26,7 +26,7 @@
         if (xhr.readyState === 4) {
             extensions = JSON.parse(xhr.responseText);
             for (var ext in extensions) {
-                if (extensions.hasOwnProperty(ext)) {
+                if (extensions.hasOwnProperty(ext) && typeof extensions[ext].module !== "undefined") {
                     modules.push(extensions[ext].module);
                 }
             }
