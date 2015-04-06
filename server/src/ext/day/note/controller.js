@@ -24,7 +24,9 @@ NoteCtrl.prototype.create = function (note, userId) {
 };
 NoteCtrl.prototype.get = function (extensionData) {
     return new Promise(function (resolve, reject) {
+         setTimeout(function(){
         resolve(extensionData);
+         }, 5000);
     });
 };
 

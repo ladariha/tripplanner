@@ -3,7 +3,7 @@ var Promise = require("promise");
 var TripDayModel = require("./model");
 var TPError = require("../model/promiseError");
 var dbProvider = require("./dao");
-
+var extensionCtrl  = require("../ext/day/controller");
 
 function TripDayCtrl() {}
 
@@ -41,7 +41,7 @@ TripDayCtrl.prototype.getEmptyDay = function (trip) {
     return td;
 };
 TripDayCtrl.prototype.getDaysForTrip = function (tripId) {
-    return dbProvider.getDaysForTrip(tripId);
+    return dbProvider.getDaysForTrip(tripId).then(extensionCtrl.get);
 },
         TripDayCtrl.prototype.create = function (tripDay) {
             if (!(tripDay instanceof TripDayModel)) {
