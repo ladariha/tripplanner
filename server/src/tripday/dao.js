@@ -41,7 +41,7 @@ TripDayDao.prototype.getEditorsId = function (id) {
 };
 TripDayDao.prototype.remove = function (id) {
     return new Promise(function (resolve, reject) {
-        TripDay.remove({"_id": id}, function (err, obj) {
+        TripDay.remove({"_id": id}, function (err) {
             if (err) {
                 reject(new TPError(TPError.DatabaseError, "Unable to remove given day", err));
             } else {

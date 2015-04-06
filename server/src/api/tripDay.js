@@ -1,6 +1,5 @@
 "use strict";
 
-var application = require("../server");
 require("../ext/tripDayExtModel");
 var http = require("../misc/http");
 /**

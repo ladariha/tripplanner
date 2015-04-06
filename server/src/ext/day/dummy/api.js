@@ -1,6 +1,6 @@
 "use strict";
 
-exports.registerRoute = function (app) {
+exports.registerRoute = function () {
 
     
 };

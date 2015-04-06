@@ -3,7 +3,7 @@ var Promise = require("promise");
 var TripDayModel = require("./model");
 var TPError = require("../model/promiseError");
 var dbProvider = require("./dao");
-var extensionCtrl  = require("../ext/day/controller");
+var extensionCtrl = require("../ext/day/controller");
 
 function TripDayCtrl() {}
 
@@ -42,21 +42,21 @@ TripDayCtrl.prototype.getEmptyDay = function (trip) {
 };
 TripDayCtrl.prototype.getDaysForTrip = function (tripId) {
     return dbProvider.getDaysForTrip(tripId).then(extensionCtrl.get);
-},
-        TripDayCtrl.prototype.create = function (tripDay) {
-            if (!(tripDay instanceof TripDayModel)) {
-                var _t = new TripDayModel();
-                _t.convert(tripDay);
-                tripDay = _t;
-            }
-            return new Promise(function (resolve, reject) {
-                if (!TripDayModel.isValid(tripDay)) {
-                    reject(new TPError(TPError.BadRequest, "Received object is not valid"));
-                } else {
-                    resolve(dbProvider.create(tripDay));
-                }
-            });
-        };
+};
+TripDayCtrl.prototype.create = function (tripDay) {
+    if (!(tripDay instanceof TripDayModel)) {
+        var _t = new TripDayModel();
+        _t.convert(tripDay);
+        tripDay = _t;
+    }
+    return new Promise(function (resolve, reject) {
+        if (!TripDayModel.isValid(tripDay)) {
+            reject(new TPError(TPError.BadRequest, "Received object is not valid"));
+        } else {
+            resolve(dbProvider.create(tripDay));
+        }
+    });
+};
 TripDayCtrl.prototype.remove = function (id, tripId, userId) {
 
     return new Promise(function (resolve, reject) {

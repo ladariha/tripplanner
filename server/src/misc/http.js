@@ -19,7 +19,7 @@ var http = {
     },
     Ok: function (response, data) {
         response.writeHead(200, {
-            "Content-Type": typeof data === "String" ? "text/plain" : "application/json"
+            "Content-Type": typeof data === "string" ? "text/plain" : "application/json"
         });
         response.write(JSON.stringify(data));
         response.end();

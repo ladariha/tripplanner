@@ -9,7 +9,7 @@ angular.module("tripPlanner.core").directive("tpNotification", [function () {
             controller: function ($scope) {
                 $scope.display = false;
 
-                $scope.$on("httpError", function (evt, data, status, headers, config) {
+                $scope.$on("httpError", function (evt, data, status) {
                     $scope.display = true;
                     $scope.message = data;
                     $scope.title = status;

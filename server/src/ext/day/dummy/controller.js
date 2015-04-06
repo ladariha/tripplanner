@@ -5,8 +5,8 @@ var Promise = require("promise");
 
 function NoteCtrl() {}
 
-NoteCtrl.prototype.get = function (extensionData) {
-    return new Promise(function (resolve, reject) {
+NoteCtrl.prototype.get = function () {
+    return new Promise(function (resolve) {
 //        setTimeout(function(){
             resolve({"a" :1});
 //        }, 5000);

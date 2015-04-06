@@ -32,11 +32,13 @@ function loadExtensions(folder, extensionType, pass) {
     var exts = utils.listFoldersAndNames((path.join(path.dirname(__filename), folder)).toString());
     var _e;
     for (var i in exts) {
-        _e = require(exts[i] + "/controller.js");
-        if (applicationCore.tripPlanner.isExtensionValid(_e)) {
-            extensionsCtrls[extensionType].registerExtension(i);
-            require(exts[i] + "/client.json"); // just to make sure such configuration exists for each extension
-            require(exts[i] + "/api.js").registerRoute(app, pass);
+        if (exts.hasOwnProperty(i)) {
+            _e = require(exts[i] + "/controller.js");
+            if (applicationCore.tripPlanner.isExtensionValid(_e)) {
+                extensionsCtrls[extensionType].registerExtension(i);
+                require(exts[i] + "/client.json"); // just to make sure such configuration exists for each extension
+                require(exts[i] + "/api.js").registerRoute(app, pass);
+            }
         }
     }
 }

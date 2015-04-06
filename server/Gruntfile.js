@@ -44,7 +44,7 @@ module.exports = function (grunt) {
                     "quotmark": "double",
                     "trailing": true,
 //                 "globalstrict": true,//
-                    "globals": {angular: true, window: true, google: true, Promise: true, hello: true, $: true},
+                    "globals": {angular: true, window: true, google: true, Promise: true, hello: true, $: true, XMLHttpRequest : true},
                     "reporter": require('jshint-stylish'),
                     '-W097': true // use strict in function form warning
                 }

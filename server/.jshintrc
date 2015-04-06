@@ -20,7 +20,8 @@
         "exports": true,
         "require": true,
         "$": true,
-        "Promise": true
+        "Promise": true,
+        "XMLHttpRequest" : true
     },
     "-W097": true
 }

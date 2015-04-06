@@ -134,14 +134,16 @@
 
             var ext;
             for (var e in extensions) {
-                ext = extensions[e];
-                for (var s in ext.states) {
-                    if (ext.states.hasOwnProperty(s)) {
-                        $stateProvider.state(ext.states[s].name, {
-                            templateUrl: ext.states[s].templateUrl,
-                            controller: ext.states[s].ctrl,
-                            params: ext.states[s].params,
-                            url: ext.states[s].url});
+                if (extensions.hasOwnProperty(e)) {
+                    ext = extensions[e];
+                    for (var s in ext.states) {
+                        if (ext.states.hasOwnProperty(s)) {
+                            $stateProvider.state(ext.states[s].name, {
+                                templateUrl: ext.states[s].templateUrl,
+                                controller: ext.states[s].ctrl,
+                                params: ext.states[s].params,
+                                url: ext.states[s].url});
+                        }
                     }
                 }
             }

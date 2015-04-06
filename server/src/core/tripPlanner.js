@@ -5,6 +5,6 @@
  * @param {type} ext
  * @returns {undefined}
  */
-exports.isExtensionValid = function (ext) {
+exports.isExtensionValid = function () {
     return true;
 };

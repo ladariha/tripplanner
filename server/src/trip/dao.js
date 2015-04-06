@@ -63,7 +63,7 @@ TripDao.prototype.getEditorsId = function (tripId) {
 };
 TripDao.prototype.remove = function (id) {
     return new Promise(function (resolve, reject) {
-        Trip.remove({"_id": id}, function (err, obj) {
+        Trip.remove({"_id": id}, function (err) {
             if (err) {
                 reject(new TPError(TPError.DatabaseError, "Unable to remove given trip", err));
             } else {

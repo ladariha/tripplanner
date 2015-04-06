@@ -51,7 +51,6 @@ angular.module("tripPlanner.tripDay")
                     }])
         .controller("tp.tripDay.ViewTripDayCtrl", ["$scope", "tripDay", "trip", "tp.tripDay.TripDayModel", "tp.session.Session", "tp.logger",
             function ViewTripDayCtrl($scope, tripDay, trip, TripDayModel, session, logger) {
-                console.log("A");
                 $scope.tripDay = tripDay ? tripDay : new TripDayModel(-1);
                 $scope.hasPermission = false;
 

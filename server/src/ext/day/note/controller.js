@@ -22,14 +22,19 @@ NoteCtrl.prototype.create = function (note, userId) {
         }
     });
 };
+NoteCtrl.prototype.toClient = function (extensionData) {
+    var _o = extensionData.toObject();
+    delete _o.tripDayId;
+    delete _o.tripId;
+    _o.id = _o._id;
+    delete _o._id;
+    return _o;
+};
+
 NoteCtrl.prototype.get = function (extensionData) {
-    return new Promise(function (resolve, reject) {
-        var _o = extensionData.toObject();
-        delete _o.tripDayId;
-        delete _o.tripId;
-        _o.id = _o._id;
-        delete _o._id;
-        resolve(_o);
+    var self = this;
+    return new Promise(function (resolve) {
+        resolve(self.toClient(extensionData));
     });
 };
 

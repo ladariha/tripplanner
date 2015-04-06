@@ -10,12 +10,18 @@ function NoteDao() {}
 NoteDao.prototype.create = function (note) {
     return new Promise(function (resolve, reject) {
         delete note.id;
-        tripDayCtrl.get(note.tripDayId).then(function (day) {
-            day.data.push(note);
-            day.save(function (err) {
-                err ? reject(new TPError(TPError.DatabaseError, "Unable to save data to db")) : resolve();
-            });
-        }, reject);
+        tripDayCtrl
+                .get(note.tripDayId)
+                .then(function (day) {
+                    day.data.push(note);
+                    day.save(function (err) {
+                        if (err) {
+                            reject(new TPError(TPError.DatabaseError, "Unable to save data to db"));
+                        } else {
+                            resolve();
+                        }
+                    });
+                }, reject);
     });
 };
 

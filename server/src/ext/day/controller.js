@@ -12,7 +12,7 @@ var extensions = {};
  */
 function resolveExtension(day, extensionName, extensionIndex, action) {
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
 
         if (!extensions.hasOwnProperty(extensionName)) {
             resolve(day);
@@ -35,7 +35,7 @@ function resolveExtension(day, extensionName, extensionIndex, action) {
  * @param {String} action
  * @returns {Promise}
  */
-function resolveDay(day, index, days, action) {
+function resolveDay(day, action) {
     var p = Promise.resolve();
     for (var i = 0, max = day.data.length; i < max; i++) {
         (function (index) {
@@ -54,7 +54,7 @@ TripDayExtCtrl.prototype.getClientExtensions = function () {
 
     for (var e in extensions) {
         if (extensions.hasOwnProperty(e)) {
-            info[e] = require('./' + e + "/client.json");
+            info[e] = require("./" + e + "/client.json");
         }
     }
     return info;
@@ -80,7 +80,7 @@ TripDayExtCtrl.prototype.get = function (days) {
 
         for (var j = 0, maxj = days.length; j < maxj; j++) {
             (function (index) {
-                p = p.then(resolveDay.bind(null, days[index], index, days, "get"));
+                p = p.then(resolveDay.bind(null, days[index], "get"));
             }(j));
         }
 
