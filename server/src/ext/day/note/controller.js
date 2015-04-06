@@ -24,7 +24,12 @@ NoteCtrl.prototype.create = function (note, userId) {
 };
 NoteCtrl.prototype.get = function (extensionData) {
     return new Promise(function (resolve, reject) {
-        resolve(extensionData);
+        var _o = extensionData.toObject();
+        delete _o.tripDayId;
+        delete _o.tripId;
+        _o.id = _o._id;
+        delete _o._id;
+        resolve(_o);
     });
 };
 
