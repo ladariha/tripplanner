@@ -27,6 +27,7 @@ NoteCtrl.prototype.toClient = function (extensionData) {
     delete _o.tripDayId;
     delete _o.tripId;
     _o.id = _o._id;
+    delete _o.__v;
     delete _o._id;
     return _o;
 };

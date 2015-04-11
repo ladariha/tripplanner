@@ -35,6 +35,7 @@ TripDay.methods.toClient = function () {
     _o.id = _o._id;
     _o.date = utils.dateToUTC(_o.date);
     delete _o._id;
+    delete _o.__v;
     return _o;
 };
 

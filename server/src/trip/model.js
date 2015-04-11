@@ -46,6 +46,7 @@ Trip.methods.toClient = function () {
     for (var i = 0, max = days.length; i < max; i++) {
         _o.days.push(days[i].toClient());
     }
+    delete _o.__v;
     delete _o._id;
     return _o;
 };
