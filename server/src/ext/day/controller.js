@@ -1,5 +1,6 @@
 "use strict";
 var Promise = require("promise");
+var async = require("async");
 var extensions = {};
 
 /**
@@ -46,6 +47,57 @@ function resolveDay(day, action) {
     return p;
 }
 
+
+/**
+ * Resolves days for given action (either get, remove, create, edit) using async.parallel
+ * @param {TripDay[]} days  array of days
+ * @param {String} action name of action
+ */
+function resolveDaysAsync(days, action) {
+    var p = new Promise(function (resolve, reject) {
+        var tasks = [];
+        for (var j = 0, maxj = days.length; j < maxj; j++) {
+            for (var i = 0, max = days[j].data.length; i < max; i++) {
+                tasks.push(getAsyncTask(days[j], days[j].data[i].name, i, action));
+            }
+        }
+        async.parallel(tasks, function (err) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(days);
+            }
+        });
+    });
+
+    return p;
+}
+/**
+ * Returns function used for async.parallel(). The returned function resolves single extension for given day
+ * @param {TripDay} day
+ * @param {String} extensionName
+ * @param {Number} extensionIndex
+ * @param {String} action name of action (either get, remove, create, edit)
+ * @returns {Function}
+ */
+function getAsyncTask(day, extensionName, extensionIndex, action) {
+    return function (callback) {
+        if (!extensions.hasOwnProperty(extensionName)) {
+            callback(null, day);
+        } else {
+            extensions[extensionName][action](day.data[extensionIndex]).then(function (resolvedData) {
+                day.data[extensionIndex] = resolvedData;
+                callback(null, day);
+            }, function (err) {
+                console.log("Failed to get extension " + extensionName + " for day " + day._id);
+                console.log(err);
+                callback(null, day); // just ignore the problem and do not block day retrieval
+            });
+        }
+    };
+}
+
+
 function TripDayExtCtrl() {}
 
 
@@ -71,9 +123,10 @@ TripDayExtCtrl.prototype.registerExtension = function (extensionName) {
  * Called by tripday/controller before passing trip day to user so extensions
  * with some server side code can be resolved
  * @param {Array.TripDay} days
+ * @deprecated use TripDayExtCtrl.prototype.get instead, it resolves extensions asynchronously
  * @returns {undefined}
  */
-TripDayExtCtrl.prototype.get = function (days) {
+TripDayExtCtrl.prototype.getPromises = function (days) {
 
     return new Promise(function (resolve, reject) {
         var p = Promise.resolve();
@@ -90,6 +143,15 @@ TripDayExtCtrl.prototype.get = function (days) {
     });
 
 
+};
+/**
+ * Called by tripday/controller before passing trip day to user so extensions
+ * with some server side code can be resolved
+ * @param {Array.TripDay} days
+ * @returns {undefined}
+ */
+TripDayExtCtrl.prototype.get = function (days) {
+    return resolveDaysAsync(days, "get");
 };
 
 
