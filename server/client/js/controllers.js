@@ -66,7 +66,7 @@ angular.module("tripPlanner.controllers",
                 };
 
                 $scope.choiceModalHide = function () {
-                    choiceVisible = false;
+                    $scope.choiceVisible = false;
                     choicePromise = null;
                 };
                 
