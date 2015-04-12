@@ -70,7 +70,9 @@ TripCtrl.prototype.create = function (trip, userId) {
                         t.days.push(tripDayCtrl.getEmptyDay(t));
                         return tripDayCtrl.create(t.days[0]);
                     })
-                    .then(resolve, reject);
+                    .then(function () {
+                        resolve(result);
+                    }, reject);
         }
     });
 };
