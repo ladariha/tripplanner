@@ -67,7 +67,7 @@ TripDayCtrl.prototype.remove = function (id, tripId, userId) {
                     } else {
                         resolve(dbProvider.remove(id));
                     }
-                });
+                }, reject);
     });
 };
 

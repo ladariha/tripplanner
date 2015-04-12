@@ -22,7 +22,7 @@ UserCtrl.prototype.get = function (id, convertToObj) {
                     .then(function (trips) {
                         res.trips = trips;
                         resolve(res);
-                    });
+                    }, reject);
         }
     });
 };

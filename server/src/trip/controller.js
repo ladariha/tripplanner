@@ -50,7 +50,7 @@ TripCtrl.prototype.get = function (id) {
                     .then(function (days) {
                         result.days = days;
                         resolve(result);
-                    });
+                    }, reject);
         }
     });
 };
