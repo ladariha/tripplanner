@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.extension")
+angular.module("tripPlanner.dayextension")
         .directive("tpAddExtension", ["tp.ext.ExtensionManager", "$state", function (extensionManager, $state) {
 
                 var plainExts = [];

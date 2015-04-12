@@ -1,20 +1,14 @@
 "use strict";
 angular.module("tripPlanner.extension.note")
-        .factory("tp.ext.note.NoteModel", ["tp.validators",
-            function NoteModel(rules) {
+        .factory("tp.ext.note.NoteModel", ["tp.validators", "tp.ext.TripDayExtModel",
+            function NoteModel(rules, DayExtensionModel) {
 
                 function Note(tripId, tripDayId) {
-                    this.tripId = tripId;
-                    this.tripDayId = tripDayId;
-                    this.data = null;
-                    this.name = "note";
-                    this.id = null;
-                    this.author = null;
+                    DayExtensionModel.apply(this, [tripId, tripDayId]);
+                     this.name = "note";
                 }
-
-                Note.prototype.isValid = function () {
-                    return rules.definedNotNull(this.tripDayId) && rules.definedNotNull(this.tripId) && rules.definedNotNull(this.data) && this.data.length > 0;
-                };
+                
+                Note.prototype = Object.create(DayExtensionModel.prototype);
 
                 return Note;
 

@@ -1,5 +1,5 @@
 "use strict";
-angular.module("tripPlanner.extension")
+angular.module("tripPlanner.dayextension")
         .factory("tp.ext.ExtensionManager", ["tp.Core",
             function ExtensionManagerFactory(core) {
 

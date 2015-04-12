@@ -1,2 +1,2 @@
 "use strict";
-angular.module("tripPlanner.extension", ["tripPlanner.core"]);
+angular.module("tripPlanner.dayextension", ["tripPlanner.core", "tripPlanner.session"]);

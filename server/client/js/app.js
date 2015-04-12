@@ -18,7 +18,7 @@
         "tripPlanner.home",
         "tripPlanner.session",
         "tripPlanner.dialog",
-        "tripPlanner.extension"
+        "tripPlanner.dayextension"
     ];
     var extensions;
     var xhr = new XMLHttpRequest();

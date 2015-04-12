@@ -1,2 +1,2 @@
 "use strict";
-angular.module("tripPlanner.extension.note", ["tripPlanner.extension", "tripPlanner.utils"]);
+angular.module("tripPlanner.extension.note", ["tripPlanner.dayextension", "tripPlanner.utils"]);
