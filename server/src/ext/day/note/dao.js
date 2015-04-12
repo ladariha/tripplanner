@@ -18,7 +18,7 @@ NoteDao.prototype.create = function (note) {
                         if (err) {
                             reject(new TPError(TPError.DatabaseError, "Unable to save data to db"));
                         } else {
-                            resolve();
+                            resolve(note);
                         }
                     });
                 }, reject);

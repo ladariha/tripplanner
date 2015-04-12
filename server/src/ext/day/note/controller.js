@@ -11,6 +11,7 @@ NoteCtrl.prototype.create = function (note, userId) {
     note = note || {};
     note.name = "note";
     note.author = userId;
+    var self = this;
     return new Promise(function (resolve, reject) {
         if (!ExtModel.isValid(note)) {
             reject(new TPError(TPError.BadRequest, "Received object is not valid"));
@@ -18,7 +19,11 @@ NoteCtrl.prototype.create = function (note, userId) {
             var _n = new ExtModel();
             _n.convert(note);
             _n.data = _n.data.sanitize();
-            dbProvider.create(_n).then(resolve, reject);
+            dbProvider.create(_n)
+                    .then(function (d) {
+                        return self.get(d);
+                    })
+                    .then(resolve, reject);
         }
     });
 };

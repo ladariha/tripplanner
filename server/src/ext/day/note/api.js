@@ -11,7 +11,7 @@ exports.registerRoute = function (app) {
         } else {
 
             ctrl.create(req.body, req.user.id).then(function (note) {// TODO the create must returns resolved extension so that client will just add it to list of extensions instead of fetching entire trip again 
-                http.Ok(res, "Created");
+                http.Ok(res, note);
             }, function (err) {
                 http[err.type](res, err.msg);
             });
