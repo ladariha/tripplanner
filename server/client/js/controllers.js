@@ -4,8 +4,8 @@
 
 angular.module("tripPlanner.controllers",
         ["tripPlanner.map", "tripPlanner.trip", "tripPlanner.user", "tripPlanner.core", "tripPlanner.logger", "tripPlanner.utils", "tripPlanner.auth", "tripPlanner.session"])
-        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.session.Session", "tp.auth.LoginService", "tp.auth.LocationInterceptor","$q",
-            function TripPlannerCtrl($scope, logger, sessionFct, LoginService, LocationInterceptor, $q) {
+        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.session.Session", "tp.auth.LoginService", "tp.auth.LocationInterceptor","$q", "$rootScope",
+            function TripPlannerCtrl($scope, logger, sessionFct, LoginService, LocationInterceptor, $q, $rootScope) {
 
                 $scope.debug = false;
                 $scope.preferredMapProvider = "google";
@@ -25,7 +25,7 @@ angular.module("tripPlanner.controllers",
                     return sessionFct.getUser();
                 };
 
-                $scope.$on("busyMode", function (event, args) {
+                $rootScope.$on("busyMode", function (event, args) {
                     if (args) {
                         window.document.body.style.cursor = "wait";
                     } else {

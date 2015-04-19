@@ -4,7 +4,8 @@ angular.module("tripPlanner.extension.note")
                 return {
                     restrict: "E",
                     scope: {
-                        "extId": "@"
+                        "extId": "@",
+                        "editPermissions": "@"
                     },
                     replace: true,
                     templateUrl: "js/ext_note/viewDirective.html",

@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.core").directive("tpNotification", [function () {
+angular.module("tripPlanner.core").directive("tpNotification", ["$rootScope", function ($rootScope) {
 
         return {
             restrict: "E",
@@ -9,14 +9,14 @@ angular.module("tripPlanner.core").directive("tpNotification", [function () {
             controller: function ($scope) {
                 $scope.display = false;
 
-                $scope.$on("httpError", function (evt, data, status) {
+                $rootScope.$on("httpError", function (evt, data, status) {
                     $scope.display = true;
                     $scope.message = data;
                     $scope.title = status;
                     $scope.level = "danger";
                 });
 
-                $scope.$on("log", function (evt, message, title, level, style) {
+                $rootScope.$on("log", function (evt, message, title, level, style) {
                     $scope.display = true;
                     $scope.message = message;
                     $scope.title = title;

@@ -7,10 +7,11 @@ angular.module("tripPlanner.dayextension")
                     restrict: "E",
                     scope: {
                         "name": "@",
-                        "extId": "@"
+                        "extId": "@",
+                        "editPermissions" : "@"
                     },
                     link: function (scope, element, attributes) {
-                        var template = "<" + PREFIX + "." + scope.name + " ext-id='" + attributes.extid + "' />";
+                        var template = "<" + PREFIX + "." + scope.name + " ext-id='" + attributes.extid + "' edit-permissions='" + attributes.editpermissions +"' />";
                         var compiled = $compile(template)(scope);
                         element.append(compiled);
                     }

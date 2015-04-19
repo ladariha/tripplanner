@@ -35,7 +35,7 @@
         </div>
         <div class="row">
             <div data-ng-repeat="ext in day.data" class="col-xs-12 col-md-6 col-lg-6 extBox" >
-                <tp-day-extension name="{{ext.name}}" extId="{{ext.id}}"></tp-day-extension>
+                <tp-day-extension name="{{ext.name}}" extId="{{ext.id}}" editPermissions="{{editPermission}}"></tp-day-extension>
             </div>
         </div>
     </div>

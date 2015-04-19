@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService", function (LoginService) {
+angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService", "$rootScope", function (LoginService, $rootScope) {
 
         return {
             restrict: "E",
@@ -21,13 +21,13 @@ angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService",
                     $("#loginMenu").dropdown("toggle");
                 };
 
-                $scope.$on("userLoggedIn", function (evt, user) {
+                $rootScope.$on("userLoggedIn", function (evt, user) {
                     $scope.isLoggedIn = true;
                     $scope.userId = user.userId;
                     $scope.displayName = user.displayName;
                     $scope.$apply();
                 });
-                $scope.$on("userLoggedOut", function () {
+                $rootScope.$on("userLoggedOut", function () {
                     $scope.isLoggedIn = false;
                     $scope.userId = -1;
                     $scope.displayName = "Log in";
