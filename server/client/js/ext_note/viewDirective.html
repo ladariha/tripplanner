@@ -1,6 +1,19 @@
-<div>
-    <div data-ng-bind-html="text">
+<div data-ng-mouseenter="buttons = true" data-ng-mouseleave="buttons = false">
+    <div class="row">
+        <div class="col-xs-12" data-ng-bind-html="text">
+
+        </div> 
+    </div>
+    <div class="row">
+        <div class="col-xs-6">by {{::author}}
+            <span  class="btn btn-flat btn-info btn-xs" style="visibility: hidden">&nbsp;</span>
+        </div> 
+        <div class="col-xs-6">
+            <div  data-ng-hide="!canEdit || !buttons" >
+                <a ui-sref="day.edit({id : day.id, noCache: true, tripId : trip.id})" class="btn btn-flat btn-info btn-xs"><i class="mdi-content-create"></i>&nbsp;Edit</a>
+                <button data-ng-click="deleteDay($index)" class="btn btn-flat btn-danger btn-xs"><i class="mdi-content-clear"></i>&nbsp;Delete</button>
+            </div>
+        </div>
 
     </div>
-    <div>by {{::author}}</div> 
 </div>

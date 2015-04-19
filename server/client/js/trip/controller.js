@@ -77,13 +77,12 @@ angular.module("tripPlanner.trip")
                         $rootScope.$on("userLoggedIn", initPermissions);
                         $rootScope.$on("userLoggedOut", initPermissions);
 
+                        var tripHandler = new TripHandler();
 
                         function storeExtensionData() {
                             for (var i = 0, max = $scope.trip.days.length; i < max; i++) {
-                                for (var ext in $scope.trip.days[i].data) {
-                                    if ($scope.trip.days[i].data.hasOwnProperty(ext)) {
-                                        extensionData.set($scope.trip.days[i].data[ext].id, $scope.trip.days[i].data[ext]);
-                                    }
+                                for (var j = 0, maxj = $scope.trip.days[i].data.length; j < maxj; j++) {
+                                    extensionData.set($scope.trip.days[i].data[j].id, $scope.trip.days[i].data[j]);
                                 }
                             }
                         }
@@ -114,14 +113,13 @@ angular.module("tripPlanner.trip")
 
                         function initPermissions() {
                             $scope.hasPermission = session.getUser() && trip && trip.owner === session.getUser().userId ? true : false;
-                            $scope.editPermission = session.getUser() && trip && (trip.owner === session.getUser().userId || trip.editors.indexOf(session.getUser().userId) > -1) ? true : false;
-
+                            $scope.editPermission = tripHandler.getEditPermissions(trip);
                         }
 
                         function deleteTrip() {
                             $scope.choiceModal("Delete trip?", "Do you really want to remve this trip?")
                                     .then(function () {
-                                        return new TripHandler().remove($scope.trip.id);
+                                        return tripHandler.remove($scope.trip.id);
                                     })
                                     .then(function () {
                                         logger.log("Done", "Trip has been removed", "success");

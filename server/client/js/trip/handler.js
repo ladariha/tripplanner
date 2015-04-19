@@ -7,6 +7,33 @@ angular.module("tripPlanner.trip")
                 }
 
                 /**
+                 * Returns true or false if user with current user can edit the passed trip.
+                 * @param {Trip|String} trip if instance of Trip is given, checks
+                 * permissions on this instance. If String ID is given , checks
+                 * if cached trip has same ID and does the same check for permissons
+                 * @returns {Boolean}
+                 */
+                TripHandler.prototype.getEditPermissions = function (trip) {
+                    var user = session.getUser();
+                    var userId = null;
+                    if (user) {
+                        // no userId is passed
+                        userId = user.userId;
+                    }
+
+                    if (typeof trip === "object") {
+                        return userId &&
+                                trip &&
+                                (trip.owner === userId || trip.editors.indexOf(userId) > -1);
+                    } else {
+                        return userId &&
+                                tripCache.get() &&
+                                tripCache.get().id === trip &&
+                                (tripCache.get().owner === userId || tripCache.get().editors.indexOf(userId) > -1);
+                    }
+                };
+
+                /**
                  * 
                  * @param {Trip} trip
                  * @returns {Promise}
@@ -23,7 +50,7 @@ angular.module("tripPlanner.trip")
                 };
 
                 TripHandler.prototype.edit = function (trip) {
-                    if(!(trip.localDate instanceof Date)){
+                    if (!(trip.localDate instanceof Date)) {
                         trip.localDate = new Date().getFromInput(trip.localDate, " ");
                     }
                     trip.date = timeDateConvertor.localToUTCString(trip.localDate);
