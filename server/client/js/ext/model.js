@@ -22,6 +22,15 @@ angular.module("tripPlanner.dayextension")
                             rules.definedNotNull(this.id) &&
                             rules.definedNotNull(this.name);
                 };
+                
+                TripDayExtModel.prototype.convertFromServer = function(obj){
+                    this.data = obj.data;
+                    this.name = obj.name;
+                    this.id = obj.id;
+                    this.size = obj.size;
+                    this.author = obj.author;
+                    return this;
+                };
 
                 return TripDayExtModel;
 
