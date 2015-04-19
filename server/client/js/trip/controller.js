@@ -10,7 +10,7 @@ angular.module("tripPlanner.trip")
              * @param {type} TripDay
              * @returns {undefined}
              */
-            function TripFormCtrl($scope, TripModel, TripHandler, $state, trip, extensionData) {
+            function TripFormCtrl($scope, TripModel, TripHandler, $state, trip) {
 
                 $scope.trip = trip ? trip : new TripModel("km");
                 $scope.openedDatePicker = false;

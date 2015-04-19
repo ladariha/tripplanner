@@ -1,7 +1,7 @@
 "use strict";
 angular.module("tripPlanner.dayextension")
         .factory("tp.ext.TripDayExtModel", ["tp.validators", "tp.session.Session",
-            function TripDayExtModel(rules, Session) {
+            function TripDayExtModelFactory(rules, Session) {
 
                 function TripDayExtModel(tripId, tripDayId) {
                     this.tripId = tripId;
@@ -14,13 +14,13 @@ angular.module("tripPlanner.dayextension")
                 }
 
                 TripDayExtModel.prototype.isValid = function () {
-                    return rules.definedNotNull(this.tripDayId)
-                            && rules.definedNotNull(this.tripId)
-                            && rules.definedNotNull(this.data)
-                            && rules.definedNotNull(this.author)
-                            && this.data.length > 0
-                            && rules.definedNotNull(this.id)
-                            && rules.definedNotNull(this.name);
+                    return rules.definedNotNull(this.tripDayId) &&
+                            rules.definedNotNull(this.tripId) &&
+                            rules.definedNotNull(this.data) &&
+                            rules.definedNotNull(this.author) && 
+                            this.data.length > 0 &&
+                            rules.definedNotNull(this.id) &&
+                            rules.definedNotNull(this.name);
                 };
 
                 return TripDayExtModel;

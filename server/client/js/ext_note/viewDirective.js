@@ -1,10 +1,10 @@
 "use strict";
 angular.module("tripPlanner.extension.note")
-        .directive("tpExtDay.note", ["tp.ext.ExtensionData", "tp.user.UserHandler","tp.logger", function (extensionData, UserHandler, logger) {
+        .directive("tpExtDay.note", ["tp.ext.ExtensionData", "tp.user.UserHandler", "tp.logger", function (extensionData, UserHandler, logger) {
                 return {
                     restrict: "E",
                     scope: {
-                        "extId": '@'
+                        "extId": "@"
                     },
                     replace: true,
                     templateUrl: "js/ext_note/viewDirective.html",
@@ -15,8 +15,8 @@ angular.module("tripPlanner.extension.note")
 
 
                         function init() {
-                            new UserHandler().getUser(ext.author).then(resolveAuthor, function(data, status){
-                                logger.log("Failed to get user "+status, "Problem", "INFO", "alert");
+                            new UserHandler().getUser(ext.author).then(resolveAuthor, function (data, status) {
+                                logger.log("Failed to get user " + status, "Problem", "INFO", "alert");
                             });
                         }
 
