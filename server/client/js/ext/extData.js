@@ -11,9 +11,7 @@ angular.module("tripPlanner.dayextension")
                 var data = {};
 
                 // clear data on each route change
-                $rootScope.$on("$stateChangeStart", function () {
-                    data = {};
-                });
+                $rootScope.$on("$stateChangeStart", reset);
 
                 var extensionData = {
                     set: setData,
@@ -21,6 +19,14 @@ angular.module("tripPlanner.dayextension")
                 };
 
                 return extensionData;
+
+
+                /**
+                 * Resets data on route change
+                 */
+                function reset() {
+                    data = {};
+                }
 
                 function getData(extensionId) {
                     var result = data[extensionId];

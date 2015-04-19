@@ -9,7 +9,7 @@ angular.module("tripPlanner.auth")
                 var cancelledState = null;
                 var cancelledParams = null;
 
-                $rootScope.$on("$stateChangeStart", function (event, toState, fromState, fromParams) {
+                function stateChangeStart(event, toState, fromState, fromParams) {
                     if (PROTECTED_STATES.indexOf(toState.name) > -1 && !Session.getUser()) {
                         waitingForLogin = true;
                         cancelledState = toState.name;
@@ -17,9 +17,9 @@ angular.module("tripPlanner.auth")
                         event.preventDefault();
                         $state.go("login");
                     }
-                });
+                }
 
-                $rootScope.$on("userLoggedIn", function () {
+                function userLoggedIn() {
                     if (waitingForLogin) {
                         $timeout(function () {
                             $rootScope.$apply(function () {
@@ -28,7 +28,11 @@ angular.module("tripPlanner.auth")
                         });
                         waitingForLogin = false;
                     }
-                });
+                }
+
+
+                $rootScope.$on("$stateChangeStart", stateChangeStart);
+                $rootScope.$on("userLoggedIn", userLoggedIn);
 
                 return {};
             }]);

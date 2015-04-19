@@ -16,23 +16,26 @@ angular.module("tripPlanner.auth").directive("tpLogin", ["tp.auth.LoginService",
                 $scope.logout = function () {
                     LoginService.logout();
                 };
-                
-                $scope.toggle = function(){
+
+                $scope.toggle = function () {
                     $("#loginMenu").dropdown("toggle");
                 };
 
-                $rootScope.$on("userLoggedIn", function (evt, user) {
-                    $scope.isLoggedIn = true;
-                    $scope.userId = user.userId;
-                    $scope.displayName = user.displayName;
+                function userChanged(evt, user) {
+                    if (evt.name === "userLoggedIn") {
+                        $scope.isLoggedIn = true;
+                        $scope.userId = user.userId;
+                        $scope.displayName = user.displayName;
+                    } else {
+                        $scope.isLoggedIn = false;
+                        $scope.userId = -1;
+                        $scope.displayName = "Log in";
+                    }
                     $scope.$apply();
-                });
-                $rootScope.$on("userLoggedOut", function () {
-                    $scope.isLoggedIn = false;
-                    $scope.userId = -1;
-                    $scope.displayName = "Log in";
-                    $scope.$apply();
-                });
+                }
+
+                $rootScope.$on("userLoggedIn", userChanged);
+                $rootScope.$on("userLoggedOut", userChanged);
 
             },
             templateUrl: "js/auth/loginDirective.html"

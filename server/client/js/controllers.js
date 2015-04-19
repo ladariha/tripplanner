@@ -4,7 +4,7 @@
 
 angular.module("tripPlanner.controllers",
         ["tripPlanner.map", "tripPlanner.trip", "tripPlanner.user", "tripPlanner.core", "tripPlanner.logger", "tripPlanner.utils", "tripPlanner.auth", "tripPlanner.session"])
-        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.session.Session", "tp.auth.LoginService", "tp.auth.LocationInterceptor","$q", "$rootScope",
+        .controller("TripPlannerCtrl", ["$scope", "tp.logger", "tp.session.Session", "tp.auth.LoginService", "tp.auth.LocationInterceptor", "$q", "$rootScope",
             function TripPlannerCtrl($scope, logger, sessionFct, LoginService, LocationInterceptor, $q, $rootScope) {
 
                 $scope.debug = false;
@@ -25,13 +25,16 @@ angular.module("tripPlanner.controllers",
                     return sessionFct.getUser();
                 };
 
-                $rootScope.$on("busyMode", function (event, args) {
+
+                function busyMode(event, args) {
                     if (args) {
                         window.document.body.style.cursor = "wait";
                     } else {
                         window.document.body.style.cursor = "default";
                     }
-                });
+                }
+
+                $rootScope.$on("busyMode", busyMode);
 
                 $scope.handleGenericError = function (msg) {
                     logger.log("Action failed", msg, "INFO", "danger");
@@ -69,11 +72,11 @@ angular.module("tripPlanner.controllers",
                     $scope.choiceVisible = false;
                     choicePromise = null;
                 };
-                
-                $scope.choiceDialogResolve = function(val){
-                    if(val){
+
+                $scope.choiceDialogResolve = function (val) {
+                    if (val) {
                         choicePromise.resolve();
-                    }else{
+                    } else {
                         choicePromise.reject();
                     }
                 };
