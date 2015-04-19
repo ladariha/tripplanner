@@ -26,7 +26,7 @@ angular.module("tripPlanner.auth")
                     $http.delete(core.server.buildURL("session", {})).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
-                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        $rootScope.$emit("httpError", data, status, headers, config);
                         deferred.reject(data, status, headers, config);
                     });
                     return deferred.promise;

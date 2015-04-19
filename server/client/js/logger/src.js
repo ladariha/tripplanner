@@ -14,7 +14,7 @@ angular.module("tripPlanner.logger", [])
                 return {
                     log: function (message, title, level, style) {
                         window.console.log(message);
-                        $rootScope.$broadcast("log", message, title, level, style);
+                        $rootScope.$emit("log", message, title, level, style);
                     }
                 };
             }]);

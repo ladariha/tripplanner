@@ -17,7 +17,7 @@ angular.module("tripPlanner.tripDay")
                     $http.get(core.server.buildURL("tripDay", {id: tripDayId})).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
-                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        $rootScope.$emit("httpError", data, status, headers, config);
                         deferred.reject(data, status, headers, config);
                     });
 
@@ -29,7 +29,7 @@ angular.module("tripPlanner.tripDay")
                     $http.put(core.server.buildURL("tripDay", {id : tripDay.id}), JSON.stringify(tripDay)).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
-                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        $rootScope.$emit("httpError", data, status, headers, config);
                         deferred.reject(data, status, headers, config);
                     });
                     return deferred.promise;
@@ -40,7 +40,7 @@ angular.module("tripPlanner.tripDay")
                     $http.post(core.server.buildURL("tripDay", {}), JSON.stringify(tripDay)).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
-                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        $rootScope.$emit("httpError", data, status, headers, config);
                         deferred.reject(data, status, headers, config);
                     });
                     return deferred.promise;
@@ -51,7 +51,7 @@ angular.module("tripPlanner.tripDay")
                     $http.delete(core.server.buildURL("tripDay", {"id": tripDayId, "tripId": tripId})).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
-                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        $rootScope.$emit("httpError", data, status, headers, config);
                         deferred.reject(data, status, headers, config);
                     });
                     return deferred.promise;

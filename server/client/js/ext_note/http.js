@@ -18,7 +18,7 @@ angular.module("tripPlanner.extension.note")
                     $http.post(core.server.buildURL("note", {}), JSON.stringify(note)).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
-                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        $rootScope.$emit("httpError", data, status, headers, config);
                         deferred.reject(data, status, headers, config);
                     });
 

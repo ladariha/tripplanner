@@ -40,11 +40,11 @@
             $provide.factory("busyIndicatorInterceptor", function BusyIndicatorInterceptor($q, $rootScope) {
                 return {
                     "request": function (config) {
-                        $rootScope.$broadcast("busyMode", true);
+                        $rootScope.$emit("busyMode", true);
                         return config || $q.when(config);
                     },
                     "response": function (response) {
-                        $rootScope.$broadcast("busyMode", false);
+                        $rootScope.$emit("busyMode", false);
                         return response || $q.when(response);
                     }
                 };

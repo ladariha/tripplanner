@@ -29,7 +29,7 @@ angular.module("tripPlanner.session", [])
                     $http.defaults.headers.common["X-TripPlanner-UserId"] = this.user.userId;
                     var self = this;
                     $timeout(function () {
-                        $rootScope.$broadcast("userLoggedIn", self.user);
+                        $rootScope.$emit("userLoggedIn", self.user);
                     });
                 };
 
@@ -40,7 +40,7 @@ angular.module("tripPlanner.session", [])
                     delete $http.defaults.headers.common["X-TripPlanner-UserId"];
 
                     $timeout(function () {
-                        $rootScope.$broadcast("userLoggedOut");
+                        $rootScope.$emit("userLoggedOut");
                     });
                 };
 
