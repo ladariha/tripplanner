@@ -10,7 +10,7 @@ angular.module("tripPlanner.trip")
              * @param {type} TripDay
              * @returns {undefined}
              */
-            function TripFormCtrl($scope, TripModel, TripHandler, $state, trip) {
+            function TripFormCtrl($scope, TripModel, TripHandler, $state, trip, extensionData) {
 
                 $scope.trip = trip ? trip : new TripModel("km");
                 $scope.openedDatePicker = false;
@@ -46,14 +46,16 @@ angular.module("tripPlanner.trip")
                     $scope.openedDatePicker = true;
                 }
             }])
-        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.session.Session", "$state", "$stateParams", "tp.trip.TripHandler", "tp.logger", "tp.trip.TripModel", "tp.tripDay.TripDayHandler",
-            function ViewTripCtrl($scope, trip, session, $state, $stateParams, TripHandler, logger, TripModel, TripDayHandler) {
+        .controller("tp.trip.ViewTripCtrl", ["$scope", "trip", "tp.session.Session", "$state", "$stateParams", "tp.trip.TripHandler", "tp.logger", "tp.trip.TripModel", "tp.tripDay.TripDayHandler", "tp.ext.ExtensionData",
+            function ViewTripCtrl($scope, trip, session, $state, $stateParams, TripHandler, logger, TripModel, TripDayHandler, extensionData) {
 
                 $scope.trip = trip ? trip : new TripModel("km");
 
                 if ($scope.trip.id === -1) {
                     $state.go("trip.new");
                     return;
+                }else{
+                    storeExtensionData();
                 }
 
                 $scope.buttons = [];
@@ -63,6 +65,18 @@ angular.module("tripPlanner.trip")
 
                 $scope.$on("userLoggedIn", initPermissions);
                 $scope.$on("userLoggedOut", initPermissions);
+
+
+                function storeExtensionData() {
+                    for (var i = 0, max = $scope.trip.days.length; i < max; i++) {
+                        for (var ext in $scope.trip.days[i].data) {
+                            if ($scope.trip.days[i].data.hasOwnProperty(ext)) {
+                                extensionData.set($scope.trip.days[i].data[ext].id, $scope.trip.days[i].data[ext]);
+                            }
+                        }
+                    }
+                }
+
 
                 function deleteDay(index) {
                     $scope.choiceModal("Delete trip day?", "Do you really want to remve this day?")

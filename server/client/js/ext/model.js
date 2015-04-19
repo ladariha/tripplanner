@@ -9,6 +9,7 @@ angular.module("tripPlanner.dayextension")
                     this.data = null;
                     this.name = null;
                     this.id = -1;
+                    this.size = 50; // size in %
                     this.author = Session.getUser().userId;
                 }
 
