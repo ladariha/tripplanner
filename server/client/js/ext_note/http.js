@@ -4,8 +4,8 @@ angular.module("tripPlanner.extension.note")
 
                 var httpService = {
                     create: create,
-//                    edit: edit,
-//                    get: get,
+                    edit: edit,
+                    get: get,
 //                    remove: remove
                 };
 
@@ -15,7 +15,7 @@ angular.module("tripPlanner.extension.note")
                 function create(note) {
                     var deferred = $q.defer();
 
-                    $http.post(core.server.buildURL("note", {}), JSON.stringify(note)).success(function (result) {
+                    $http.post(core.server.buildURL("note", []), JSON.stringify(note)).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
                         $rootScope.$emit("httpError", data, status, headers, config);
@@ -25,29 +25,28 @@ angular.module("tripPlanner.extension.note")
                     return deferred.promise;
                 }
 
-//                function edit(trip) {
-//                    var deferred = $q.defer();
-//                    $http.put(core.server.buildURL("trip", {"id": trip.id}), JSON.stringify(trip)).success(function (result) {
-//                        deferred.resolve(result);
-//                    }).error(function (data, status, headers, config) {
-//                        $rootScope.$broadcast("httpError", data, status, headers, config);
-//                        deferred.reject(data, status, headers, config);
-//                    });
+                function edit(note) {
+                    var deferred = $q.defer();
+                    $http.put(core.server.buildURL("note", [note.id, note.tripDayId]), JSON.stringify(note)).success(function (result) {
+                        deferred.resolve(result);
+                    }).error(function (data, status, headers, config) {
+                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        deferred.reject(data, status, headers, config);
+                    });
+                    return deferred.promise;
+                }
 //
-//                    return deferred.promise;
-//                }
-//
-//                function get(tripId) {
-//                    var deferred = $q.defer();
-//                    $http.get(core.server.buildURL("trip", {"id": tripId})).success(function (result) {
-//                        deferred.resolve(result);
-//                    }).error(function (data, status, headers, config) {
-//                        $rootScope.$broadcast("httpError", data, status, headers, config);
-//                        deferred.reject(data, status, headers, config);
-//                    });
-//
-//                    return deferred.promise;
-//                }
+                function get(noteId, dayId) {
+                    var deferred = $q.defer();
+                    $http.get(core.server.buildURL("note", [noteId, dayId])).success(function (result) {
+                        deferred.resolve(result);
+                    }).error(function (data, status, headers, config) {
+                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        deferred.reject(data, status, headers, config);
+                    });
+
+                    return deferred.promise;
+                }
 //
 //                function remove(tripId) {
 //                    var deferred = $q.defer();

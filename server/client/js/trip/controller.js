@@ -56,17 +56,14 @@ angular.module("tripPlanner.trip")
                     "tp.logger",
                     "tp.trip.TripModel",
                     "tp.tripDay.TripDayHandler",
-                    "tp.ext.ExtensionData",
                     "$rootScope",
-                    function ViewTripCtrl($scope, trip, session, $state, $stateParams, TripHandler, logger, TripModel, TripDayHandler, extensionData, $rootScope) {
+                    function ViewTripCtrl($scope, trip, session, $state, $stateParams, TripHandler, logger, TripModel, TripDayHandler, $rootScope) {
 
                         $scope.trip = trip ? trip : new TripModel("km");
 
                         if ($scope.trip.id === -1) {
                             $state.go("trip.new");
                             return;
-                        } else {
-                            storeExtensionData();
                         }
 
                         $scope.buttons = [];
@@ -78,15 +75,6 @@ angular.module("tripPlanner.trip")
                         $rootScope.$on("userLoggedOut", initPermissions);
 
                         var tripHandler = new TripHandler();
-
-                        function storeExtensionData() {
-                            for (var i = 0, max = $scope.trip.days.length; i < max; i++) {
-                                for (var j = 0, maxj = $scope.trip.days[i].data.length; j < maxj; j++) {
-                                    extensionData.set($scope.trip.days[i].data[j].id, $scope.trip.days[i].data[j]);
-                                }
-                            }
-                        }
-
 
                         function deleteDay(index) {
                             $scope.choiceModal("Delete trip day?", "Do you really want to remve this day?")

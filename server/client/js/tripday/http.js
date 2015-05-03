@@ -14,7 +14,7 @@ angular.module("tripPlanner.tripDay")
                 function get(tripDayId) {
                     var deferred = $q.defer();
 
-                    $http.get(core.server.buildURL("tripDay", {id: tripDayId})).success(function (result) {
+                    $http.get(core.server.buildURL("tripDay", [tripDayId])).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
                         $rootScope.$emit("httpError", data, status, headers, config);
@@ -26,7 +26,7 @@ angular.module("tripPlanner.tripDay")
 
                 function edit(tripDay) {
                     var deferred = $q.defer();
-                    $http.put(core.server.buildURL("tripDay", {id : tripDay.id}), JSON.stringify(tripDay)).success(function (result) {
+                    $http.put(core.server.buildURL("tripDay", [tripDay.id]), JSON.stringify(tripDay)).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
                         $rootScope.$emit("httpError", data, status, headers, config);
@@ -37,7 +37,7 @@ angular.module("tripPlanner.tripDay")
 
                 function create(tripDay) {
                     var deferred = $q.defer();
-                    $http.post(core.server.buildURL("tripDay", {}), JSON.stringify(tripDay)).success(function (result) {
+                    $http.post(core.server.buildURL("tripDay", []), JSON.stringify(tripDay)).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
                         $rootScope.$emit("httpError", data, status, headers, config);
@@ -48,7 +48,7 @@ angular.module("tripPlanner.tripDay")
 
                 function remove(tripDayId, tripId) {
                     var deferred = $q.defer();
-                    $http.delete(core.server.buildURL("tripDay", {"id": tripDayId, "tripId": tripId})).success(function (result) {
+                    $http.delete(core.server.buildURL("tripDay", [tripDayId, tripId])).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
                         $rootScope.$emit("httpError", data, status, headers, config);

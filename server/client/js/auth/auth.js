@@ -18,7 +18,7 @@ angular.module("tripPlanner.auth")
 
 
                         function login(serviceName) {
-                            popupCenter(core.server.buildURL(serviceName + "Auth", {}), 950, 700);
+                            popupCenter(core.server.buildURL(serviceName + "Auth", []), 950, 700);
                             waitForResponse(serviceName);
                         }
 

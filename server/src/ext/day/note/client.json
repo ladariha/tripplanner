@@ -1,29 +1,36 @@
 {
     "name": "note",
     "displayName": "Note",
-    "type" : "day",
-    "url" : "http://localhost:13131/api/ext/day/note",
+    "type": "day",
+    "url": "http://localhost:13131/api/ext/day/note",
     "module": "tripPlanner.extension.note",
     "handler": "tp.ext.note.NoteHandler",
-    "js" :[
+    "js": [
         "js/ext_note/src.js",
         "js/ext_note/handler.js",
         "js/ext_note/controller.js"
-    ], 
+    ],
     "states": {
         "create": {
             "name": "tpExt_Note_Create",
             "ctrl": "tp.ext.note.NoteCtrl",
-            "templateUrl" : "js/ext_note/partial/note.html",
-            "url" : "note/create",
-            "params" : {"tripDay" : null}
+            "templateUrl": "js/ext_note/partial/note.html",
+            "url": "note/create",
+            "params": {
+                "tripDay": null
+            }
         },
         "edit": {
             "name": "tpExt_Note_Edit",
-            "ctrl": "tp.ext.note.NoteCtrl",
-            "templateUrl" : "js/ext_note/partial/note.html",
-            "url" : "note/edit",
-            "params" : {"tripDay" : null}
+            "ctrl": "tp.ext.note.NoteEditCtrl",
+            "templateUrl": "js/ext_note/partial/note.html",
+            "url": "note/edit",
+            "params": {
+                "dayName": null,
+                "id": null,
+                "dayId": null,
+                "tripId": null
+            }
         }
 
     }

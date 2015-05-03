@@ -15,6 +15,20 @@ function TripCtrl() {
 TripCtrl.prototype.getEditorsId = function (id) {
     return dbProvider.getEditorsId(id);
 };
+/**
+ * Returns resolved of rejected promise if user can edit given trip
+ * @param {String} tripId
+ * @param {String} userId
+ * @returns {Promise}
+ */
+TripCtrl.prototype.canUserEdit = function (tripId, userId) {
+    return new Promise(function (resolve, reject) {
+        dbProvider.getEditorsId(tripId).then(function (ids) {
+            ids.indexOf(userId) > -1 ? resolve(true) : reject(false);
+        });
+    });
+};
+
 TripCtrl.prototype.edit = function (trip, userId) {
     var self = this;
     return new Promise(function (resolve, reject) {

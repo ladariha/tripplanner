@@ -11,7 +11,7 @@ angular.module("tripPlanner.user")
 
                 function get(userId) {
                     var deferred = $q.defer();
-                    $http.get(core.server.buildURL("user", {"id": userId})).success(function (result) {
+                    $http.get(core.server.buildURL("user", [userId])).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
                         $rootScope.$emit("httpError", data, status, headers, config);

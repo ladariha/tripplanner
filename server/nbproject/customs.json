@@ -36,6 +36,13 @@
                 "label": {}
             }
         },
+        "tp-day-extension": {
+            "attributes": {
+                "name": {},
+                "editPermissions": {},
+                "extId": {}
+            }
+        },
         "tp-login": {}
     }
 }

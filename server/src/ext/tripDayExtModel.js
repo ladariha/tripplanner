@@ -9,6 +9,7 @@ var TripDayExtension = new Schema(
             author: String,
             tripDayId: String,
             data: Object,
+            size: Number,
             name: {type: String, index: true}
         }
 );
@@ -23,6 +24,7 @@ TripDayExtension.methods.convert = function (obj, includeId) {
     this.tripDayId = obj.tripDayId;
     this.tripId = obj.tripId;
     this.author = obj.author;
+    this.size = obj.size;
     this.id = includeId ? obj.id : this.id;
     return this;
 };

@@ -1,13 +1,13 @@
 "use strict";
 angular.module("tripPlanner.extension.note")
         .directive("tpExtDay.note", [
-            "tp.ext.ExtensionData",
             "tp.user.UserHandler",
             "tp.logger",
             "$rootScope",
             "tp.session.Session",
             "tp.trip.TripHandler",
-            function (extensionData, UserHandler, logger, $rootScope, session, TripHandler) {
+            "tp.trip.TripCache",
+            function (UserHandler, logger, $rootScope, session, TripHandler, tripCache) {
                 return {
                     restrict: "E",
                     scope: {
@@ -17,13 +17,18 @@ angular.module("tripPlanner.extension.note")
                     replace: true,
                     templateUrl: "js/ext_note/viewDirective.html",
                     controller: function ($scope) {
-                        var ext = (extensionData.get($scope.extId));
+
+                        var ext = tripCache.getDayExtension($scope.extId);
                         var user = null;
                         var tripHandler = new TripHandler();
+                        var day = tripCache.getDay(ext.tripDayId);
 
                         $scope.text = ext.data;
                         $scope.canEdit = false;
                         $scope.buttons = false;
+                        $scope.dayName = day.name;
+                        $scope.tripId = tripCache.get().id;
+                        $scope.dayId = day.id;
                         $rootScope.$on("userLoggedIn", initPermissions);
                         $rootScope.$on("userLoggedOut", initPermissions);
 

@@ -10,7 +10,7 @@
         </div> 
         <div class="col-xs-6">
             <div  data-ng-hide="!canEdit || !buttons" >
-                <a ui-sref="day.edit({id : day.id, noCache: true, tripId : trip.id})" class="btn btn-flat btn-info btn-xs"><i class="mdi-content-create"></i>&nbsp;Edit</a>
+                <a ui-sref="tpExt_Note_Edit({id : extId, dayName : dayName, tripId : tripId, dayId : dayId })" class="btn btn-flat btn-info btn-xs"><i class="mdi-content-create"></i>&nbsp;Edit</a>
                 <button data-ng-click="deleteDay($index)" class="btn btn-flat btn-danger btn-xs"><i class="mdi-content-clear"></i>&nbsp;Delete</button>
             </div>
         </div>

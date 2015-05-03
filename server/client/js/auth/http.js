@@ -12,7 +12,7 @@ angular.module("tripPlanner.auth")
                 function getSession() {
                     var deferred = $q.defer();
 
-                    $http.get(core.server.buildURL("session", {})).success(function (result) {
+                    $http.get(core.server.buildURL("session", [])).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
                         //  $rootScope.$broadcast("httpError", data, status, headers, config);
@@ -23,7 +23,7 @@ angular.module("tripPlanner.auth")
 
                 function logout() {
                     var deferred = $q.defer();
-                    $http.delete(core.server.buildURL("session", {})).success(function (result) {
+                    $http.delete(core.server.buildURL("session", [])).success(function (result) {
                         deferred.resolve(result);
                     }).error(function (data, status, headers, config) {
                         $rootScope.$emit("httpError", data, status, headers, config);

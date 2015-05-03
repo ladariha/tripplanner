@@ -19,6 +19,36 @@ angular.module("tripPlanner.trip")
                     tripDayCache.reset();
                 };
 
+                TripCache.prototype.getDayExtension = function (extId) {
+                    if (!this.cache) {
+                        return null;
+                    }
+
+                    var result = null;
+                    for (var i = 0, max = this.cache.days.length; i < max; i++) {
+                        for (var j = 0, maxj = this.cache.days[i].data.length; j < maxj; j++) {
+                            if (this.cache.days[i].data[j].id === extId) {
+                                result = this.cache.days[i].data[j];
+                            }
+                        }
+                    }
+                    return result;
+                };
+
+                TripCache.prototype.getDay = function (dayId) {
+                    if (!this.cache) {
+                        return null;
+                    }
+
+                    var result = null;
+                    for (var i = 0, max = this.cache.days.length; i < max; i++) {
+                        if (this.cache.days[i].id === dayId) {
+                            result = this.cache.days[i];
+                        }
+                    }
+                    return result;
+                };
+
                 return new TripCache();
             }
         ]);

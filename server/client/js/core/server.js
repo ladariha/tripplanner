@@ -20,11 +20,12 @@ angular.module("tripPlanner.core")
                 };
 
                 Server.prototype._patterns.prettyUrl = function (endpoint, parameters) {
+                    if (!(parameters instanceof Array)) {
+                        throw new Error("wrong parameter type")
+                    }
                     var url = "";
-                    for (var parameter in parameters) {
-                        if (parameters.hasOwnProperty(parameter)) {
-                            url += "/" + encodeURIComponent(parameters[parameter]);
-                        }
+                    for (var i = 0, max = parameters.length; i < max; i++) {
+                            url += "/" + encodeURIComponent(parameters[i]);
                     }
                     return this.endpoints[endpoint] + url;
                 };
