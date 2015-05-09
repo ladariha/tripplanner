@@ -3,7 +3,7 @@
 var ExtDao = require("../dao");
 
 function NoteDao() {
-    ExtDao.apply(this);
+    ExtDao.apply(this, ["Note"]);
 }
 
 NoteDao.prototype = Object.create(ExtDao.prototype);

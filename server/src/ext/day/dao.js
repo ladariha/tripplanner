@@ -4,7 +4,9 @@ var Promise = require("promise");
 var TPError = require("../../model/promiseError");
 var tripDayCtrl = require("../../tripday/controller");
 
-function ExtDao() {}
+function ExtDao(name) {
+    this.name = name;
+}
 
 
 ExtDao.prototype.create = function (ext) {
@@ -41,6 +43,7 @@ ExtDao.prototype.edit = function (ext) {
     });
 };
 ExtDao.prototype.remove = function (extId, dayId) {
+    var self = this;
     return new Promise(function (resolve, reject) {
         tripDayCtrl
                 .get(dayId)
@@ -50,7 +53,7 @@ ExtDao.prototype.remove = function (extId, dayId) {
                         if (err) {
                             reject(new TPError(TPError.DatabaseError, "Unable to save data to db"));
                         } else {
-                            resolve("Note removed");
+                            resolve(self.name + " removed");
                         }
                     });
                 }, reject);
