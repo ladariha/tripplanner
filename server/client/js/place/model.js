@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.place", ["tripPlanner.utils"])
+angular.module("tripPlanner.place")
         .factory("tp.place.PlaceModel", ["tp.validators", function PlaceModel(rules) {
                 function Place(label, lat, long) {
                     this.label = label;

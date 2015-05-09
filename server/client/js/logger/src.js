@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.logger", [])
+angular.module("tripPlanner.logger")
         .factory("tp.logger", ["$rootScope", function LoggerFactory($rootScope) {
 
                 var logger = {

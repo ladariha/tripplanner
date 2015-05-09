@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.session", [])
+angular.module("tripPlanner.session")
         .factory("tp.session.Session", ["tp.user.UserModel", "$http", "$rootScope", "$timeout", function SessionFactory(User, $http, $rootScope, $timeout) {
 
                 function Session() {

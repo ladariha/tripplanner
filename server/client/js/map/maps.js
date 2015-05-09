@@ -2,7 +2,7 @@
 
 /* Services */
 
-angular.module("tripPlanner.map", ["tripPlanner.place"])
+angular.module("tripPlanner.map")
         .value("version", "0.1")
         .factory("tp.map.MapProvider", ["tp.map.googlemaps", function(GoogleMaps) {
 
