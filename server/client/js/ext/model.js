@@ -17,18 +17,24 @@ angular.module("tripPlanner.dayextension")
                     return rules.definedNotNull(this.tripDayId) &&
                             rules.definedNotNull(this.tripId) &&
                             rules.definedNotNull(this.data) &&
-                            rules.definedNotNull(this.author) && 
+                            rules.definedNotNull(this.author) &&
                             this.data.length > 0 &&
                             rules.definedNotNull(this.id) &&
                             rules.definedNotNull(this.name);
                 };
-                
-                TripDayExtModel.prototype.convertFromServer = function(obj){
+
+                TripDayExtModel.prototype.convertFromServer = function (obj) {
                     this.data = obj.data;
                     this.name = obj.name;
                     this.id = obj.id;
                     this.size = obj.size;
                     this.author = obj.author;
+                    if (obj.tripId) {
+                        this.tripId = obj.tripId;
+                    }
+                    if (obj.tripDayId) {
+                        this.tripDayId = obj.tripDayId;
+                    }
                     return this;
                 };
 

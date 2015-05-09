@@ -7,11 +7,19 @@ angular.module("tripPlanner.extension.note")
                 function NoteHandler() {}
 
                 NoteHandler.prototype.create = function (note) {
-                    return NoteHttp.create(note);
+                    return NoteHttp.create(note).then(function (ext) {
+                        var n = new Note(note.tripId, note.tripDayId);
+                        n.convertFromServer(ext);
+                        tripCache.addExtensionToDay(n.tripDayId, n);
+                    });
                 };
 
                 NoteHandler.prototype.edit = function (note) {
-                    return NoteHttp.edit(note);
+                    return NoteHttp.edit(note).then(function (ext) {
+                        var n = new Note(note.tripId, note.tripDayId);
+                        n.convertFromServer(ext);
+                        tripCache.replaceDayExtension(n.id, n.tripDayId, n);
+                    });
                 };
                 NoteHandler.prototype.remove = function (noteId, dayId) {
                     return NoteHttp.remove(noteId, dayId).then(function () {

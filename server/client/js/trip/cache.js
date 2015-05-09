@@ -23,14 +23,36 @@ angular.module("tripPlanner.trip")
                 TripCache.prototype.removeDayExtension = function (extensionId, dayId) {
                     var day = this.getDay(dayId);
                     if (!day) {
-                        return;
+                        return false;
                     }
                     for (var j = 0, maxj = day.data.length; j < maxj; j++) {
                         if (day.data[j].id === extensionId) {
                             day.data.splice(j, 1);
-                            return;
+                            return true;
                         }
                     }
+                };
+
+                TripCache.prototype.replaceDayExtension = function (extensionId, dayId, newExtension) {
+                    var day = this.getDay(dayId);
+                    if (!day) {
+                        return false;
+                    }
+                    for (var j = 0, maxj = day.data.length; j < maxj; j++) {
+                        if (day.data[j].id === extensionId) {
+                            day.data[j] = newExtension;
+                            return true;
+                        }
+                    }
+                };
+
+                TripCache.prototype.addExtensionToDay = function (dayId, extension) {
+                    var day = this.getDay(dayId);
+                    if (!day) {
+                        return false;
+                    }
+                    day.data.push(extension);
+                    return true;
                 };
 
 
