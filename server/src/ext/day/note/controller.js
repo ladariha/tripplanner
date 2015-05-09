@@ -76,6 +76,24 @@ NoteCtrl.prototype.editExt = function (note, userId) {
     });
 };
 
+NoteCtrl.prototype.removeExt = function (noteId, dayId, userId) {
+
+    return new Promise(function (resolve, reject) {
+        tripDayCtrl.get(dayId)
+                .then(function (day) {
+                    return tripCtrl.canUserEdit(day.tripId, userId);
+                }, function () {
+                    reject(new TPError(TPError.NotFound, "Trip not foundYou cannot modify this trip"));
+                })
+                .then(function () {
+                    console.log("=====");
+                    resolve(dbProvider.remove(noteId, dayId));
+                }, function () {
+                    reject(new TPError(TPError.Unauthorized, "You cannot modify this trip"));
+                });
+    });
+};
+
 NoteCtrl.prototype.get = function (extensionData) {
     return new Promise(function (resolve) {
         resolve(NoteCtrl.prototype.toClient(extensionData));

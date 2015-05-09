@@ -19,6 +19,21 @@ angular.module("tripPlanner.trip")
                     tripDayCache.reset();
                 };
 
+
+                TripCache.prototype.removeDayExtension = function (extensionId, dayId) {
+                    var day = this.getDay(dayId);
+                    if (!day) {
+                        return;
+                    }
+                    for (var j = 0, maxj = day.data.length; j < maxj; j++) {
+                        if (day.data[j].id === extensionId) {
+                            day.data.splice(j, 1);
+                            return;
+                        }
+                    }
+                };
+
+
                 TripCache.prototype.getDayExtension = function (extId) {
                     if (!this.cache) {
                         return null;

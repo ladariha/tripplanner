@@ -7,7 +7,8 @@ angular.module("tripPlanner.extension.note")
             "tp.session.Session",
             "tp.trip.TripHandler",
             "tp.trip.TripCache",
-            function (UserHandler, logger, $rootScope, session, TripHandler, tripCache) {
+            "tp.ext.note.NoteHandler",
+            function (UserHandler, logger, $rootScope, session, TripHandler, tripCache, NoteHandler) {
                 return {
                     restrict: "E",
                     scope: {
@@ -29,8 +30,16 @@ angular.module("tripPlanner.extension.note")
                         $scope.dayName = day.name;
                         $scope.tripId = tripCache.get().id;
                         $scope.dayId = day.id;
+                        $scope.deleteNote = deleteNote;
                         $rootScope.$on("userLoggedIn", initPermissions);
                         $rootScope.$on("userLoggedOut", initPermissions);
+
+
+                        function deleteNote() {
+                            new NoteHandler().remove($scope.extId, $scope.dayId).then(function () {}, function (err) {
+                                logger.log("Failed to remove note" + err, "Problem", "INFO", "alert");
+                            });
+                        }
 
                         function init() {
                             new UserHandler().getUser(ext.author).then(resolveAuthor, function (data, status) {
@@ -49,7 +58,6 @@ angular.module("tripPlanner.extension.note")
                         }
 
                         init();
-
                     }
                 };
             }]);

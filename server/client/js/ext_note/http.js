@@ -6,7 +6,7 @@ angular.module("tripPlanner.extension.note")
                     create: create,
                     edit: edit,
                     get: get,
-//                    remove: remove
+                    remove: remove
                 };
 
                 return httpService;
@@ -47,17 +47,17 @@ angular.module("tripPlanner.extension.note")
 
                     return deferred.promise;
                 }
-//
-//                function remove(tripId) {
-//                    var deferred = $q.defer();
-//                    $http.delete(core.server.buildURL("trip", {"id": tripId})).success(function (result) {
-//                        deferred.resolve(result);
-//                    }).error(function (data, status, headers, config) {
-//                        $rootScope.$broadcast("httpError", data, status, headers, config);
-//                        deferred.reject(data, status, headers, config);
-//                    });
-//                    return deferred.promise;
-//                }
+
+                function remove(noteId, dayId) {
+                    var deferred = $q.defer();
+                    $http.delete(core.server.buildURL("note", [noteId, dayId])).success(function (result) {
+                        deferred.resolve(result);
+                    }).error(function (data, status, headers, config) {
+                        $rootScope.$broadcast("httpError", data, status, headers, config);
+                        deferred.reject(data, status, headers, config);
+                    });
+                    return deferred.promise;
+                }
 
 
             }]);

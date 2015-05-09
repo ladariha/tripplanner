@@ -40,6 +40,22 @@ NoteDao.prototype.edit = function (note) {
                 }, reject);
     });
 };
+NoteDao.prototype.remove = function (noteId, dayId) {
+    return new Promise(function (resolve, reject) {
+        tripDayCtrl
+                .get(dayId)
+                .then(function (day) {
+                    day.data.id(noteId).remove();
+                    day.save(function (err) {
+                        if (err) {
+                            reject(new TPError(TPError.DatabaseError, "Unable to save data to db"));
+                        } else {
+                            resolve("Note removed");
+                        }
+                    });
+                }, reject);
+    });
+};
 
 module.exports = new NoteDao();
 
