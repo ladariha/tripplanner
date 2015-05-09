@@ -39,14 +39,44 @@ function resolveExtension(day, extensionName, extensionIndex, action) {
 function resolveDay(day, action) {
     var p = Promise.resolve();
     for (var i = 0, max = day.data.length; i < max; i++) {
-        (function (index) {
-            p = p.then(resolveExtension.bind(null, day, day.data[index].name, index, action));
-        }(i));
+        p = scopeFunctionDay(i, p, day, action);
     }
 
     return p;
 }
 
+/**
+ * just to have index scoped
+ */
+function scopeFunctionDay(index, promise, day, action) {
+    return promise.then(resolveExtension.bind(null, day, day.data[index].name, index, action));
+}
+
+
+/**
+ * Returns function used for async.parallel(). The returned function resolves single extension for given day
+ * @param {TripDay} day
+ * @param {String} extensionName
+ * @param {Number} extensionIndex
+ * @param {String} action name of action (either get, remove, create, edit)
+ * @returns {Function}
+ */
+function getAsyncTask(day, extensionName, extensionIndex, action) {
+    return function (callback) {
+        if (!extensions.hasOwnProperty(extensionName)) {
+            callback(null, day);
+        } else {
+            extensions[extensionName][action](day.data[extensionIndex]).then(function (resolvedData) {
+                day.data[extensionIndex] = resolvedData;
+                callback(null, day);
+            }, function (err) {
+                console.log("Failed to get extension " + extensionName + " for day " + day._id);
+                console.log(err);
+                callback(null, day); // just ignore the problem and do not block day retrieval
+            });
+        }
+    };
+}
 
 /**
  * Resolves days for given action (either get, remove, create, edit) using async.parallel
@@ -72,29 +102,12 @@ function resolveDaysAsync(days, action) {
 
     return p;
 }
+
 /**
- * Returns function used for async.parallel(). The returned function resolves single extension for given day
- * @param {TripDay} day
- * @param {String} extensionName
- * @param {Number} extensionIndex
- * @param {String} action name of action (either get, remove, create, edit)
- * @returns {Function}
+ * just to have index scoped
  */
-function getAsyncTask(day, extensionName, extensionIndex, action) {
-    return function (callback) {
-        if (!extensions.hasOwnProperty(extensionName)) {
-            callback(null, day);
-        } else {
-            extensions[extensionName][action](day.data[extensionIndex]).then(function (resolvedData) {
-                day.data[extensionIndex] = resolvedData;
-                callback(null, day);
-            }, function (err) {
-                console.log("Failed to get extension " + extensionName + " for day " + day._id);
-                console.log(err);
-                callback(null, day); // just ignore the problem and do not block day retrieval
-            });
-        }
-    };
+function scopeFunction(index, promise, days) {
+    return promise.then(resolveDay.bind(null, days[index], "get"));
 }
 
 
@@ -132,9 +145,7 @@ TripDayExtCtrl.prototype.getPromises = function (days) {
         var p = Promise.resolve();
 
         for (var j = 0, maxj = days.length; j < maxj; j++) {
-            (function (index) {
-                p = p.then(resolveDay.bind(null, days[index], "get"));
-            }(j));
+            p = scopeFunction(j, p, days);
         }
 
         p.then(function () {
