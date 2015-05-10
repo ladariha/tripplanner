@@ -11,9 +11,9 @@
         <div class="col-xs-6">
             <div  data-ng-hide="!canEdit || !buttons" >
                 <a ui-sref="tpExt_Note_Edit({id : extId, dayName : dayName, tripId : tripId, dayId : dayId })" class="btn btn-flat btn-info btn-xs"><i class="mdi-content-create"></i>&nbsp;Edit</a>
-                <button data-ng-click="deleteNote()" class="btn btn-flat btn-danger btn-xs"><i class="mdi-content-clear"></i>&nbsp;Delete</button>
+                <button data-ng-click="displayConfirmation()" class="btn btn-flat btn-danger btn-xs"><i class="mdi-content-clear"></i>&nbsp;Delete</button>
             </div>
         </div>
-
+        <tp-choicedialog body="choiceMsg" title="choiceTitle" visible="choiceVisible" resolve="dialogResolve(true)" reject="dialogResolve(false)"></tp-choicedialog>
     </div>
 </div>

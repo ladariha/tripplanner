@@ -30,15 +30,26 @@ angular.module("tripPlanner.extension.note")
                         $scope.dayName = day.name;
                         $scope.tripId = tripCache.get().id;
                         $scope.dayId = day.id;
-                        $scope.deleteNote = deleteNote;
+                        $scope.displayConfirmation = displayConfirmation;
+                        $scope.choiceMsg = "Do you really want to remove this note?";
+                        $scope.choiceTitle = "Delete note?";
+                        $scope.choiceVisible = false;
+                        $scope.dialogResolve = dialogResolve;
                         $rootScope.$on("userLoggedIn", initPermissions);
                         $rootScope.$on("userLoggedOut", initPermissions);
 
 
-                        function deleteNote() {
-                            new NoteHandler().remove($scope.extId, $scope.dayId).then(function () {}, function (err) {
-                                logger.log("Failed to remove note" + err, "Problem", "INFO", "alert");
-                            });
+                        function dialogResolve(confirmed) {
+                            $scope.choiceVisible = false;
+                            if (confirmed) {
+                                new NoteHandler().remove($scope.extId, $scope.dayId).then(function () {}, function (err) {
+                                    logger.log("Failed to remove note" + err, "Problem", "INFO", "alert");
+                                });
+                            }
+                        }
+
+                        function displayConfirmation() {
+                            $scope.choiceVisible = true;
                         }
 
                         function init() {
