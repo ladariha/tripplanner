@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("tripPlanner.dialog", [])
+angular.module("tripPlanner.dialog")
         .directive("tpInfodialog", [function () {
                 return {
                     restrict: "E",
