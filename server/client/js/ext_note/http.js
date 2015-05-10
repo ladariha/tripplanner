@@ -1,6 +1,6 @@
 "use strict";
 angular.module("tripPlanner.extension.note")
-        .factory("tp.ext.note.NoteHttp", ["tp.Core", "$http", "$rootScope", "$q", function TripHttp(core, $http, $rootScope, $q) {
+        .factory("tp.ext.note.NoteHttp", ["tp.Core", "$http", "$rootScope", "$q", function NoteHttp(core, $http, $rootScope, $q) {
 
                 var httpService = {
                     create: create,
@@ -35,7 +35,7 @@ angular.module("tripPlanner.extension.note")
                     });
                     return deferred.promise;
                 }
-//
+
                 function get(noteId, dayId) {
                     var deferred = $q.defer();
                     $http.get(core.server.buildURL("note", [noteId, dayId])).success(function (result) {
