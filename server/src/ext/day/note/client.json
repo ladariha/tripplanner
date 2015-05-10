@@ -6,9 +6,11 @@
     "module": "tripPlanner.extension.note",
     "handler": "tp.ext.note.NoteHandler",
     "js": [
-        "js/ext_note/src.js",
         "js/ext_note/handler.js",
-        "js/ext_note/controller.js"
+        "js/ext_note/controller.js",
+        "js/ext_note/http.js",
+        "js/ext_note/model.js",
+        "js/ext_note/viewDirective.js"
     ],
     "states": {
         "create": {
