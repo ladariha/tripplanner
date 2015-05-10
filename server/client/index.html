@@ -4,11 +4,12 @@
         <title>TripPlanner</title>
         <link href="libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <!--<link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>-->
-
+        <link href="libs/bootstrap-material-design/dist/css/roboto.min.css" rel="stylesheet" type="text/css"/>
+        <link href="libs/bootstrap-material-design/dist/css/material-fullpalette.min.css" rel="stylesheet" type="text/css"/>
         <link href="libs/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet" type="text/css"/>
+        <link href="libs/snackbarjs/dist/snackbar.min.css" rel="stylesheet" type="text/css"/>
         <link href="libs/bootstrap-material-design/dist/css/material-wfont.min.css" rel="stylesheet" type="text/css"/>
-
-        <link href="libs/bootstrap-material-design/dist/css/material.min.css" rel="stylesheet" type="text/css"/>
+        
         <link href="libs/textAngular/src/textAngular.css" rel="stylesheet" type="text/css"/>
         <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
         <meta charset="UTF-8">
@@ -85,31 +86,34 @@
     ================================================== -->
 
     <script src="libs/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <script src="libs/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>    
+    <script src="libs/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>   
+    <script src="libs/arrive/minified/arrive.min.js" type="text/javascript"></script>
+    <script src="libs/bootstrap-material-design/dist/js/ripples.min.js" type="text/javascript"></script>
+    
     <script src="libs/bootstrap-material-design/dist/js/material.min.js" type="text/javascript"></script>
+    <script src="libs/snackbarjs/dist/snackbar.min.js" type="text/javascript"></script>
+    
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="libs/angular/angular.js" type="text/javascript"></script>        
     <script src="libs/angular-ui-router/release/angular-ui-router.min.js" type="text/javascript"></script>
     <script src="libs/angular-ui-bootstrap-bower/ui-bootstrap.min.js" type="text/javascript"></script>
     <script src="libs/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js" type="text/javascript"></script>
-        
+
     <script src="libs/textAngular/dist/textAngular-rangy.min.js" type="text/javascript"></script>
     <script src="libs/textAngular/dist/textAngular-sanitize.min.js" type="text/javascript"></script>
     <script src="libs/textAngular/dist/textAngular.min.js" type="text/javascript"></script>
-        
-        
+
+
     <script src="js/shims.js" type="text/javascript"></script>
     <script src="js/utils.js" type="text/javascript"></script>
     <script src="js/modules.js" type="text/javascript"></script>
     <!--AUTH-->
-    <script src="js/auth/src.js" type="text/javascript"></script>
     <script src="js/auth/auth.js" type="text/javascript"></script>
     <script src="js/auth/loginDirective.js" type="text/javascript"></script>
     <script src="js/auth/http.js" type="text/javascript"></script>
     <script src="js/auth/interceptor.js" type="text/javascript"></script>
     <script src="js/auth/controller.js" type="text/javascript"></script>
     <!--CORE -->
-    <script src="js/core/src.js" type="text/javascript"></script>
     <script src="js/core/storage.js" type="text/javascript"></script>
     <script src="js/core/cacheSpi.js" type="text/javascript"></script>
     <script src="js/core/core.js" type="text/javascript"></script>
@@ -126,22 +130,18 @@
     <script src="js/place/model.js" type="text/javascript"></script>
 
     <!--TRIP -->
-
-    <script src="js/trip/src.js" type="text/javascript"></script>
     <script src="js/trip/handler.js" type="text/javascript"></script>
     <script src="js/trip/http.js" type="text/javascript"></script>
     <script src="js/trip/model.js" type="text/javascript"></script>
     <script src="js/trip/controller.js" type="text/javascript"></script>
     <script src="js/trip/cache.js" type="text/javascript"></script>
     <!--TRIPDAY -->
-    <script src="js/tripday/src.js" type="text/javascript"></script>    
     <script src="js/tripday/controller.js" type="text/javascript"></script>
     <script src="js/tripday/http.js" type="text/javascript"></script>
     <script src="js/tripday/model.js" type="text/javascript"></script>
     <script src="js/tripday/cache.js" type="text/javascript"></script>
     <script src="js/tripday/handler.js" type="text/javascript"></script>
     <!--USER -->
-    <script src="js/user/src.js" type="text/javascript"></script>
     <script src="js/user/model.js" type="text/javascript"></script>
     <script src="js/user/cache.js" type="text/javascript"></script>
     <script src="js/user/handler.js" type="text/javascript"></script> 
@@ -159,20 +159,26 @@
     <script src="js/home/controller.js" type="text/javascript"></script>
 
     <!-- EXTENSIONS -->
-    <script src="js/ext/src.js" type="text/javascript"></script>
     <script src="js/ext/handler.js" type="text/javascript"></script>
     <script src="js/ext/model.js" type="text/javascript"></script>
     <script src="js/ext/proxyDirective.js" type="text/javascript"></script>
     <script src="js/ext/addDirective.js" type="text/javascript"></script>
     <script src="js/ext/http.js" type="text/javascript"></script>
     <!-- EXT NOTE -->
-    
-    <script src="js/ext_note/src.js" type="text/javascript"></script>
+
     <script src="js/ext_note/handler.js" type="text/javascript"></script>
     <script src="js/ext_note/controller.js" type="text/javascript"></script>
     <script src="js/ext_note/http.js" type="text/javascript"></script>
     <script src="js/ext_note/model.js" type="text/javascript"></script>
     <script src="js/ext_note/viewDirective.js" type="text/javascript"></script>
+    <!-- EXT ROUTE -->
+    <script src="js/ext_route/handler.js" type="text/javascript"></script>
+    <script src="js/ext_route/controller.js" type="text/javascript"></script>
+    <script src="js/ext_route/http.js" type="text/javascript"></script>
+    <script src="js/ext_route/model.js" type="text/javascript"></script>
+    <script src="js/ext_route/viewDirective.js" type="text/javascript"></script>
+
+
     <script src="js/controllers.js"></script>
     <script src="js/app.js"></script>
 

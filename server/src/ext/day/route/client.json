@@ -1,0 +1,36 @@
+{
+    "name": "route",
+    "displayName": "Route",
+    "type": "day",
+    "url": "http://localhost:13131/api/ext/day/route",
+    "module": "tripPlanner.extension.route",
+    "handler": "tp.ext.route.RouteHandler",
+    "js": [
+        "js/ext_route/handler.js",
+        "js/ext_route/controller.js"
+    ],
+    "states": {
+        "create": {
+            "name": "tpExt_Route_Create",
+            "ctrl": "tp.ext.route.RouteCtrl",
+            "templateUrl": "js/ext_route/partial/route.html",
+            "url": "route/create",
+            "params": {
+                "tripDay": null
+            }
+        },
+        "edit": {
+            "name": "tpExt_Route_Edit",
+            "ctrl": "tp.ext.route.RouteEditCtrl",
+            "templateUrl": "js/ext_route/partial/route.html",
+            "url": "route/edit",
+            "params": {
+                "dayName": null,
+                "id": null,
+                "dayId": null,
+                "tripId": null
+            }
+        }
+
+    }
+}

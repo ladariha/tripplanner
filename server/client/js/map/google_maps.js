@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.map")
-        .factory("tp.map.googlemaps", ["$http", "tp.place.models.PlaceModel", function($http, Place) {
+        .factory("tp.map.googlemaps", ["$http", "tp.place.PlaceModel", function($http, Place) {
 
 
 

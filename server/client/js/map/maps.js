@@ -4,7 +4,7 @@
 
 angular.module("tripPlanner.map")
         .value("version", "0.1")
-        .factory("tp.map.MapProvider", ["tp.map.googlemaps", function(GoogleMaps) {
+        .factory("tp.map.MapProvider", ["tp.map.googlemaps", function (GoogleMaps) {
 
                 function Maps() {
                     this._providers = {
@@ -17,8 +17,12 @@ angular.module("tripPlanner.map")
                  * @param {String} name name of required map provider
                  * @returns {Object}
                  */
-                Maps.prototype.getMapProvider = function(name) {
+                Maps.prototype.getMapProvider = function (name) {
                     return new this._providers[name]();
+                };
+
+                Maps.prototype.getDefaultProvider = function () {
+                    return new this._providers["google"]();
                 };
 
                 return new Maps();

@@ -31,3 +31,13 @@ angular.module("tripPlanner.tripDay", [
     "tripPlanner.dayextension"]);
 angular.module("tripPlanner.user", ["tripPlanner.utils", "tripPlanner.core", "tripPlanner.session"]);
 angular.module("tripPlanner.dialog", []);
+angular.module("tripPlanner.extension.route", [
+    "tripPlanner.dayextension",
+    "tripPlanner.utils",
+    "tripPlanner.trip",
+    "tripPlanner.tripDay",
+    "tripPlanner.user",
+    "tripPlanner.logger",
+    "tripPlanner.place",
+    "tripPlanner.map",
+    "tripPlanner.session"]);

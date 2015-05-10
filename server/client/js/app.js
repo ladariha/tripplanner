@@ -1,4 +1,5 @@
 "use strict";
+$.material.init();
 
 (function () {
     var modules = [

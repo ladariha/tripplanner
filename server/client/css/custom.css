@@ -187,3 +187,6 @@ body {
     background: #eee;
     box-shadow: 2px 2px 2px #ccc;
 }
+[class^=mdi-],[class*=mdi-] {
+    font: normal normal normal 14px/1 'Material-Design-Icons' !important;
+}
