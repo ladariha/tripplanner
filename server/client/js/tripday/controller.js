@@ -16,7 +16,7 @@ angular.module("tripPlanner.tripDay")
                      */
                     function TripDayFormCtrl($scope, TripModel, TripDayModel, TripDayHandler, $state, tripDay, trip) {
                         $scope.trip = trip;
-                        $scope.tripDay = tripDay ? tripDay : new TripDayModel($scope.trip.id);
+                        $scope.tripDay = tripDay || new TripDayModel($scope.trip.id);
                         $scope.openedDatePicker = false;
                         $scope.cancel = cancel;
                         $scope.createDay = createDay;
@@ -51,7 +51,7 @@ angular.module("tripPlanner.tripDay")
                     }])
         .controller("tp.tripDay.ViewTripDayCtrl", ["$scope", "tripDay", "trip", "tp.tripDay.TripDayModel", "tp.session.Session", "tp.logger",
             function ViewTripDayCtrl($scope, tripDay, trip, TripDayModel, session, logger) {
-                $scope.tripDay = tripDay ? tripDay : new TripDayModel(-1);
+                $scope.tripDay = tripDay || new TripDayModel(-1);
                 $scope.hasPermission = false;
 
                 function initPermissions() {
