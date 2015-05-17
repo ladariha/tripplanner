@@ -18,7 +18,6 @@ angular.module("tripPlanner.dayextension")
                             rules.definedNotNull(this.tripId) &&
                             rules.definedNotNull(this.data) &&
                             rules.definedNotNull(this.author) &&
-                            this.data.length > 0 &&
                             rules.definedNotNull(this.id) &&
                             rules.definedNotNull(this.name);
                 };

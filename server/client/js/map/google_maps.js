@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("tripPlanner.map")
-        .factory("tp.map.googlemaps", ["$http", "tp.place.PlaceModel", function($http, Place) {
+        .factory("tp.map.googlemaps", ["$http", "tp.place.PlaceModel","$q", function ($http, Place, $q) {
 
 
 
@@ -17,27 +17,37 @@ angular.module("tripPlanner.map")
                     };
                 }
 
-                MapProvider.prototype._getDirections = function(from, to, units, avoids, waypoints, callback) {
+                MapProvider.prototype._getDirections = function (from, to, units, avoids, waypoints) {
+                    var self = this;
+                    var deferred = $q.defer();
+                    var _waypoints = [];
+                    
+                    for (var i = 0, max = waypoints.length; i < max; i++) {
+                        _waypoints.push({location : new google.maps.LatLng(waypoints[i].latitude, waypoints[i].longitude), stopover : true});
+                    }
+                    
                     var options = {
                         origin: new google.maps.LatLng(from.latitude, from.longitude),
                         destination: new google.maps.LatLng(to.latitude, to.longitude),
                         travelMode: google.maps.TravelMode.DRIVING,
                         unitSystem: units === "km" ? google.maps.UnitSystem.METRIC : google.maps.UnitSystem.IMPERIAL,
                         provideRouteAlternatives: true,
-                        waypoints: waypoints,
-                        optimizeWaypoints: waypoints.length > 0 ? true : false,
+                        waypoints: _waypoints,
+                        optimizeWaypoints: _waypoints.length > 0 ? true : false,
                         avoidHighways: avoids.highways,
                         avoidTolls: avoids.tolls
                     };
-                    this.directionsService.route(options, function(response, status) {
+                    self.directionsService.route(options, function (response, status) {
                         /* jshint eqeqeq:false */
                         if (status == google.maps.DirectionsStatus.OK) {
                             /* jshint eqeqeq:true */
-                            callback(null, response);
+                            deferred.resolve(response);
                         } else {
-                            callback(response, null);
+                            deferred.reject(response);
                         }
                     });
+
+                    return deferred.promise;
                 };
 
                 /**
@@ -50,9 +60,9 @@ angular.module("tripPlanner.map")
                  * @param {String} identifier custom identifier for you to find out which element has been used to invoke this function
                  * @returns {undefined}
                  */
-                MapProvider.prototype.bindAutocomplete = function(inputElement, callback, identifier) {
+                MapProvider.prototype.bindAutocomplete = function (inputElement, callback, identifier) {
                     var _a = new google.maps.places.Autocomplete(inputElement);
-                    google.maps.event.addListener(_a, "place_changed", function() {
+                    google.maps.event.addListener(_a, "place_changed", function () {
                         var pl = _a.getPlace();
                         /* jshint camelcase:false */
                         callback(new Place(pl.formatted_address, pl.geometry.location.lat(), pl.geometry.location.lng()), identifier);
@@ -61,15 +71,15 @@ angular.module("tripPlanner.map")
                 };
 
                 /**
-                 * Retrieves directions (without waypoints)
+                 * Retrieves directions
                  * @param {String} from
                  * @param {String} to
                  * @param {String} units
                  * @param {Object} avoids
-                 * @param {Function} callback
+                 * @param {Array} waypoints
                  */
-                MapProvider.prototype.getSimpleDirections = function(from, to, units, avoids, callback) {
-                    this._getDirections(from, to, units, avoids, [], callback);
+                MapProvider.prototype.getDirections = function (from, to, units, avoids, waypoints) {
+                    return this._getDirections(from, to, units, avoids, waypoints);
                 };
                 /**
                  * Retrieves directions (without waypoints)
@@ -79,10 +89,10 @@ angular.module("tripPlanner.map")
                  * @param {Object} avoids
                  * @param {Function} callback
                  */
-                MapProvider.prototype.getDebugDirections = function(callback) {
-                    $http.get("./js/modules/googlemaps/google_directions.json").success(function(result) {
+                MapProvider.prototype.getDebugDirections = function (callback) {
+                    $http.get("./js/modules/googlemaps/google_directions.json").success(function (result) {
                         callback(null, result);
-                    }).error(function(data, status) {
+                    }).error(function (data, status) {
                         callback({"data": data, "status": status}, null);
                     });
                 };
@@ -95,7 +105,7 @@ angular.module("tripPlanner.map")
                  * @param {String} panelElementId element ID of element where route descriptions should be placed
                  * @returns {undefined}
                  */
-                MapProvider.prototype.displayRoute = function(routes, elementId, index, panelElementId) {
+                MapProvider.prototype.displayRoute = function (routes, elementId, index, panelElementId) {
                     if (!this.mapAlreadyRendered) {
                         var map = new google.maps.Map(window.document.getElementById(elementId), {"hideRouteList": true});
                         this.directionsDisplay.setPanel(window.document.getElementById(panelElementId));
@@ -105,6 +115,7 @@ angular.module("tripPlanner.map")
                     }
 
                     this.directionsDisplay.setRouteIndex(index);
+                    
                 };
                 /**
                  * Removes all other routes from the data parameter (it is object returned by getSimpleDirections()) and leaves only route specified by index
@@ -112,7 +123,7 @@ angular.module("tripPlanner.map")
                  * @param {Number} index
                  * @returns {Object}
                  */
-                MapProvider.prototype.getFinalRouteObject = function(data, index) {
+                MapProvider.prototype.getFinalRouteObject = function (data, index) {
                     var _r = data.routes[index];
                     data.routes = [_r];
                     return data;
@@ -123,7 +134,7 @@ angular.module("tripPlanner.map")
                  * @param {Number} routeIndex index of route from routes parameter to be used (starts with 0)
                  * @returns {Number} route length in metres
                  */
-                MapProvider.prototype.getDistance = function(results, routeIndex) {
+                MapProvider.prototype.getDistance = function (results, routeIndex) {
                     return results.routes[routeIndex].legs[0].distance.value;
                 };
 
@@ -133,7 +144,7 @@ angular.module("tripPlanner.map")
                  * @param {Number} routeIndex index of route from routes parameter to be used (starts with 0)
                  * @returns {Number} route duration in minutes
                  */
-                MapProvider.prototype.getDuration = function(results, routeIndex) {
+                MapProvider.prototype.getDuration = function (results, routeIndex) {
                     return Math.round(results.routes[routeIndex].legs[0].duration.value / 60);
                 };
 

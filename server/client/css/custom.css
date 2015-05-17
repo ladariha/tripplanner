@@ -190,3 +190,11 @@ body {
 [class^=mdi-],[class*=mdi-] {
     font: normal normal normal 14px/1 'Material-Design-Icons' !important;
 }
+.table-waypoint td{
+    margin: 0;
+    padding: 0;
+}
+.table-waypoint button{
+    margin: 0;
+    padding: 0;
+}
