@@ -61,7 +61,7 @@ angular.module("tripPlanner.extension.route")
                 
                 
                 Route.prototype.convertFromServer = function (obj) {
-                    this = DayExtensionModel.prototype.convertFromServer.apply(this, [obj]);
+                    DayExtensionModel.prototype.convertFromServer.apply(this, [obj]);
                     this.data.rawData.steps = lzw.decompress(this.data.rawData.steps);
                     
                     
