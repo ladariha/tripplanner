@@ -40,4 +40,5 @@ angular.module("tripPlanner.extension.route", [
     "tripPlanner.logger",
     "tripPlanner.place",
     "tripPlanner.map",
+    "tripPlanner.core",
     "tripPlanner.session"]);

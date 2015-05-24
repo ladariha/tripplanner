@@ -4,11 +4,10 @@ angular.module("tripPlanner.extension.route")
             "tp.user.UserHandler",
             "tp.logger",
             "$rootScope",
-            "tp.session.Session",
             "tp.trip.TripHandler",
             "tp.trip.TripCache",
             "tp.ext.route.RouteHandler",
-            function (UserHandler, logger, $rootScope, session, TripHandler, tripCache, RouteHandler) {
+            function (UserHandler, logger, $rootScope, TripHandler, tripCache, RouteHandler) {
                 return {
                     restrict: "E",
                     scope: {

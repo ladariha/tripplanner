@@ -67,9 +67,10 @@ function loadRouting(folder, pass) {
     // login
     var pass = authorization.configure(app);
 
-    app.use(bodyParser.json());       // to support JSON-encoded bodies
+    app.use(bodyParser.json({limit: '5mb'})); // to support JSON-encoded bodies
     app.use(bodyParser.urlencoded({
-        extended: true
+        extended: true,
+        limit: '5mb' 
     }));
 
     console.log("loading routing handlers...");

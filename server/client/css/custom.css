@@ -198,3 +198,6 @@ body {
     margin: 0;
     padding: 0;
 }
+#directions-panel{
+    padding: inherit inherit 2em inherit;
+}

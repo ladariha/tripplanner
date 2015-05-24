@@ -18,7 +18,6 @@ angular.module("tripPlanner.extension.route")
                 $scope.moveWaypoint = moveWaypoint;
                 $scope.create = create;
                 $scope.cancel = cancel;
-                $scope.foundRoutes = false;
                 $scope.directions = [];
                 $scope.selectDirection = selectDirection;
                 $scope.selectedDirection = -1;
@@ -35,6 +34,9 @@ angular.module("tripPlanner.extension.route")
 
                 function selectDirection(index) {
                     $scope.selectedDirection = index;
+                    $scope.route.data.duration = parseInt($scope.directions[index].legs[0].duration.value / 60, 0);
+                    $scope.route.data.distance = parseInt($scope.directions[index].legs[0].distance.value, 0);
+                    $scope.route.data.routeName = $scope.directions[index].summary;
                     map.displayRoute(rawDirectionResult, "tripPreview", index, "directions-panel");
                 }
 
@@ -50,8 +52,8 @@ angular.module("tripPlanner.extension.route")
                 }
 
                 function find() {
+                    $scope.selectedDirection = -1;
                     map.getDirections($scope.route.data.from, $scope.route.data.to, units, $scope.route.data.avoids, $scope.route.data.waypoints).then(function (data) {
-                        $scope.foundRoutes = true;
                         $scope.directions = data.routes;
                         rawDirectionResult = data;
                     }, function (err) {
@@ -78,6 +80,8 @@ angular.module("tripPlanner.extension.route")
 
 
                 function create() {
+                    $scope.route.data.rawDirectionData = map.getFinalRouteObject(rawDirectionResult, $scope.selectedDirection);
+                    $scope.route.data.steps = $("#directions-panel").html();
                     routeHandler.create($scope.route).then(function () {
                         $state.go("trip.view", {"id": tripDay.tripId, noCache: false}, {reload: true});
                     }, $scope.handleGenericError);

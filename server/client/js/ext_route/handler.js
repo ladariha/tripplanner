@@ -1,12 +1,14 @@
 "use strict";
 angular.module("tripPlanner.extension.route")
         .factory("tp.ext.route.RouteHandler", [
-            "$q", "tp.ext.route.RouteHttp", "tp.ext.route.RouteModel", "tp.trip.TripCache",
-            function RouteHandlerFactory($q, RouteHttp, Route, tripCache) {
+            "tp.ext.route.RouteHttp", "tp.ext.route.RouteModel", "tp.trip.TripCache", "tp.core.lzw",
+            function RouteHandlerFactory(RouteHttp, Route, tripCache, lzw) {
 
                 function RouteHandler() {}
 
                 RouteHandler.prototype.create = function (route) {
+                    route.data.rawData.direction = lzw.compress(JSON.stringify(route.data.rawData.direction));
+                    route.data.rawData.steps = lzw.compress(route.data.rawData.steps);
                     return RouteHttp.create(route).then(function (ext) {
                         var n = new Route(route.tripId, route.tripDayId);
                         n.convertFromServer(ext);

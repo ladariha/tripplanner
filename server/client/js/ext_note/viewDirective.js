@@ -4,11 +4,10 @@ angular.module("tripPlanner.extension.note")
             "tp.user.UserHandler",
             "tp.logger",
             "$rootScope",
-            "tp.session.Session",
             "tp.trip.TripHandler",
             "tp.trip.TripCache",
             "tp.ext.note.NoteHandler",
-            function (UserHandler, logger, $rootScope, session, TripHandler, tripCache, NoteHandler) {
+            function (UserHandler, logger, $rootScope, TripHandler, tripCache, NoteHandler) {
                 return {
                     restrict: "E",
                     scope: {

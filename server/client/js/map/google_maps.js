@@ -3,10 +3,7 @@
 angular.module("tripPlanner.map")
         .factory("tp.map.googlemaps", ["$http", "tp.place.PlaceModel","$q", function ($http, Place, $q) {
 
-
-
                 function MapProvider() {
-                    window.console.log("created");
                     this.directionsService = new google.maps.DirectionsService();
                     this.mapAlreadyRendered = false;
                     this.directionsDisplay = new google.maps.DirectionsRenderer();
@@ -33,13 +30,13 @@ angular.module("tripPlanner.map")
                         unitSystem: units === "km" ? google.maps.UnitSystem.METRIC : google.maps.UnitSystem.IMPERIAL,
                         provideRouteAlternatives: true,
                         waypoints: _waypoints,
-                        optimizeWaypoints: _waypoints.length > 0 ? true : false,
+                        optimizeWaypoints: false,
                         avoidHighways: avoids.highways,
                         avoidTolls: avoids.tolls
                     };
                     self.directionsService.route(options, function (response, status) {
                         /* jshint eqeqeq:false */
-                        if (status == google.maps.DirectionsStatus.OK) {
+                        if (status === google.maps.DirectionsStatus.OK) {
                             /* jshint eqeqeq:true */
                             deferred.resolve(response);
                         } else {

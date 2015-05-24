@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<div class="row" data-ng-if="foundRoutes">
+<div class="row" data-ng-if="directions.length > 0">
     <h2>Select route</h2>
 
     <div class="col-lg-12" >
@@ -120,8 +120,10 @@
 <div class="row">
     <div class="col-xs-8" ></div>
     <div class="col-xs-4" >
-        <button type="button" data-ng-if="isEdit == false" class="btn btn-primary pull-right" data-ng-disabled="selectedDirection > -1" data-ng-click="create()">Create</button>
-        <button type="button" data-ng-if="isEdit == true" class="btn btn-primary pull-right" data-ng-disabled="!route.isValid()" data-ng-click="update()">Save</button>
-        <button type="button" class="btn btn-warning pull-right" data-ng-click="cancel()">Cancel</button>
+        <div data-ng-if="selectedDirection > -1">
+            <button type="button" data-ng-if="isEdit == false" class="btn btn-primary pull-right" data-ng-disabled="selectedDirection < 0 || !route.isValid()" data-ng-click="create()">Create</button>
+            <button type="button" data-ng-if="isEdit == true" class="btn btn-primary pull-right" data-ng-disabled="!route.isValid()" data-ng-click="update()">Save</button>
+            <button type="button" class="btn btn-warning pull-right" data-ng-click="cancel()">Cancel</button>
+        </div>
     </div>
 </div>

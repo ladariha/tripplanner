@@ -1,7 +1,7 @@
 "use strict";
 angular.module("tripPlanner.extension.route")
-        .factory("tp.ext.route.RouteModel", ["tp.ext.TripDayExtModel", "tp.place.PlaceModel", "tp.validators",
-            function RouteModel(DayExtensionModel, Place, rules) {
+        .factory("tp.ext.route.RouteModel", ["tp.ext.TripDayExtModel", "tp.validators","tp.core.lzw",
+            function RouteModel(DayExtensionModel, rules, lzw) {
 
                 function Route(tripId, tripDayId) {
                     DayExtensionModel.apply(this, [tripId, tripDayId]);
@@ -11,9 +11,16 @@ angular.module("tripPlanner.extension.route")
                         from: null,
                         to: null,
                         waypoints: [],
+                        duration : 0,
+                        distance : 0,
+                        routeName : null,
                         avoids: {
                             highways: false,
                             tolls: false
+                        },
+                        rawData : {
+                            direction : null,
+                            steps : null
                         }
                     };
                 }
@@ -30,6 +37,9 @@ angular.module("tripPlanner.extension.route")
 
                     return DayExtensionModel.prototype.isValid.apply(this) &&
                             rules.definedNotNull(this.data.name) &&
+                            rules.definedNotNull(this.data.distance) &&
+                            rules.definedNotNull(this.data.routeName) &&
+                            rules.definedNotNull(this.data.duration) &&
                             rules.definedNotNull(this.data.from) && this.data.from.isValid() &&
                             rules.definedNotNull(this.data.to) && this.data.to.isValid();
                 };
@@ -48,6 +58,17 @@ angular.module("tripPlanner.extension.route")
 
                     }
                 };
+                
+                
+                Route.prototype.convertFromServer = function (obj) {
+                    this = DayExtensionModel.prototype.convertFromServer.apply(this, [obj]);
+                    this.data.rawData.steps = lzw.decompress(this.data.rawData.steps);
+                    
+                    
+                    return this;
+                };
+                
+                
 
                 return Route;
 
