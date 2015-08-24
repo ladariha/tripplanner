@@ -1,7 +1,7 @@
 {
     "name": "ladariha",
     "server": {
-        "port": 13131,
+        "port": 80,
         "paths": {
             "api": "./api/",
             "contollers": "./core/ctrl/",

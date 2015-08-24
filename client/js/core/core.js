@@ -5,11 +5,11 @@ angular.module("tripPlanner.core")
                 this.version = "0.1";
                 this.hostname = window.location.hostname;
                 this.server = new Server({
-                    "trip": "http://localhost:13131/api/trip",
-                    "tripDay": "http://localhost:13131/api/tripDay",
-                    "session": "http://localhost:13131/api/session",
-                    "googleAuth" : "http://localhost:13131/api/oauth/google",
-                    "facebookAuth" : "http://localhost:13131/api/oauth/facebook",
-                    "user" : "http://localhost:13131/api/user"
+                    "trip": "api/trip",
+                    "tripDay": "api/tripDay",
+                    "session": "api/session",
+                    "googleAuth" : "api/oauth/google",
+                    "facebookAuth" : "api/oauth/facebook",
+                    "user" : "api/user"
                 }, "prettyUrl");
             }]);
