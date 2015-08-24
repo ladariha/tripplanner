@@ -2,7 +2,7 @@
     "name": "route",
     "displayName": "Route",
     "type": "day",
-    "url": "http://localhost:13131/api/ext/day/route",
+    "url": "api/ext/day/route",
     "module": "tripPlanner.extension.route",
     "handler": "tp.ext.route.RouteHandler",
     "js": [

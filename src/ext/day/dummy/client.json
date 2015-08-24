@@ -2,7 +2,7 @@
     "name": "dummy",
     "displayName": "dummy",
     "type": "day",
-    "url": "http://localhost:13131/api/ext/day/note",
+    "url": "api/ext/day/note",
     "handler": "tp.ext.note.NoteHandler",
     "js": [
         "js/ext_note/src.js",
