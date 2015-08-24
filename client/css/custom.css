@@ -208,8 +208,8 @@ body {
     min-height:100%;
     height:auto !important;
     height:100%;
-    margin:-80px auto -60px;
-    padding:80px 0 60px;
+    /*    margin:-80px auto -60px;
+        padding:80px 0 60px;*/
 }
 
 /*.footerExt{
@@ -223,3 +223,7 @@ body {
     text-align: right;
 }
 html, body{height:100%;}
+
+.day-container{
+    margin: 2em 0 4em 0;
+}
