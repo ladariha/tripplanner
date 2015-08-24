@@ -1,0 +1,28 @@
+<div data-ng-mouseenter="buttons = true" data-ng-mouseleave="buttons = false">
+    <div class="contentExt"> 
+        <div class="row">
+            <div class="col-xs-12">
+                <h4>{{::ext.data.name}}</h4>
+                <ul>
+                    <li>{{::ext.data.routeName}}</li>
+                    <li>{{::ext.data.duration}}&nbsp;{{::units}}</li>
+                </ul>
+            </div> 
+        </div>
+    </div>
+
+    <div class="footerExt">
+        <div class="row">
+            <div class="col-xs-5">by {{::author}}
+                <span  class="btn btn-flat btn-info btn-xs" style="visibility: hidden">&nbsp;</span>
+            </div> 
+            <div class="col-xs-6">
+                <div class="buttonsExt"  data-ng-hide="!canEdit || !buttons" >
+                    <a ui-sref="tpExt_Route_Edit({id : extId, dayName : dayName, tripId : tripId, dayId : dayId })" class="btn btn-flat btn-info btn-xs"><i class="mdi-content-create"></i>&nbsp;Edit</a>
+                    <button data-ng-click="displayConfirmation()" class="btn btn-flat btn-danger btn-xs"><i class="mdi-content-clear"></i>&nbsp;Delete</button>
+                </div>
+            </div>
+            <tp-choicedialog body="choiceMsg" title="choiceTitle" visible="choiceVisible" resolve="dialogResolve(true)" reject="dialogResolve(false)"></tp-choicedialog>
+        </div>
+    </div>
+</div>
