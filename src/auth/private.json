@@ -1,0 +1,12 @@
+{
+    "google": {
+        "clientID": "1005520707529-7eojfah5s1jdr4kqt73aiv520abvsgco.apps.googleusercontent.com",
+        "clientSecret": "nwo2G0h1tucWPsozvnNOo9HQ",
+        "callbackURL": "http://localhost:13131/api/oauth/google/callback"
+    },
+    "facebook": {
+        "clientID": "667832393333965",
+        "clientSecret": "3483396431f13e24e4eda634ed232150",
+        "callbackURL": "http://localhost:13131/api/oauth/facebook/callback"
+    }
+}
