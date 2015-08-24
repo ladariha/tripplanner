@@ -92,7 +92,7 @@ function loadRouting(folder, pass) {
 
     require("./core/loader");
 
-    server = app.listen(config.server.port, function () {
+    server = app.listen(process.env.PORT || config.server.port, function () {
         console.log("Listening on port %d", server.address().port);
     });
 })();
