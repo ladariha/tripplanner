@@ -1,8 +1,8 @@
 {
     "google": {
-        "clientID": "1005520707529-7eojfah5s1jdr4kqt73aiv520abvsgco.apps.googleusercontent.com",
-        "clientSecret": "nwo2G0h1tucWPsozvnNOo9HQ",
-        "callbackURL": "http://localhost:13131/api/oauth/google/callback"
+        "clientID": "73253043578-a7cpd9t1bn8nh6tjuphhmf97l6ks9jmq.apps.googleusercontent.com",
+        "clientSecret": "w8ioJ2d522bXN3x_PDHcqN12",
+        "callbackURL": "https://serene-garden-9718.herokuapp.com/api/oauth/google/callback"
     },
     "facebook": {
         "clientID": "667832393333965",
