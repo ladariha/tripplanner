@@ -15,9 +15,9 @@
 
     },
     "database": {
-        "port": 27017,
-        "host": "mongodb://localhost",
-        "databaseName" : "test",
+        "port": 35683,
+        "host": "mongodb://test:test@ds035683.mongolab.com:35683",
+        "databaseName" : "heroku_dsrgsfmn",
         "config" : "./core/db/" 
     }
 }
