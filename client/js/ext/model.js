@@ -10,7 +10,7 @@ angular.module("tripPlanner.dayextension")
                     this.name = null;
                     this.id = -1;
                     this.size = 50; // size in %
-                    this.author = Session.getUser().userId;
+                    this.author = Session.getUser() ? Session.getUser().userId : -1;
                 }
 
                 TripDayExtModel.prototype.isValid = function () {
